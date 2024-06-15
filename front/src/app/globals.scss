@@ -9,7 +9,6 @@
     text-decoration: none;
     color: inherit;
   }
-  
 }
 
 html {
@@ -22,8 +21,6 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  font-feature-settings:
-    "cv11", "salt", "ss01", "ss03",
-    "cv01", "cv02", "cv03", "cv04",
-    "cv05", "cv06", "cv09", "cv10";
+  font-feature-settings: 'cv11', 'salt', 'ss01', 'ss03', 'cv01', 'cv02', 'cv03',
+    'cv04', 'cv05', 'cv06', 'cv09', 'cv10';
 }
