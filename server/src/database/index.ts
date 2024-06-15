@@ -1,23 +1,11 @@
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
-dotenv.config();
+import dbConfig from "./config/database"
 
-const dbConfig = {
-    host: process.env.DATABASE_HOST,
-    port: Number(process.env.DATABASE_PORT),
-    name:<string> process.env.DATABASE_NAME,
-    user:<string> process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD
-}
-
-const connection = new Sequelize(dbConfig.name, dbConfig.user, dbConfig.password, {
+const connection = new Sequelize(String(dbConfig.database), String(dbConfig.username), dbConfig.password, {
     dialect: 'postgres',
     host: dbConfig.host,
     port: dbConfig.port,
-    define: {
-        timestamps: true,
-        underscored: true
-    },
+    define: dbConfig.define
 });
 
 export default connection;

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-
-import Company from "../database/models/Company";
 import validateCNPJ from "../utils/validate_cnpj";
+
+// import Company from "../database/models/company";
 
 class MainController {
     get = async (req: Request, res: Response) => {
@@ -23,17 +23,20 @@ class MainController {
 
         try {
             //-----Salvar os dados da empresa na tabela
-            const company = await Company.create({ ...data });
+            // const company = await Company.create({ ...data });
             
-            return res.status(201).json({ company });
+            return res.status(201).json({
+                // company
+            });
         } catch (err: any) {
             //-----Erro caso o CNPJ já esteja no banco de dados
             if (err.parent.code == '23505') {
-                return res.status(401).json({ error: 'Empresa já cadastrada' })
+                return res.status(400).json({ error: 'Empresa já cadastrada' })
             }
 
             console.log(err)
-            return res.status(401).json({ error: 'Erro ao cadastrar empresa' })
+            return res.status(400).json({ error: 'Erro ao cadastrar empresa' })
+
         }
     }
 }
