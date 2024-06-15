@@ -1,8 +1,8 @@
 import React from 'react';
 import Style from './page.module.scss';
 
-const Home = () => {
+const Result = () => {
   return <></>;
 };
 
-export default Home;
+export default Result;
