@@ -13,7 +13,6 @@ class MainController {
 
         //-----Cadastrar empresa no banco de dados
         await this.createCompany(req, res);
-
     }
 
     private createCompany = async (req: Request, res: Response) => {
@@ -37,6 +36,7 @@ class MainController {
 
             console.log(err)
             return res.status(400).json({ error: 'Erro ao cadastrar empresa' })
+
         }
     }
 }
