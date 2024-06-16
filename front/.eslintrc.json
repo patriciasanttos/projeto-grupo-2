@@ -7,14 +7,14 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:react/recommended",
-    "plugin:prettier/recommended",
-    "airbnb"
+    "plugin:prettier/recommended"
   ],
   "plugins": ["react", "react-hooks"],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": ["warn", {"endOfLine": "auto"}]
   }
 }
