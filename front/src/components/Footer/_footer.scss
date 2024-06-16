@@ -1,0 +1,76 @@
+@import '../../sass/variables';
+
+.footer {
+    background: $grayColor;
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+}
+
+#equipacare-icon {
+    width: 210px;
+    padding-bottom: 20px;
+}
+
+.section {
+    width: 280px;
+}
+
+h3 {
+    padding-bottom: 10px;
+}
+
+#equipacare {
+    width: 300px;
+}
+
+#social-media {
+    width: 230px;
+}
+
+#icon-list {
+    padding-top: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.social-media-icon {
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: $limeGreenColor;
+    background-color: $lightGrayColor;
+}
+
+.social-media-img {
+    width: auto;
+    height: 30px;
+}
+
+.stamp-list {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.stamp {
+    padding-top: 20px;
+    width: 48px;
+}
+
+#stamp-1 {
+    width: 80px;
+}
+
+html, body {
+    background: black;
+}
