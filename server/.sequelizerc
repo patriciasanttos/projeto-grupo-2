@@ -2,6 +2,6 @@ const { resolve } = require('path');
 
 module.exports = {
     config: resolve(__dirname, 'src', 'database', 'config', 'database.js'),
-    'migrations-path': resolve(__dirname, 'src', 'database', 'migrations'),
+    'seeders-path': resolve(__dirname, 'src', 'database', 'seeds')
     // 'seeders-path': resolve('build/application/seeders'),
 };
