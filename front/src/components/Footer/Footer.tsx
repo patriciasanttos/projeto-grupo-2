@@ -1,3 +1,4 @@
+import React from 'react'
 import './_footer.scss';
 import Logo from './logo.svg';
 import Image from 'next/image';
@@ -8,8 +9,8 @@ function Footer() {
   return (
     <div className="footer">
       <div id="equipacare" className="section">
-        <Image id='equipacare-icon' src={Logo} alt="" />
-        <p>
+        <Image id="equipacare-icon" src={Logo} alt="" />
+        <p id="text-equipacare">
           Empresa de Engenharia para Clínicas e Hospitais com foco na
           Inteligência do Negócio.
         </p>
@@ -31,9 +32,9 @@ function Footer() {
       </div>
       <div className="section">
         <h3>Contato</h3>
-        <p>contato@equipacare.com.br</p>
-        <p>+55 (24) 3348 - 7157</p>
-        <p>+55 (24) 98119 - 1448</p>
+        <p className="contact">contato@equipacare.com.br</p>
+        <p className="contact">+55 (24) 3348 - 7157</p>
+        <p className="contact">+55 (24) 98119 - 1448</p>
       </div>
       <div id="social-media" className="section">
         <h3>Acompanhe Nossas Redes Sociais</h3>
@@ -43,18 +44,18 @@ function Footer() {
           <SocialMediaIcon Media={LinkedIn} />
           <SocialMediaIcon Media={YouTube} />
         </div>
-        <div className='stamp-list'>
+        <div className="stamp-list">
           <div>
             <img
               className="stamp"
-              id='stamp-1'
+              id="stamp-1"
               src="https://equipacare.com.br/wp-content/uploads/selogarantia-300x298.png"
               alt=""
             />
           </div>
           <div>
-            <img 
-              className='stamp'
+            <img
+              className="stamp"
               src="https://equipacare.com.br/wp-content/uploads/selo-1-177x300.png"
               alt=""
             />

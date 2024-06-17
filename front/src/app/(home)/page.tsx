@@ -1,5 +1,4 @@
 import React from 'react';
-import Style from './page.module.scss';
 import Footer from '../../components/Footer/Footer'
 import Image from 'next/image';
 import site from './site.png';
