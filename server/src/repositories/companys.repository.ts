@@ -43,14 +43,13 @@ export default class CompanyRepository {
                 };
             
             return {
-                code: 200,
-                data: company
+                code: 200
             };
         } catch (err: any) {
             return {
-                code: 400, 
+                code: 500, 
                 data: {
-                    error: 'Empresa não encontrada'
+                    error: 'Internal Server error'
                 }
             }
         }
