@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "server.ts",
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only --clear index.ts"
   },
