@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize";
-import sequelize from "..";
+import { DataTypes, Model, Optional } from "sequelize";
+import sequelize from "../";
 
 interface CompanyInfo {
     id: string,
