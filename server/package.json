@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only --clear index.ts"
+    "start": "ts-node-dev --respawn --transpile-only --clear server.ts"
   },
   "keywords": [],
   "author": "",
