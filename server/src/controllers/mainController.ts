@@ -14,7 +14,7 @@ class MainController {
 
         //-----Cadastrar empresa no banco de dados
         await companyRepository.createCompany(request.body.data)
-            .then((res: { code: number, data: string }) => {
+            .then((res: { code: number, data?: {} }) => {
                 return response.status(res.code).json(res.data);
             })
     }
