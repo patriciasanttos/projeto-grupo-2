@@ -22,7 +22,6 @@
     "@types/node": "^20.14.2",
     "@types/sequelize": "^4.28.20",
     "sequelize-cli": "^6.6.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript-eslint": "^7.13.1"
+    "ts-node-dev": "^2.0.0"
   }
 }
