@@ -27,7 +27,7 @@ class MainController {
             return response.status(400).json({ error: 'CNPJ inválido' });
 
         //-----Cadastrar empresa no banco de dados
-        await companyRepository.createCompany(request.body.data)
+        await companyRepository.createCompany(request.body)
             .then((res: { code: number, data?: {} }) => {
                 return response.status(res.code).json(res.data);
             })

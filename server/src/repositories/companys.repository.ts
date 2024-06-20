@@ -1,8 +1,9 @@
 import Company from "../database/models/company";
-import { CompanyDataType } from "../utils/types";
+import { CompanyType } from "../utils/types";
+import spreadSheetPost from './spreadsheet.repository';
 
 export default class CompanyRepository {
-     async createCompany (data: CompanyDataType) {
+     async createCompany ({ data, dimensions }: CompanyType) {
         try {
             //-----Erro caso o CNPJ já esteja no banco de dados
             if((await this.getCompany(data.cnpj)).code === 200)
@@ -14,12 +15,14 @@ export default class CompanyRepository {
                 }
 
             //-----Salvar os dados da empresa na tabela
-            await Company.create({ ...data });
+            // await Company.create({ ...data });
+            await spreadSheetPost({ data, dimensions })
 
             return {
                 code: 201
             };
         } catch (err: any) {
+            console.log(err)
             return {
                 code: 400,
                 data: {
