@@ -1,10 +1,27 @@
+'use client';
+import React, { useState } from 'react';
 import Style from './page.module.scss';
 import Image from 'next/image';
 import HeaderImage from '../../../public/headerImg.jpg';
-import { Box, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { inter } from '../../fonts/_fonts';
+import InitialCardForm from '@/components/InitialCardForm/InitialCardForm';
+import FormCard from '@/components/CardForm/FormCard';
 
 const LandingPage = () => {
+  const [card, setCard] = useState('form');
+
+  const renderCardForm = (card: string) => {
+    switch (card) {
+      case 'initial':
+        return <InitialCardForm setCard={setCard} />;
+      case 'form':
+        return <FormCard/>;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <nav style={{ height: '10vh', backgroundColor: 'midnightblue' }}>
@@ -40,6 +57,11 @@ const LandingPage = () => {
             </Typography>
           </Box>
         </Box>
+      </Box>
+      <Box component="section" className={Style.cardForm}>
+        <Container maxWidth="xl" className={Style.cardForm__card}>
+          {renderCardForm(card)}
+        </Container>
       </Box>
     </>
   );
