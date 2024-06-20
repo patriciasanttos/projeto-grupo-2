@@ -9,7 +9,7 @@ import InitialCardForm from '@/components/InitialCardForm/InitialCardForm';
 import FormCard from '@/components/CardForm/FormCard';
 
 const LandingPage = () => {
-  const [card, setCard] = useState('form');
+  const [card, setCard] = useState('initial');
 
   const renderCardForm = (card: string) => {
     switch (card) {
