@@ -1,8 +1,9 @@
-@import '../../sass/variables';
+@use 'variables' as *;
+@use 'mediaQueries' as *;
 
 .footer {
   background-color: $grayColor;
-  padding: 8vw;
+  padding: 4vw 8vw;
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
