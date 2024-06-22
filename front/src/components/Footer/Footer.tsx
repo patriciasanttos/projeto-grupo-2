@@ -5,16 +5,17 @@ import Image from 'next/image';
 import { Facebook, Instagram, LinkedIn, YouTube } from '@mui/icons-material';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
+import { open_Sans } from '@/fonts/_fonts';
 
 type IconType = OverridableComponent<SvgIconTypeMap<object, 'svg'>> & {
   muiName: string;
 };
 
 interface PropsSocialMedia {
-  Media: IconType
+  Media: IconType;
 }
 
-const SocialMediaIcon = ({ Media }:PropsSocialMedia ) => {
+const SocialMediaIcon = ({ Media }: PropsSocialMedia) => {
   return (
     <div className={Style.footer__socialMediaIcon}>
       <Media className={Style.footer__socialMediaImg} />
@@ -25,14 +26,14 @@ const SocialMediaIcon = ({ Media }:PropsSocialMedia ) => {
 const Footer = () => {
   return (
     <footer className={Style.footer}>
-      <div className={Style.footer_Logo}>
-        <Image className={Style.footer__icon} src={Logo} alt="Logo" />
+      <div className={`${Style.footer__Logo} ${open_Sans.className}`}>
+        <Image src={Logo} alt="Logo" />
         <p>
           Empresa de Engenharia para Clínicas e Hospitais com foco na
           Inteligência do Negócio.
         </p>
       </div>
-      <div className={Style.footer_SiteMap}>
+      <div className={Style.footer__SiteMap}>
         <h3>Mapa Do Site</h3>
         <p>Home</p>
         <p>Blog</p>
@@ -62,21 +63,14 @@ const Footer = () => {
           <SocialMediaIcon Media={YouTube} />
         </div>
         <div className={Style.footer__stampList}>
-          <div>
             <img
-              className={Style.footer__stamp}
-              id="stamp-1"
               src="https://equipacare.com.br/wp-content/uploads/selogarantia-300x298.png"
               alt=""
             />
-          </div>
-          <div>
             <img
-              className={Style.footer__stamp1}
               src="https://equipacare.com.br/wp-content/uploads/selo-1-177x300.png"
               alt=""
             />
-          </div>
         </div>
       </div>
     </footer>

@@ -1,70 +1,57 @@
 @import '../../sass/variables';
 
 .footer {
-  background: $grayColor;
-  padding: 100px 200px 100px 200px;
+  background-color: $grayColor;
+  padding: 8vw;
 
-  display: flex;
-  justify-content: space-evenly;
+  display: grid;
+	grid-template-columns: 3fr 2fr 2fr 2fr;
 
   &__Logo {
-    width: 300px;
+		text-align: center;
+    
+		img {
+			width: 50%;
+		}
 
-    p {
-      color: white;
+		p {
+			text-align: left;
+      color: white !important;
       font-weight: 200;
-      padding-top: 10px;
+			font-size: 1rem;
     }
-  }
 
-  &__icon {
-    width: 210px;
-    padding-bottom: 20px;
   }
 
   p {
     color: $limeGreenColor;
-    line-height: 1.5rem;
+    line-height: 1rem;
     font-weight: 300;
   }
 
   h3 {
-    padding-bottom: 20px;
     color: white;
-  }
-
-  &__Contact {
-    padding-bottom: 20px;
-  }
-
-  &__socialMedia {
-    width: 230px;
   }
 
   &__iconList {
     display: flex;
-    gap: 5px;
+    justify-content: space-evenly;
   }
 
   &__stampList {
     display: flex;
-    flex-direction: row;
-    gap: 10px;
-  }
-
-  &__stamp {
-    padding-top: 20px;
-    width: 48px;
-  }
-
-  &__stamp1 {
-    width: 80px;
-  }
+		column-gap: 10%;
+		align-items: center;
+  
+		img {
+			width: auto;
+			height: 20vh;
+		}
+	}
 
   &__socialMediaIcon {
-    border-radius: 5px;
-    width: 50px;
-    height: 50px;
+    border-radius: 0.4rem;
+    padding: 5%;
 
     display: flex;
     justify-content: center;
@@ -76,6 +63,6 @@
 
   &__socialMediaImg {
     width: auto;
-    height: 30px;
+    height: 5vh;
   }
 }
