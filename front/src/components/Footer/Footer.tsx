@@ -13,13 +13,14 @@ type IconType = OverridableComponent<SvgIconTypeMap<object, 'svg'>> & {
 
 interface PropsSocialMedia {
   Media: IconType;
+  Link?: string;
 }
 
-const SocialMediaIcon = ({ Media }: PropsSocialMedia) => {
+const SocialMediaIcon = ({ Media, Link }: PropsSocialMedia) => {
   return (
-    <div className={Style.footer__socialMediaIcon}>
+    <a href={Link} className={Style.footer__socialMediaIcon}>
       <Media />
-    </div>
+    </a>
   );
 };
 
@@ -36,33 +37,75 @@ const Footer = () => {
       <div className={Style.footer__siteMap}>
         <h3>Mapa Do Site</h3>
         <div>
-          <p>Home</p>
-          <p>Blog</p>
-          <p>Serviços</p>
-          <p>Engenharia Hospitalar</p>
-          <p>Consultoria e Projetos</p>
-          <p>Engenharia Clínica</p>
-          <p>Manutenção e Calibração</p>
-          <p>Materiais</p>
-          <p>Clientes</p>
-          <p>Equipacare Edu</p>
-          <p>Fix System</p>
-          <p>Contato</p>
+          <a href="https://equipacare.com.br/">
+            <p>Home</p>
+          </a>
+          <a href="https://equipacare.com.br/blog/">
+            <p>Blog</p>
+          </a>
+          <a href="">
+            <p>Serviços</p>
+          </a>
+          <a href="https://equipacare.com.br/servicos/eh/">
+            <p>Engenharia Hospitalar</p>
+          </a>
+          <a href="https://equipacare.com.br/servicos/cp/">
+            <p>Consultoria e Projetos</p>
+          </a>
+          <a href="https://equipacare.com.br/servicos/ec/">
+            <p>Engenharia Clínica</p>
+          </a>
+          <a href="https://equipacare.com.br/servicos/mc/">
+            <p>Manutenção e Calibração</p>
+          </a>
+          <a href="https://equipacare.com.br/materiais-gratuitos/">
+            <p>Materiais</p>
+          </a>
+          <a href="https://equipacare.com.br/clientes">
+            <p>Clientes</p>
+          </a>
+          <a href="https://equipacare-edu.com.br/">
+            <p>Equipacare Edu</p>
+          </a>
+          <a href="https://fixsystem.io/">
+            <p>Fix System</p>
+          </a>
+          <a href="https://equipacare.com.br/contato">
+            <p>Contato</p>
+          </a>
         </div>
       </div>
       <div className={Style.footer__contact}>
         <h3>Contato</h3>
-        <p>contato@equipacare.com.br</p>
-        <p>+55 (24) 3348 - 7157</p>
-        <p>+55 (24) 98119 - 1448</p>
+        <a href="mailto:contato@equipacare.com.br">
+          <p>contato@equipacare.com.br</p>
+        </a>
+        <a href="tel:+552433487157">
+          <p>+55 (24) 3348 - 7157</p>
+        </a>
+        <a href="https://api.whatsapp.com/send/?phone=24981191448&text&type=phone_number&app_absent=0">
+          <p>+55 (24) 98119 - 1448</p>
+        </a>
       </div>
       <div className={Style.footer__socialMedia}>
         <h3>Acompanhe Nossas Redes Sociais</h3>
         <div className={Style.footer__iconList}>
-          <SocialMediaIcon Media={Facebook} />
-          <SocialMediaIcon Media={Instagram} />
-          <SocialMediaIcon Media={LinkedIn} />
-          <SocialMediaIcon Media={YouTube} />
+          <SocialMediaIcon
+            Media={Facebook}
+            Link="https://www.facebook.com/Equipacare"
+          />
+          <SocialMediaIcon
+            Media={Instagram}
+            Link="https://www.instagram.com/equipacare/"
+          />
+          <SocialMediaIcon
+            Media={LinkedIn}
+            Link="https://www.linkedin.com/company/equipacare"
+          />
+          <SocialMediaIcon
+            Media={YouTube}
+            Link="https://www.youtube.com/c/Equipacare"
+          />
         </div>
         <div className={Style.footer__stampList}>
           <img
