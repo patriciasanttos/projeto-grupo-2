@@ -1,13 +1,14 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "..";
 
 interface CompanyInfo {
     id: string,
+    cnpj: string,
     name: string,
     email: string,
     company_name: string,
-    cep: number
-    phone: number,
+    cep: string
+    phone: string,
     segment: string,
     role: string,
     objective: string,
@@ -16,13 +17,16 @@ interface CompanyInfo {
     updated_at?: string,
 }
 
-class Company extends Model <CompanyInfo> implements CompanyInfo {
+type CompanyInfoCreation = Optional<CompanyInfo, 'id'>;
+
+class Company extends Model<CompanyInfo, CompanyInfoCreation> {
     public id!: string;
+    public cnpj!: string;
     public name!: string;
     public email!: string;
     public company_name!: string;
-    public cep!: number;
-    public phone!: number;
+    public cep!: string;
+    public phone!: string;
     public segment!: string;
     public role!: string;
     public objective!: string;
@@ -33,9 +37,15 @@ class Company extends Model <CompanyInfo> implements CompanyInfo {
 
 Company.init({
     id: {
-        type: DataTypes.STRING,
-        unique: true,
+        type: DataTypes.UUID,
         primaryKey: true,
+        allowNull: false,
+        defaultValue: DataTypes.UUIDV4
+    },
+    cnpj: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
     },
     name: {
         type: DataTypes.STRING,
@@ -52,11 +62,11 @@ Company.init({
         unique: true
     },
     cep: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     phone: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },        
