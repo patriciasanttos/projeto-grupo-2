@@ -18,7 +18,7 @@ interface PropsSocialMedia {
 const SocialMediaIcon = ({ Media }: PropsSocialMedia) => {
   return (
     <div className={Style.footer__socialMediaIcon}>
-      <Media className={Style.footer__socialMediaImg} />
+      <Media />
     </div>
   );
 };
@@ -26,33 +26,35 @@ const SocialMediaIcon = ({ Media }: PropsSocialMedia) => {
 const Footer = () => {
   return (
     <footer className={Style.footer}>
-      <div className={`${Style.footer__Logo} ${open_Sans.className}`}>
+      <div className={`${Style.footer__logo} ${open_Sans.className}`}>
         <Image src={Logo} alt="Logo" />
         <p>
           Empresa de Engenharia para Clínicas e Hospitais com foco na
           Inteligência do Negócio.
         </p>
       </div>
-      <div className={Style.footer__SiteMap}>
+      <div className={Style.footer__siteMap}>
         <h3>Mapa Do Site</h3>
-        <p>Home</p>
-        <p>Blog</p>
-        <p>Serviços</p>
-        <p>Engenharia Hospitalar</p>
-        <p>Consultoria e Projetos</p>
-        <p>Engenharia Clínica</p>
-        <p>Manutenção e Calibração</p>
-        <p>Materiais</p>
-        <p>Clientes</p>
-        <p>Equipacare Edu</p>
-        <p>Fix System</p>
-        <p>Contato</p>
+        <div>
+          <p>Home</p>
+          <p>Blog</p>
+          <p>Serviços</p>
+          <p>Engenharia Hospitalar</p>
+          <p>Consultoria e Projetos</p>
+          <p>Engenharia Clínica</p>
+          <p>Manutenção e Calibração</p>
+          <p>Materiais</p>
+          <p>Clientes</p>
+          <p>Equipacare Edu</p>
+          <p>Fix System</p>
+          <p>Contato</p>
+        </div>
       </div>
-      <div className={Style.footer__Contact}>
+      <div className={Style.footer__contact}>
         <h3>Contato</h3>
-        <p className={Style.footer__Contact}>contato@equipacare.com.br</p>
-        <p className={Style.footer__Contact}>+55 (24) 3348 - 7157</p>
-        <p className={Style.footer__Contact}>+55 (24) 98119 - 1448</p>
+        <p>contato@equipacare.com.br</p>
+        <p>+55 (24) 3348 - 7157</p>
+        <p>+55 (24) 98119 - 1448</p>
       </div>
       <div className={Style.footer__socialMedia}>
         <h3>Acompanhe Nossas Redes Sociais</h3>
@@ -63,14 +65,14 @@ const Footer = () => {
           <SocialMediaIcon Media={YouTube} />
         </div>
         <div className={Style.footer__stampList}>
-            <img
-              src="https://equipacare.com.br/wp-content/uploads/selogarantia-300x298.png"
-              alt=""
-            />
-            <img
-              src="https://equipacare.com.br/wp-content/uploads/selo-1-177x300.png"
-              alt=""
-            />
+          <img
+            src="https://equipacare.com.br/wp-content/uploads/selogarantia-300x298.png"
+            alt=""
+          />
+          <img
+            src="https://equipacare.com.br/wp-content/uploads/selo-1-177x300.png"
+            alt=""
+          />
         </div>
       </div>
     </footer>
