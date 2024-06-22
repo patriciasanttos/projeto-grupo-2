@@ -2,10 +2,17 @@ import React from 'react';
 import Style from './index.module.scss';
 import Logo from '/public/logo.svg';
 import Image from 'next/image';
-import SocialMediaIcon from './SocialMediaIcon';
 import { Facebook, Instagram, LinkedIn, YouTube } from '@mui/icons-material';
 
-function Footer() {
+const SocialMediaIcon = ({ Media }: any) => {
+  return (
+    <div className={Style.footer__socialMediaIcon}>
+      <Media className={Style.footer__socialMediaImg} />
+    </div>
+  );
+};
+
+const Footer = () => {
   return (
     <footer className={Style.footer}>
       <div className={Style.footer_Logo}>
