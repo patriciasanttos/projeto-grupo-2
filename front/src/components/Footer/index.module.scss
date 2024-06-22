@@ -1,58 +1,67 @@
 @import '../../sass/variables';
 
 .footer {
-    background: $grayColor;
-    padding: 100px 200px 100px 200px;
+  background: $grayColor;
+  padding: 100px 200px 100px 200px;
 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
+  display: flex;
+  justify-content: space-evenly;
 
-#equipacare {
+  &__Logo {
     width: 300px;
-}
 
-#equipacare-icon {
+    p {
+      color: white;
+      font-weight: 200;
+      padding-top: 10px;
+    }
+  }
+
+  &__icon {
     width: 210px;
     padding-bottom: 20px;
-}
+  }
 
-.section {
-    width: 280px;
-}
-
-h3 {
-    padding-bottom: 20px;
-    color: white;
-}
-
-p {
+  p {
     color: $limeGreenColor;
     line-height: 1.5rem;
     font-weight: 300;
-}
+  }
 
-#text-equipacare {
-    color: white;
-    font-weight: 200;
-    padding-top: 10px;
-}
-
-.contact {
+  h3 {
     padding-bottom: 20px;
-}
+    color: white;
+  }
 
-#social-media {
+  &__Contact {
+    padding-bottom: 20px;
+  }
+
+  &__socialMedia {
     width: 230px;
-}
+  }
 
-#icon-list {
+  &__iconList {
     display: flex;
     gap: 5px;
-}
+  }
 
-.social-media-icon {
+  &__stampList {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  &__stamp {
+    padding-top: 20px;
+    width: 48px;
+  }
+
+  &__stamp1 {
+    width: 80px;
+  }
+
+  &__socialMediaIcon {
     border-radius: 5px;
     width: 50px;
     height: 50px;
@@ -63,28 +72,19 @@ p {
 
     color: $limeGreenColor;
     background-color: $lightGrayColor;
-}
+  }
 
-.social-media-img {
+  &__socialMediaImg {
     width: auto;
     height: 30px;
+  }
 }
 
-.stamp-list {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+section {
+  width: 280px;
 }
 
-.stamp {
-    padding-top: 20px;
-    width: 48px;
-}
-
-#stamp-1 {
-    width: 80px;
-}
-
-html, body {
-    background: black;
+html,
+body {
+  background: black;
 }

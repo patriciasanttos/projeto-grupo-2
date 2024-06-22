@@ -1,21 +1,21 @@
-import React from 'react'
-import './_footer.scss';
-import Logo from './logo.svg';
+import React from 'react';
+import Style from './index.module.scss';
+import Logo from '/public/logo.svg';
 import Image from 'next/image';
 import SocialMediaIcon from './SocialMediaIcon';
 import { Facebook, Instagram, LinkedIn, YouTube } from '@mui/icons-material';
 
 function Footer() {
   return (
-    <div className="footer">
-      <div id="equipacare" className="section">
-        <Image id="equipacare-icon" src={Logo} alt="" />
-        <p id="text-equipacare">
+    <footer className={Style.footer}>
+      <div className={Style.footer_Logo}>
+        <Image className={Style.footer__icon} src={Logo} alt="Logo" />
+        <p>
           Empresa de Engenharia para Clínicas e Hospitais com foco na
           Inteligência do Negócio.
         </p>
       </div>
-      <div className="section">
+      <div className={Style.footer_SiteMap}>
         <h3>Mapa Do Site</h3>
         <p>Home</p>
         <p>Blog</p>
@@ -30,24 +30,24 @@ function Footer() {
         <p>Fix System</p>
         <p>Contato</p>
       </div>
-      <div className="section">
+      <div className={Style.footer__Contact}>
         <h3>Contato</h3>
-        <p className="contact">contato@equipacare.com.br</p>
-        <p className="contact">+55 (24) 3348 - 7157</p>
-        <p className="contact">+55 (24) 98119 - 1448</p>
+        <p className={Style.footer__Contact}>contato@equipacare.com.br</p>
+        <p className={Style.footer__Contact}>+55 (24) 3348 - 7157</p>
+        <p className={Style.footer__Contact}>+55 (24) 98119 - 1448</p>
       </div>
-      <div id="social-media" className="section">
+      <div className={Style.footer__socialMedia}>
         <h3>Acompanhe Nossas Redes Sociais</h3>
-        <div id="icon-list">
+        <div className={Style.footer__iconList}>
           <SocialMediaIcon Media={Facebook} />
           <SocialMediaIcon Media={Instagram} />
           <SocialMediaIcon Media={LinkedIn} />
           <SocialMediaIcon Media={YouTube} />
         </div>
-        <div className="stamp-list">
+        <div className={Style.footer__stampList}>
           <div>
             <img
-              className="stamp"
+              className={Style.footer__stamp}
               id="stamp-1"
               src="https://equipacare.com.br/wp-content/uploads/selogarantia-300x298.png"
               alt=""
@@ -55,14 +55,14 @@ function Footer() {
           </div>
           <div>
             <img
-              className="stamp"
+              className={Style.footer__stamp1}
               src="https://equipacare.com.br/wp-content/uploads/selo-1-177x300.png"
               alt=""
             />
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
 

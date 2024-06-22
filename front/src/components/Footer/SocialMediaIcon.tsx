@@ -1,8 +1,8 @@
 
 const SocialMediaIcon = ({ Media }: any) => {
   return (
-    <div className="social-media-icon">
-      <Media className='social-media-img' />
+    <div className={Style.footer__socialMediaIcon}>
+      <Media className={Style.footer__socialMediaImg} />
     </div>
   );
 };
