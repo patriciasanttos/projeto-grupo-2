@@ -2,7 +2,7 @@ import React from 'react';
 import Style from './page.module.scss';
 
 const Home = () => {
-  return <div></div>;
+  return <></>;
 };
 
 export default Home;
