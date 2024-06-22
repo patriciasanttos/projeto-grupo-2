@@ -4,9 +4,9 @@
 .header {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   height: 90vh;
-  padding: 5vh 8vw;
-  row-gap: 20vh;
+  padding: 5vh 8vw 30vh;
 
   &__img {
     width: 100%;
