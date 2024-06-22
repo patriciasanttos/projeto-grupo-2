@@ -3,8 +3,18 @@ import Style from './index.module.scss';
 import Logo from '/public/logo.svg';
 import Image from 'next/image';
 import { Facebook, Instagram, LinkedIn, YouTube } from '@mui/icons-material';
+import { SvgIconTypeMap } from '@mui/material/SvgIcon';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
 
-const SocialMediaIcon = ({ Media }: any) => {
+type IconType = OverridableComponent<SvgIconTypeMap<object, 'svg'>> & {
+  muiName: string;
+};
+
+interface PropsSocialMedia {
+  Media: IconType
+}
+
+const SocialMediaIcon = ({ Media }:PropsSocialMedia ) => {
   return (
     <div className={Style.footer__socialMediaIcon}>
       <Media className={Style.footer__socialMediaImg} />
@@ -71,6 +81,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;
