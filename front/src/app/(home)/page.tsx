@@ -1,12 +1,8 @@
 import React from 'react';
-import Footer from '../../components/Footer/Footer'
+import Style from './page.module.scss';
 
 const Home = () => {
-  return (
-    <div>
-        <Footer />
-      </div>
-  );
+  return <div></div>;
 };
 
 export default Home;
