@@ -8,6 +8,14 @@
   margin-top: 10px;
 }
 
+.flipCard__list {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 5%;
+  margin: auto;
+}
+
 .flipCard__inner {
   border-radius: 10px;
   background-color: #238da6;
@@ -32,7 +40,7 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden; // Safari
   position: absolute;
-  
+
   img {
     width: 60px;
     height: 60px;
@@ -48,7 +56,6 @@
   text-align: center;
   padding: 0 5px;
 }
-
 
 @media screen and (max-width: 768px) {
   .flip-card {

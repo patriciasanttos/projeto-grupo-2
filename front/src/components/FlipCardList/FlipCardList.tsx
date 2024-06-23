@@ -1,9 +1,31 @@
-import { FlipCard } from '../FlipCard/FlipCard';
-import './styles.scss';
+import React from 'react';
+import Style from './index.module.scss';
 
-export const FlipList = () => {
+interface FlipCardProps {
+  image: string;
+  alt: string;
+  text: string;
+}
+
+const FlipCard: React.FC<FlipCardProps> = ({ image, alt, text }) => {
   return (
-    <main>
+    <div className={Style.flipCard}>
+      <div className={Style.flipCard__inner}>
+        <div className={Style.flipCard__front}>
+          <img src={image} alt={alt} />
+        </div>
+        <div
+          className={Style.flipCard__back}
+          dangerouslySetInnerHTML={{ __html: text }}
+        ></div>
+      </div>
+    </div>
+  );
+};
+
+const FlipCardList = () => {
+  return (
+    <section className={Style.flipCard__list}>
       <FlipCard
         image="quality.svg"
         alt="dollar"
@@ -32,6 +54,8 @@ export const FlipList = () => {
         text="A nossa ferramenta de cálculo de CME foi desenvolvida para atender às necessidades 
               específicas do seu hospital."
       />
-    </main>
+    </section>
   );
 };
+
+export default FlipCardList;
