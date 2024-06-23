@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.scss';
+import Style from './index.module.scss';
 
 interface FlipCardProps {
   image: string;
@@ -7,15 +7,20 @@ interface FlipCardProps {
   text: string;
 }
 
-export const FlipCard: React.FC<FlipCardProps> = ({ image, alt, text }) => {
+const FlipCard: React.FC<FlipCardProps> = ({ image, alt, text }) => {
   return (
-    <div className="flip-card">
-      <div className="flip-card-inner">
-        <div className="front">
+    <div className={Style.flipCard}>
+      <div className={Style.flipCard__inner}>
+        <div className={Style.flipCard__front}>
           <img src={image} alt={alt} />
         </div>
-        <div className="back" dangerouslySetInnerHTML={{ __html: text }}></div>
+        <div
+          className={Style.flipCard__back}
+          dangerouslySetInnerHTML={{ __html: text }}
+        ></div>
       </div>
     </div>
   );
 };
+
+export default FlipCard;
