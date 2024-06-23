@@ -1,23 +1,19 @@
 .flipCard {
   background-color: transparent;
-  width: 20%;
-  height: 180px;
-  border-radius: 10px;
-  perspective: 1000px;
-
-  margin-top: 10px;
+  aspect-ratio: 1;
+  border-radius: 1rem;
+  perspective: 100vw;
 }
 
 .flipCard__list {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 5%;
-  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 5%;
+  padding: 2% 5%;
 }
 
 .flipCard__inner {
-  border-radius: 10px;
+  border-radius: 1rem;
   background-color: #238da6;
   display: flex;
   justify-content: center;
@@ -42,30 +38,15 @@
   position: absolute;
 
   img {
-    width: 60px;
-    height: 60px;
+    height: 5rem;
   }
 }
 
 .flipCard__back {
   transform: rotateY(180deg);
-  font-family: Open Sans;
   font-weight: 500;
   color: white;
-  font-size: 15px;
+  font-size: 0.8rem;
   text-align: center;
-  padding: 0 5px;
-}
-
-@media screen and (max-width: 768px) {
-  .flip-card {
-    flex: 1 1 calc(50% - 100px);
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .flip-card {
-    flex: 1 1 calc(100% - 100px);
-    justify-content: center;
-  }
+  padding: 5% 5%;
 }

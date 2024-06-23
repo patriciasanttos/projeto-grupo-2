@@ -1,5 +1,6 @@
 import React from 'react';
 import Style from './index.module.scss';
+import { open_Sans } from '@/fonts/_fonts';
 
 interface FlipCardProps {
   image: string;
@@ -15,7 +16,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ image, alt, text }) => {
           <img src={image} alt={alt} />
         </div>
         <div
-          className={Style.flipCard__back}
+          className={`${Style.flipCard__back} ${open_Sans.style.fontFamily}`}
           dangerouslySetInnerHTML={{ __html: text }}
         ></div>
       </div>
