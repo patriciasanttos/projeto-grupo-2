@@ -1,3 +1,6 @@
+@use '../../sass/variables' as *;
+@use '../../sass/mediaQueries' as *;
+
 .flipCard {
   background-color: transparent;
   aspect-ratio: 1;
@@ -8,8 +11,13 @@
 .flipCard__list {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 5%;
+  gap: 5%;
   padding: 2% 5%;
+
+  @include respond-to-small {
+    grid-template-columns: 1fr;
+    padding: 2% 10%;
+  }
 }
 
 .flipCard__inner {
@@ -49,4 +57,12 @@
   font-size: 0.8rem;
   text-align: center;
   padding: 5% 5%;
+
+  @include respond-to-medium {
+    font-size: 0.5rem;
+  }
+
+  @include respond-to-large {
+    font-size: 0.6rem;
+  }
 }
