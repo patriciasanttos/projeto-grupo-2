@@ -2,30 +2,46 @@
 @use 'mediaQueries' as *;
 
 .header {
-    height: 10vh;
-    padding: 1vh 2vw;
+  height: 10vh;
+  padding: 1vh 2vw;
 
-    &__img {
-        height: 8vh;
-        width: auto;
-    }
+  &__img {
+    height: 8vh;
+    width: auto;
+  }
 }
 
 .calculator {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    padding: 0 2vw;
-    height: 90vh;
-    column-gap: 5%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding: 0 2vw;
+  height: 90vh;
+  column-gap: 5%;
 
-    &__aside {
-        padding: 10vh 5vw 0 0;
-    }
+  &__aside {
+    padding: 10vh 5vw 0 0;
+  }
 
-    &__card {
-        border-top-left-radius: 2rem;
-        border-top-right-radius: 2rem;
-        background-color: white;
-        box-shadow: -0.2rem -0.2rem 0.3rem 0.1rem rgba(0, 0, 0, 0.35);
-    }
+  &__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3vh 10vw 3vh;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    background-color: white;
+    box-shadow: -0.2rem -0.2rem 0.3rem 0.1rem rgba(0, 0, 0, 0.35);
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__inputBox {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 2%;
+  }
 }
