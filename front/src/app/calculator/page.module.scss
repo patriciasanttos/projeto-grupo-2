@@ -10,3 +10,21 @@
         width: auto;
     }
 }
+
+.calculator {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding: 0 2vw;
+    height: 90vh;
+
+    &__aside {
+        padding: 10vh 0 0;
+    }
+
+    &__card {
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        background-color: white;
+        box-shadow: -0.2rem -0.2rem 0.3rem 0.1rem rgba(0, 0, 0, 0.35);
+    }
+}
