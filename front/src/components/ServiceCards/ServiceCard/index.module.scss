@@ -4,7 +4,7 @@
 .serviceCard__list {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 5%;
+  gap: 10%;
   padding: 2% 5%;
 
   @include respond-to-small {
