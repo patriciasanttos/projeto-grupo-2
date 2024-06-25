@@ -9,6 +9,7 @@ import FormCard from '@/components/CardForm/FormCard';
 import { LightTheme } from '@/themes';
 import AboutToolList from '@/components/AboutToolList/AboutToolList';
 import ServiceCardList from '@/components/ServiceCards/ServiceCard/ServiceCardList';
+import Footer from '@/components/Footer/Footer';
 
 const LandingPage = () => {
   const [card, setCard] = useState('initial');
@@ -84,6 +85,7 @@ const LandingPage = () => {
         </Typography>
         <ServiceCardList />
       </Container>
+      <Footer/>
     </ThemeProvider>
   );
 };
