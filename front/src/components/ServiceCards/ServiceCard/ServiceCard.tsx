@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.scss';
+import Style from './index.module.scss';
 
 interface ServiceCardProps {
   image: string;
