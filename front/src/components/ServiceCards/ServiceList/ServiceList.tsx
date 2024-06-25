@@ -3,7 +3,7 @@ import Style from './index.module.scss';
 
 export const ServiceList = () => {
   return (
-    <main>
+    <main className={Style.serviceCard__list}>
       <ServiceCard image="quality.svg" alt="dollar" />
       <ServiceCard image="hourglass.svg" alt="hourglass" />
       <ServiceCard image="dollar.svg" alt="dollar" />

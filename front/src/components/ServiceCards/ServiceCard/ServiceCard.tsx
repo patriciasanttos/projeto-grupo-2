@@ -8,7 +8,7 @@ interface ServiceCardProps {
 
 export const ServiceCard: React.FC<ServiceCardProps> = ({ image, alt }) => {
   return (
-    <div>
+    <div className={Style.serviceCard}>
       <img src={image} alt={alt} />
     </div>
   );
