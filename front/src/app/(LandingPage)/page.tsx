@@ -8,7 +8,7 @@ import InitialCardForm from '@/components/InitialCardForm/InitialCardForm';
 import FormCard from '@/components/CardForm/FormCard';
 import { LightTheme } from '@/themes';
 import AboutToolList from '@/components/AboutToolList/AboutToolList';
-import ServiceCardList from '@/components/ServiceCards/ServiceCard/ServiceCardList';
+import ServiceCardList from '@/components/ServiceCard/ServiceCardList';
 import Footer from '@/components/Footer/Footer';
 
 const LandingPage = () => {
