@@ -12,7 +12,7 @@ const InitialCardForm = ({ setCard }: PropsInitialCardForm) => {
   return (
     <>
       <Box display="flex" flexDirection="column">
-        <Typography variant="subtitle1" fontWeight="600" textAlign="center">
+        <Typography variant="subtitle2" fontWeight="600" textAlign="center">
           Você pode testar a ferramenta gratuitamente uma vez.
         </Typography>
         <Typography variant="subtitle1" fontWeight="600" textAlign="center">
