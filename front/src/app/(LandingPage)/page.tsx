@@ -7,7 +7,7 @@ import { Box, Container, ThemeProvider, Typography } from '@mui/material';
 import InitialCardForm from '@/components/InitialCardForm/InitialCardForm';
 import FormCard from '@/components/CardForm/FormCard';
 import { LightTheme } from '@/themes';
-import FlipCardList from '@/components/FlipCardList/FlipCardList';
+import AboutToolList from '@/components/AboutToolList/AboutToolList';
 
 const LandingPage = () => {
   const [card, setCard] = useState('initial');
@@ -61,7 +61,7 @@ const LandingPage = () => {
             Descubra a revolução na Gestão de Materiais Hospitalares com Nossa
             Ferramenta de Cálculo de CME
           </Typography>
-          <FlipCardList />
+          <AboutToolList />
         </Container>
       ) : (
         ''

@@ -2,7 +2,7 @@ import React from 'react';
 import Style from './index.module.scss';
 import { Box, Button, Typography } from '@mui/material';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
-import FlipCardList from '../FlipCardList/FlipCardList';
+import AboutToolList from '../AboutToolList/AboutToolList';
 
 interface PropsInitialCardForm {
   setCard: React.Dispatch<React.SetStateAction<string>>;
@@ -20,7 +20,7 @@ const InitialCardForm = ({ setCard }: PropsInitialCardForm) => {
           consultores entrará em contato via e-mail.
         </Typography>
       </Box>
-      <Box textAlign='center' paddingY={"2vh"}>
+      <Box textAlign="center" paddingY={'2vh'}>
         <Button
           variant="contained"
           size="large"
@@ -35,7 +35,7 @@ const InitialCardForm = ({ setCard }: PropsInitialCardForm) => {
         Descubra a revolução na Gestão de Materiais Hospitalares com Nossa
         Ferramenta de Cálculo de CME
       </Typography>
-      <FlipCardList />
+      <AboutToolList />
     </>
   );
 };

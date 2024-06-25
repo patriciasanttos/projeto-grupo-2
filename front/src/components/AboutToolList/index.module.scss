@@ -1,9 +1,9 @@
 @use '../../sass/variables' as *;
 @use '../../sass/mediaQueries' as *;
 
-.serviceCard__list {
+.aboutTool__list {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 5%;
   padding: 2% 5%;
 
