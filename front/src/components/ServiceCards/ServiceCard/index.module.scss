@@ -1,4 +1,4 @@
-.serviceCard__list {
+.serviceCard {
   display: block;
   background-color: #238da6;
   display: flex;
@@ -10,5 +10,10 @@
   img {
     width: 60px;
     height: 60px;
+  }
+
+  .serviceCard__list {
+    display: flex;
+    justify-content: space-around;
   }
 }

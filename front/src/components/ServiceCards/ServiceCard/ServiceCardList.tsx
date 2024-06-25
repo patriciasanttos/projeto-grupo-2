@@ -1,7 +1,20 @@
-import { ServiceCard } from '../ServiceCard/ServiceCard';
+import React from 'react';
 import Style from './index.module.scss';
 
-export const ServiceList = () => {
+interface ServiceCardProps {
+  image: string;
+  alt: string;
+}
+
+export const ServiceCard: React.FC<ServiceCardProps> = ({ image, alt }) => {
+  return (
+    <div className={Style.serviceCard}>
+      <img src={image} alt={alt} />
+    </div>
+  );
+};
+
+export const ServiceCardList = () => {
   return (
     <main className={Style.serviceCard__list}>
       <ServiceCard image="quality.svg" alt="dollar" />
@@ -11,3 +24,5 @@ export const ServiceList = () => {
     </main>
   );
 };
+
+export default ServiceCardList;
