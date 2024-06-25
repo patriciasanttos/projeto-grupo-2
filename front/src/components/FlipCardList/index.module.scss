@@ -1,0 +1,68 @@
+@use '../../sass/variables' as *;
+@use '../../sass/mediaQueries' as *;
+
+.flipCard {
+  background-color: transparent;
+  aspect-ratio: 1;
+  border-radius: 1rem;
+  perspective: 100vw;
+}
+
+.flipCard__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 5%;
+  padding: 2% 5%;
+
+  @include respond-to-small {
+    grid-template-columns: 1fr;
+    padding: 2% 10%;
+  }
+}
+
+.flipCard__inner {
+  border-radius: 1rem;
+  background-color: $oceanBlueColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  transform-style: preserve-3d;
+  transition: 0.8s;
+  position: relative;
+}
+
+.flipCard:hover .flipCard__inner {
+  transform: rotateY(180deg);
+}
+
+.flipCard__front,
+.flipCard__back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; // Safari
+  position: absolute;
+
+  img {
+    height: 5rem;
+  }
+}
+
+.flipCard__back {
+  transform: rotateY(180deg);
+  font-weight: 500;
+  color: white;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 5% 5%;
+
+  @include respond-to-medium {
+    font-size: 0.5rem;
+  }
+
+  @include respond-to-large {
+    font-size: 0.6rem;
+  }
+}
