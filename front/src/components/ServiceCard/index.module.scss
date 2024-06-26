@@ -1,0 +1,14 @@
+@use '../sass/variables' as *;
+@use '../sass/mediaQueries' as *;
+
+.serviceCard__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10%;
+  padding: 2% 5%;
+
+  @include respond-to-small {
+    grid-template-columns: 1fr;
+    padding: 2% 10%;
+  }
+}

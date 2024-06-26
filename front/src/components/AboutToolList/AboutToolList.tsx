@@ -1,32 +1,10 @@
 import React from 'react';
 import Style from './index.module.scss';
-import { open_Sans } from '@/fonts/_fonts';
+import FlipCard from '../FlipCard/FlipCard';
 
-interface FlipCardProps {
-  image: string;
-  alt: string;
-  text: string;
-}
-
-const FlipCard: React.FC<FlipCardProps> = ({ image, alt, text }) => {
+const AboutToolList = () => {
   return (
-    <div className={Style.flipCard}>
-      <div className={Style.flipCard__inner}>
-        <div className={Style.flipCard__front}>
-          <img src={image} alt={alt} />
-        </div>
-        <div
-          className={`${Style.flipCard__back} ${open_Sans.style.fontFamily}`}
-          dangerouslySetInnerHTML={{ __html: text }}
-        ></div>
-      </div>
-    </div>
-  );
-};
-
-const FlipCardList = () => {
-  return (
-    <section className={Style.flipCard__list}>
+    <section className={Style.aboutTool__list}>
       <FlipCard
         image="quality.svg"
         alt="dollar"
@@ -59,4 +37,4 @@ const FlipCardList = () => {
   );
 };
 
-export default FlipCardList;
+export default AboutToolList;

@@ -7,7 +7,9 @@ import { Box, Container, ThemeProvider, Typography } from '@mui/material';
 import InitialCardForm from '@/components/InitialCardForm/InitialCardForm';
 import FormCard from '@/components/CardForm/FormCard';
 import { LightTheme } from '@/themes';
-import FlipCardList from '@/components/FlipCardList/FlipCardList';
+import AboutToolList from '@/components/AboutToolList/AboutToolList';
+import ServiceCardList from '@/components/ServiceCard/ServiceCardList';
+import Footer from '@/components/Footer/Footer';
 
 const LandingPage = () => {
   const [card, setCard] = useState('initial');
@@ -57,15 +59,33 @@ const LandingPage = () => {
       </Box>
       {card != 'initial' ? (
         <Container maxWidth="lg" className={Style.aboutTool}>
-          <Typography variant="h6" fontWeight="600" textAlign="center" color={"white"}>
+          <Typography
+            variant="h6"
+            fontWeight="600"
+            textAlign="center"
+            color={'white'}
+          >
             Descubra a revolução na Gestão de Materiais Hospitalares com Nossa
             Ferramenta de Cálculo de CME
           </Typography>
-          <FlipCardList />
+          <AboutToolList />
         </Container>
       ) : (
         ''
       )}
+      <Container className={Style.serviceCards}>
+        <Typography
+          variant="h5"
+          fontWeight="600"
+          textAlign="center"
+          color={'white'}
+          marginBottom={"2vh"}
+        >
+          A importância de garantir equipamentos adequados
+        </Typography>
+        <ServiceCardList />
+      </Container>
+      <Footer/>
     </ThemeProvider>
   );
 };

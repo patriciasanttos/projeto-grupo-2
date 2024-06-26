@@ -8,18 +8,6 @@
   perspective: 100vw;
 }
 
-.flipCard__list {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 5%;
-  padding: 2% 5%;
-
-  @include respond-to-small {
-    grid-template-columns: 1fr;
-    padding: 2% 10%;
-  }
-}
-
 .flipCard__inner {
   border-radius: 1rem;
   background-color: $oceanBlueColor;
@@ -45,17 +33,23 @@
   -webkit-backface-visibility: hidden; // Safari
   position: absolute;
 
+  color: white;
+  text-align: center;
+
   img {
     height: 5rem;
   }
 }
 
+.flipCard__front {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
 .flipCard__back {
   transform: rotateY(180deg);
   font-weight: 500;
-  color: white;
   font-size: 0.8rem;
-  text-align: center;
   padding: 5% 5%;
 
   @include respond-to-medium {
