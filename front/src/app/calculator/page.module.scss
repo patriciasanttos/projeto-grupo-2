@@ -1,2 +1,68 @@
 @use 'variables' as *;
+@use 'mediaQueries' as *;
 
+.header {
+  height: 10vh;
+  padding: 1vh 2vw;
+
+  &__img {
+    height: 8vh;
+    width: auto;
+  }
+}
+
+.calculator {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding: 0 2vw;
+  height: 90vh;
+  column-gap: 5%;
+
+  @include respond-to-small {
+    grid-template-columns: 1fr;
+    row-gap: 5vh;
+    height: auto;
+  }
+  @include respond-to-medium {
+    grid-template-columns: 1fr;
+    row-gap: 5vh;
+  }
+
+  &__aside {
+    padding: 10vh 5vw 0 0;
+
+    @include respond-to-small {
+        padding: 5vh 5vw;
+    }
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3vh 10vw;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    background-color: white;
+    box-shadow: -0.2rem -0.2rem 0.3rem 0.1rem rgba(0, 0, 0, 0.35);
+
+    @include respond-to-small {
+        padding: 3vh 5vw;
+    }
+    @include respond-to-medium {
+        padding: 3vh 5vw;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__inputBox {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 2%;
+  }
+}
