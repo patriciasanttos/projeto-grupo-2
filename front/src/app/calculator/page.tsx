@@ -327,7 +327,9 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
               }}
             />
           )}
-          <Typography variant="caption">Por Leito de Internação por Dia </Typography>
+          <Typography variant="caption">
+            Por Leito de Internação por Dia{' '}
+          </Typography>
           {fabricProcessing ? (
             <Box className={Style.calculator__inputBox}>
               <TextField
