@@ -15,7 +15,7 @@ const AboutToolList = () => {
       <FlipCard
         image="hourglass.svg"
         alt="hourglass"
-        text="Utilizar a nossa ferramenta é simples e intuitivo. <br/>
+        text="Utilizar a nossa ferramenta é simples e intuitivo.
               Com apenas algumas informações ela gera recomendações precisas, eliminando 
               a complexidade do processo de seleção, reduzindo significativamente o tempo 
               gasto na tomada de decisão."
