@@ -1,16 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "..";
+import { ThermoWashersInterface } from "../../utils/types";
 
-interface ThermoWashersInfo {
-    id: string,
-    marca: string,
-    carga_instrumentos: number,
-    carga_traqueias: number,
-    tempo_instrumentos: number,
-    tempo_assistencia_vent: number,
-}
-
-class ThermoWashers extends Model <ThermoWashersInfo> implements ThermoWashersInfo {
+class ThermoWashers extends Model <ThermoWashersInterface> implements ThermoWashersInterface {
     public id!: string;
     public marca!: string;
     public carga_instrumentos!: number;

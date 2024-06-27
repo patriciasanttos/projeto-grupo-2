@@ -6,17 +6,17 @@ export default class CompanyRepository {
      async createCompany ({ data, dimensions }: CompanyType) {
         try {
             //-----Erro caso o CNPJ já esteja no banco de dados
-            if((await this.getCompany(data.cnpj)).code === 200)
-                return {
-                    code: 409,
-                    data: {
-                        error: 'Empresa já cadastrada'
-                    }
-                }
+            // if((await this.getCompany(data.cnpj)).code === 200)
+            //     return {
+            //         code: 409,
+            //         data: {
+            //             error: 'Empresa já cadastrada'
+            //         }
+            //     }
 
             //-----Salvar os dados da empresa na tabela
             // await Company.create({ ...data });
-            await spreadSheetPost({ data, dimensions })
+            // await spreadSheetPost({ data, dimensions })
 
             return {
                 code: 201

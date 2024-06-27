@@ -6,7 +6,7 @@ import calc from "../functions/calc";
 const companyRepository = new CompanyRepository();
 
 class MainController {
-    get = async (request: Request, response: Response) => {
+    checkFirstSubmitByCNPJ = async (request: Request, response: Response) => {
         const { cnpj } = request.body
 
         //-----Validar CPNJ
@@ -20,7 +20,7 @@ class MainController {
             })
     };
 
-    create = async (request: Request, response: Response) => {
+    saveCompanyAndCalc = async (request: Request, response: Response) => {
         const { cnpj } = request.body.data
 
         //-----Validar CPNJ

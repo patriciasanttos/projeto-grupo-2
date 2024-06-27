@@ -44,3 +44,23 @@ export type CompanyDimensionType = {
     em_litros: number
   }
 }
+
+export interface AutoclavesInterface {
+  id: string,
+  marca: string,
+  vol_total: number,
+  vol_util: number,
+  tempo_total_ciclo: number,
+  tempo_carga_desc: number,
+  tempo_teste_db: number,
+  tempo_aquecimento: number,
+}
+
+export interface ThermoWashersInterface {
+  id: string,
+  marca: string,
+  carga_instrumentos: number,
+  carga_traqueias: number,
+  tempo_instrumentos: number,
+  tempo_assistencia_vent: number,
+}

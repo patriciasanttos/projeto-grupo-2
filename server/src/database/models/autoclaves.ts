@@ -1,18 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "..";
+import { AutoclavesInterface } from "../../utils/types";
 
-interface AutoclavesInfo {
-    id: string,
-    marca: string,
-    vol_total: number,
-    vol_util: number,
-    tempo_total_ciclo: number,
-    tempo_carga_desc: number,
-    tempo_teste_db: number,
-    tempo_aquecimento: number,
-}
-
-class Autoclaves extends Model <AutoclavesInfo> implements AutoclavesInfo {
+class Autoclaves extends Model <AutoclavesInterface> implements AutoclavesInterface {
     public id!: string;
     public marca!: string;
     public vol_total!: number;

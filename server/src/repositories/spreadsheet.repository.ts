@@ -45,5 +45,5 @@ export default async function({ data, dimensions }: CompanyType) {
                 valueInputOption: 'RAW'
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
 }
