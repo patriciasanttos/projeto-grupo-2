@@ -1,2 +1,6 @@
 @use 'variables' as *;
 @use 'mediaQueries' as *;
+
+.panel {
+    flex-grow: 1;
+}

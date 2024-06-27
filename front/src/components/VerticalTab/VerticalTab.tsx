@@ -4,6 +4,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import { ExpandMore } from '@mui/icons-material';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -12,7 +14,7 @@ interface TabPanelProps {
 }
 
 interface VerticalTabsProps {
-    brands: string; //todo
+  brands: string; //todo
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -20,6 +22,7 @@ function TabPanel(props: TabPanelProps) {
 
   return (
     <div
+      className={Style.panel}
       role="tabpanel"
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
@@ -27,8 +30,13 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+        <Box sx={{ p: 2 }}>
+          <Box>
+            <Typography variant="h6" textAlign={'center'}>
+              Quantidade Minima = 3
+            </Typography>
+          </Box>
+          <Box>{children}</Box>
         </Box>
       )}
     </div>
@@ -42,7 +50,7 @@ function a11yProps(index: number) {
   };
 }
 
-function VerticalTabs({brands}: VerticalTabsProps) {
+function VerticalTabs({ brands }: VerticalTabsProps) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -75,7 +83,26 @@ function VerticalTabs({brands}: VerticalTabsProps) {
         <Tab label="Item Seven" {...a11yProps(6)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Item One
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            Maquina 8
+          </AccordionSummary>
+          <AccordionDetails>{/* {TODO} */}</AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            Maquina 9
+          </AccordionSummary>
+          <AccordionDetails>{/* {TODO} */}</AccordionDetails>
+        </Accordion>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
