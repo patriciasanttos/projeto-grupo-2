@@ -18,30 +18,30 @@ export type CompanyDataType = {
 }
 
 export type CompanyDimensionType = {
-  salas_cirurgicas: number,
-  cirurgias_por_dia_por_sala: number,
-  dias_da_semana_cirurgia: number
-  leitos_uti: number,
-  leitos_internacao: number,
-  processamento_de_tecido: number,
-  intervalo_pico_funcionamento_cme: number,
-  volume_por_cirurgia: {
-    tecido: number,
-    instrumentos: number
+  surgery_rooms: number,
+  surgerys_per_day: number,
+  week_days_surgery: number
+  uti_beds: number,
+  hospital_beds: number,
+  tissue_processing: number,
+  cme_peak_interval: number,
+  vol_per_surgery: {
+    tissue: number,
+    instruments: number
   },
-  volume_por_leito_uti: {
-    tecido: number,
-    instrumentos: number
+  voluvol_per_uti_bedsme_por_leito_uti: {
+    tissue: number,
+    instruments: number
   },
-  volume_por_leito_internacao: {
-    tecido: number,
-    instrumentos: number
+  vol_per_hospital_beds: {
+    tissue: number,
+    instruments: number
   },
-  estimativa_volume_diario: {
-    tecido: number,
+  daily_vol_estimate: {
+    tissue: number,
     instrumentos: number,
     total: number,
-    em_litros: number
+    in_lit: number
   }
 }
 

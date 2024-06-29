@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import validateCNPJ from "../functions/validate_cnpj";
 import CompanyRepository from "../repositories/companys.repository";
-import calc from "../functions/calc";
+import handleCalc from "../functions/handleCalc";
 
 const companyRepository = new CompanyRepository();
 
@@ -30,9 +30,15 @@ class MainController {
         //-----Cadastrar empresa no banco de dados
         await companyRepository.createCompany(request.body)
             .then(async (res: { code: number, data?: {} }) => {
-                const calcResult = await calc(request.body.dimensions);
+                const calcResult = await handleCalc(request.body.dimensions);
 
-                return response.status(res.code).json(calcResult);
+                return response.status(res.code).json({
+                    numAutoclaves: Math.max(...calcResult.autoclaves.map(machine => machine.numMachines)),
+                    numTermoWhashers: 0,
+
+                    autoclaves: calcResult.autoclaves,
+                    thermoWhashers: {}
+                });
             })
     };
 }
