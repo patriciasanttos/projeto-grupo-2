@@ -39,7 +39,7 @@ export type CompanyDimensionType = {
   },
   daily_vol_estimate: {
     tissue: number,
-    instrumentos: number,
+    instruments: number,
     total: number,
     in_lit: number
   }

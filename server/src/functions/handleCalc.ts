@@ -1,4 +1,4 @@
-import { AutoclavesInterface, CompanyDimensionType } from "../utils/types";
+import { AutoclavesInterface, CompanyDimensionType, ThermoWashersInterface } from "../utils/types";
 import MachinesRepository from "../repositories/machines.repository";
 import Autoclaves from "../database/models/autoclaves";
 import ThermoWashers from "../database/models/thermo_washers";
@@ -13,7 +13,7 @@ export default async function handleCalc(dimensions: CompanyDimensionType) {
 
     return {
         numAutoclaves: Math.max(...autoclaves.map(machine => machine.numMachines)),
-        numThermoWashers: 0,
+        numThermoWashers: Math.max(...thermoWashers.map(machine => machine.numMachines)),
 
         autoclaves: autoclaves,
         thermoWashers: thermoWashers
@@ -50,7 +50,7 @@ function calcAutoclaves(autoclaves: Array<Autoclaves>, dimensions: CompanyDimens
             const capacityUtilization = calcCapacityUtilization(autoclave, dimensions, numAutoclaves);
             const timeRequiredMinusOne = calcTimeRequiredMinusOne(autoclave, dimensions, numAutoclaves);
 
-            if (capacityUtilization< 90 && timeRequiredMinusOne < 20) {
+            if (capacityUtilization < 90 && timeRequiredMinusOne < 20) {
                 switch (true) {
                     case numAutoclaves < minAutoclaves:
                         minAutoclaves = numAutoclaves;
@@ -68,9 +68,53 @@ function calcAutoclaves(autoclaves: Array<Autoclaves>, dimensions: CompanyDimens
         };
     });
 
-    return bestAutoclavesConfig;
+    return [ bestAutoclavesConfig[0], bestAutoclavesConfig[1] ];
 }
 
-function calcThermoWashers(thermo_washers: Array<ThermoWashers>, dimensions: CompanyDimensionType) {
+function calcThermoWashers(thermoWashers: Array<ThermoWashers>, dimensions: CompanyDimensionType) {
+    const calcProcessingTime = (thermoWasher: ThermoWashersInterface, dimensions: CompanyDimensionType) => {
+        const dailyTracheas = ((dimensions.surgery_rooms * dimensions.surgerys_per_day * 3) + (dimensions.uti_beds * 3)) / thermoWasher.trachea_capacity;
+        const instruments = (dimensions.daily_vol_estimate.instruments / (thermoWasher.instruments_capacity / 2)) * (thermoWasher.instruments_time + 10);
+        const ventAssistTime = dailyTracheas * (thermoWasher.vent_assist_time + 10);
 
+        return instruments + ventAssistTime;
+    }
+
+    const calcPercentual = (thermoWashers: ThermoWashersInterface, dimensions: CompanyDimensionType) => {
+        const processingTime = calcProcessingTime(thermoWashers, dimensions);
+        
+        return processingTime / (60 * 24 * 2);
+    }
+
+    let minThermoWashers = Number.MAX_SAFE_INTEGER;
+    let bestThermoWashersConfig: Array<{
+        brand: string,
+        model: string,
+        numMachines: number
+    }> = [];
+
+    thermoWashers.forEach(({ dataValues: thermoWasher }) => {
+        for (let numThermoWashers = 1; numThermoWashers <= 100; numThermoWashers++) {
+            const percentual = calcPercentual(thermoWasher, dimensions);
+            console.log(numThermoWashers === minThermoWashers)
+
+            if (percentual < 0.90) {
+                switch (true) {
+                    case numThermoWashers < minThermoWashers:
+                        minThermoWashers = numThermoWashers;
+                        bestThermoWashersConfig = [{ brand: thermoWasher.brand, model: thermoWasher.id, numMachines: numThermoWashers }];
+                        break;
+                    
+                    case numThermoWashers === minThermoWashers:
+                        bestThermoWashersConfig.push({ brand: thermoWasher.brand, model: thermoWasher.id, numMachines: numThermoWashers });
+                        break;
+                    
+                    default:
+                        break;
+                }
+            }
+        };
+    });
+
+    return [ bestThermoWashersConfig[0] ];
 }
