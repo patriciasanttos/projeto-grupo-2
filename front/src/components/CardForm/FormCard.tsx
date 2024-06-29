@@ -15,6 +15,32 @@ import {
 } from '@mui/material';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 
+type Action =
+  | {
+      type: 'SET_FORM';
+      payload: {
+        name?: string;
+        email?: string;
+        tel?: string;
+        cep?: string;
+        institutionName?: string;
+        cnpj?: string;
+        position?: string;
+        segment?: string;
+        momentEnterprise?: string;
+        statusClinicalEng?: string;
+        momentCME?: string;
+      };
+    }
+  | {
+      type: 'SET_CARD';
+      payload: string;
+    };
+
+interface FormCardProps {
+  dispatch: React.Dispatch<Action>;
+}
+
 const positions: string[] = [
   'Sócio | CEO | Proprietário',
   'Diretoria | Superintendência',
@@ -48,7 +74,11 @@ const momentEnterprise: string[] = [
   'Outro momento',
 ];
 
-const FormCard = () => {
+const HandleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+};
+
+const FormCard = ({ dispatch }: FormCardProps) => {
   return (
     <Box className={Style.formCard}>
       <Typography>
@@ -56,25 +86,86 @@ const FormCard = () => {
         rápido e receba instantaneamente as melhores soluções em equipamentos
         para o seu CME. Simples, rápido e personalizado
       </Typography>
-      <Box component="form" className={Style.formCard__form}>
-        <TextField id="name" label="Nome" variant="standard" type="text" />
-        <TextField id="email" label="E-mail" variant="standard" type="email" />
-        <TextField id="tel" label="Contato" variant="standard" type="tel" />
-        <TextField id="cep" label="CEP" variant="standard" type="text" />
+      <Box
+        component="form"
+        onSubmit={HandleSubmit}
+        className={Style.formCard__form}
+      >
+        <TextField
+          id="name"
+          label="Nome"
+          variant="standard"
+          type="text"
+          required
+          onChange={e =>
+            dispatch({ type: 'SET_FORM', payload: { name: e.target.value } })
+          }
+        />
+        <TextField
+          id="email"
+          label="E-mail"
+          variant="standard"
+          type="email"
+          required
+          onChange={e =>
+            dispatch({ type: 'SET_FORM', payload: { email: e.target.value } })
+          }
+        />
+        <TextField
+          id="tel"
+          label="Contato"
+          variant="standard"
+          type="tel"
+          required
+          onChange={e =>
+            dispatch({ type: 'SET_FORM', payload: { tel: e.target.value } })
+          }
+        />
+        <TextField
+          id="cep"
+          label="CEP"
+          variant="standard"
+          type="text"
+          required
+          onChange={e =>
+            dispatch({ type: 'SET_FORM', payload: { cep: e.target.value } })
+          }
+        />
         <TextField
           id="institutionName"
           label="Nome da Instituiçao"
           variant="standard"
           type="text"
+          required
+          onChange={e =>
+            dispatch({
+              type: 'SET_FORM',
+              payload: { institutionName: e.target.value },
+            })
+          }
         />
-        <TextField id="cnpj" label="CNPJ" variant="standard" type="CNPJ" />
+        <TextField
+          id="cnpj"
+          label="CNPJ"
+          variant="standard"
+          type="CNPJ"
+          required
+          onChange={e =>
+            dispatch({ type: 'SET_FORM', payload: { cnpj: e.target.value } })
+          }
+        />
         <Autocomplete
           disablePortal
           id="position"
           options={positions}
           renderInput={params => (
-            <TextField {...params} variant="standard" label="Cargo" />
+            <TextField {...params} variant="standard" label="Cargo" required />
           )}
+          onChange={(e, value) =>
+            value
+              ? dispatch({ type: 'SET_FORM', payload: { position: value } })
+              : null
+          }
         />
         <Autocomplete
           disablePortal
@@ -85,8 +176,14 @@ const FormCard = () => {
               {...params}
               variant="standard"
               label="Segmento da Empresa"
+              required
             />
           )}
+          onChange={(e, value) =>
+            value
+              ? dispatch({ type: 'SET_FORM', payload: { segment: value } })
+              : null
+          }
         />
         <Autocomplete
           disablePortal
@@ -97,8 +194,17 @@ const FormCard = () => {
               {...params}
               variant="standard"
               label="Momento Atual do Empreendimento"
+              required
             />
           )}
+          onChange={(e, value) =>
+            value
+              ? dispatch({
+                  type: 'SET_FORM',
+                  payload: { momentEnterprise: value },
+                })
+              : null
+          }
         />
         <FormControl>
           <FormLabel id="StatusClinicalEng">
@@ -108,6 +214,9 @@ const FormCard = () => {
             aria-labelledby="StatusClinicalEng"
             defaultValue="Própria"
             name="StatusClinicalEng"
+            onChange={e =>
+              dispatch({ type: 'SET_FORM', payload: { statusClinicalEng: e.target.value } })
+            }
           >
             <FormControlLabel
               value="Própria"
@@ -132,6 +241,9 @@ const FormCard = () => {
             aria-labelledby="momentCME"
             defaultValue="Implementação"
             name="momentCME"
+            onChange={e =>
+              dispatch({ type: 'SET_FORM', payload: { momentCME: e.target.value } })
+            }
           >
             <FormControlLabel
               value="Implementação"
@@ -152,6 +264,7 @@ const FormCard = () => {
         </FormControl>
       </Box>
       <Button
+        type="submit"
         variant="contained"
         size="large"
         endIcon={<KeyboardArrowRightRoundedIcon />}

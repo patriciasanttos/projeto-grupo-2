@@ -35,6 +35,7 @@ type Action =
         cep?: string;
         institutionName?: string;
         cnpj?: string;
+        position?: string;
         segment?: string;
         momentEnterprise?: string;
         statusClinicalEng?: string;
@@ -67,8 +68,8 @@ const LandingPage = () => {
     cnpj: '',
     segment: '',
     momentEnterprise: '',
-    statusClinicalEng: '',
-    momentCME: '',
+    statusClinicalEng: 'Própria',
+    momentCME: 'Implementação',
     card: 'initial',
   };
 
@@ -79,7 +80,7 @@ const LandingPage = () => {
       case 'initial':
         return <InitialCardForm dispatch={dispatch} />;
       case 'form':
-        return <FormCard />;
+        return <FormCard dispatch={dispatch} />;
       default:
         break;
     }
@@ -87,7 +88,7 @@ const LandingPage = () => {
 
   return (
     <ThemeProvider theme={LightTheme}>
-      <nav style={{ height: '10vh', backgroundColor: 'midnightblue' }}>
+      <nav style={{ height: '10vh', backgroundColor: '#001329' }}>
         Temporario ate o nav ser inserido seguindo essa mesma medida
       </nav>
       <Box component="header" className={Style.header}>
