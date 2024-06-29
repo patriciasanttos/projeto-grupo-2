@@ -33,11 +33,11 @@ class MainController {
                 const calcResult = await handleCalc(request.body.dimensions);
 
                 return response.status(res.code).json({
-                    numAutoclaves: Math.max(...calcResult.autoclaves.map(machine => machine.numMachines)),
-                    numTermoWhashers: 0,
+                    num_autoclaves: calcResult.numAutoclaves,
+                    num_thermo_washers: calcResult.numThermoWashers,
 
                     autoclaves: calcResult.autoclaves,
-                    thermoWhashers: {}
+                    thermo_washers: calcResult.thermoWashers
                 });
             })
     };
