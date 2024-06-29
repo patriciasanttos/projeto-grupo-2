@@ -4,9 +4,9 @@ import MachinesRepository from "../repositories/machines.repository";
 const machinesRepository = new MachinesRepository();
 
 const calcProcessingCapacityCME = (autoclave: AutoclavesInterface, dimensions: CompanyDimensionType, numAutoclaves: number) => {
-    const peakDailyTime = dimensions.cme_peak_interval - (autoclave.tempo_teste_db + autoclave.tempo_aquecimento);
-    const maxCycles = peakDailyTime / (autoclave.tempo_total_ciclo + autoclave.tempo_carga_desc);
-    return numAutoclaves * autoclave.vol_util * maxCycles;
+    const peakDailyTime = dimensions.cme_peak_interval - (autoclave.db_test_time + autoclave.heating_time);
+    const maxCycles = peakDailyTime / (autoclave.cycle_time + autoclave.charging_dischaging_time);
+    return numAutoclaves * autoclave.useful_vol * maxCycles;
 }
 
 const calcCapacityUtilization = (autoclave: AutoclavesInterface, dimensions: CompanyDimensionType, numAutoclaves: number) => {
@@ -15,9 +15,9 @@ const calcCapacityUtilization = (autoclave: AutoclavesInterface, dimensions: Com
 }
 
 const calcTimeRequiredMinusOne = (autoclave: AutoclavesInterface, dimensions: CompanyDimensionType, numAutoclaves: number) => {
-    const cycleTime = autoclave.tempo_total_ciclo + autoclave.tempo_carga_desc;
-    return (((((dimensions.daily_vol_estimate.in_lit * 0.90) / autoclave.vol_util) * cycleTime) 
-        + autoclave.tempo_teste_db + autoclave.tempo_aquecimento) / 60) / (numAutoclaves - 1);
+    const cycleTime = autoclave.cycle_time + autoclave.charging_dischaging_time;
+    return (((((dimensions.daily_vol_estimate.in_lit * 0.90) / autoclave.useful_vol) * cycleTime) 
+        + autoclave.db_test_time + autoclave.heating_time) / 60) / (numAutoclaves - 1);
 }
 
 export default async function handleCalc(dimensions: CompanyDimensionType) {
@@ -39,11 +39,11 @@ export default async function handleCalc(dimensions: CompanyDimensionType) {
                 switch (true) {
                     case numAutoclaves < minAutoclaves:
                         minAutoclaves = numAutoclaves;
-                        bestAutoclavesConfig = [{ brand: autoclave.marca, model: autoclave.id, numMachines: numAutoclaves }];
+                        bestAutoclavesConfig = [{ brand: autoclave.brand, model: autoclave.id, numMachines: numAutoclaves }];
                         break;
                     
                     case numAutoclaves === minAutoclaves:
-                        bestAutoclavesConfig.push({ brand: autoclave.marca, model: autoclave.id, numMachines: numAutoclaves });
+                        bestAutoclavesConfig.push({ brand: autoclave.brand, model: autoclave.id, numMachines: numAutoclaves });
                         break;
                     
                     default:
