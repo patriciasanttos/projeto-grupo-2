@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import Style from './page.module.scss';
 import Image from 'next/image';
 import HeaderImage from '../../../public/headerImg.jpg';
@@ -11,13 +11,73 @@ import AboutToolList from '@/components/AboutToolList/AboutToolList';
 import ServiceCardList from '@/components/ServiceCard/ServiceCardList';
 import Footer from '@/components/Footer/Footer';
 
+interface State {
+  name: string;
+  email: string;
+  tel: string;
+  cep: string;
+  institutionName: string;
+  cnpj: string;
+  segment: string;
+  momentEnterprise: string;
+  statusClinicalEng: string;
+  momentCME: string;
+  card: string;
+}
+
+type Action =
+  | {
+      type: 'SET_FORM';
+      payload: {
+        name?: string;
+        email?: string;
+        tel?: string;
+        cep?: string;
+        institutionName?: string;
+        cnpj?: string;
+        segment?: string;
+        momentEnterprise?: string;
+        statusClinicalEng?: string;
+        momentCME?: string;
+      };
+    }
+  | {
+      type: 'SET_CARD';
+      payload: string;
+    };
+
+const Reducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case 'SET_FORM':
+      return { ...state, ...action.payload };
+    case 'SET_CARD':
+      return { ...state, card: action.payload };
+    default:
+      return state;
+  }
+};
+
 const LandingPage = () => {
-  const [card, setCard] = useState('initial');
+  const InitialArgs = {
+    name: '',
+    email: '',
+    tel: '',
+    cep: '',
+    institutionName: '',
+    cnpj: '',
+    segment: '',
+    momentEnterprise: '',
+    statusClinicalEng: '',
+    momentCME: '',
+    card: 'initial',
+  };
+
+  const [state, dispatch] = useReducer(Reducer, InitialArgs);
 
   const renderCardForm = (card: string) => {
     switch (card) {
       case 'initial':
-        return <InitialCardForm setCard={setCard} />;
+        return <InitialCardForm dispatch={dispatch} />;
       case 'form':
         return <FormCard />;
       default:
@@ -54,10 +114,10 @@ const LandingPage = () => {
       </Box>
       <Box component="section" className={Style.cardForm}>
         <Container maxWidth="lg" className={Style.cardForm__card}>
-          {renderCardForm(card)}
+          {renderCardForm(state.card)}
         </Container>
       </Box>
-      {card != 'initial' ? (
+      {state.card != 'initial' ? (
         <Container maxWidth="lg" className={Style.aboutTool}>
           <Typography
             variant="h6"
@@ -79,13 +139,13 @@ const LandingPage = () => {
           fontWeight="600"
           textAlign="center"
           color={'white'}
-          marginBottom={"2vh"}
+          marginBottom={'2vh'}
         >
           A importância de garantir equipamentos adequados
         </Typography>
         <ServiceCardList />
       </Container>
-      <Footer/>
+      <Footer />
     </ThemeProvider>
   );
 };

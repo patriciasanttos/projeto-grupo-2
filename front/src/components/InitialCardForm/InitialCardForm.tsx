@@ -4,11 +4,32 @@ import { Box, Button, Typography } from '@mui/material';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 import AboutToolList from '../AboutToolList/AboutToolList';
 
+type Action =
+  | {
+      type: 'SET_FORM';
+      payload: {
+        name?: string;
+        email?: string;
+        tel?: string;
+        cep?: string;
+        institutionName?: string;
+        cnpj?: string;
+        segment?: string;
+        momentEnterprise?: string;
+        statusClinicalEng?: string;
+        momentCME?: string;
+      };
+    }
+  | {
+      type: 'SET_CARD';
+      payload: string;
+    };
+
 interface PropsInitialCardForm {
-  setCard: React.Dispatch<React.SetStateAction<string>>;
+  dispatch: React.Dispatch<Action>;
 }
 
-const InitialCardForm = ({ setCard }: PropsInitialCardForm) => {
+const InitialCardForm = ({ dispatch }: PropsInitialCardForm) => {
   return (
     <>
       <Box display="flex" flexDirection="column">
@@ -26,7 +47,7 @@ const InitialCardForm = ({ setCard }: PropsInitialCardForm) => {
           size="large"
           endIcon={<KeyboardArrowRightRoundedIcon />}
           className={Style.initialCardForm__button}
-          onClick={() => setCard('form')}
+          onClick={() => dispatch({ type: 'SET_CARD', payload: 'form' })}
         >
           Teste Grátis
         </Button>
