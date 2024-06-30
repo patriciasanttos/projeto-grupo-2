@@ -14,31 +14,10 @@ import {
   Typography,
 } from '@mui/material';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
-
-type Action =
-  | {
-      type: 'SET_FORM';
-      payload: {
-        name?: string;
-        email?: string;
-        tel?: string;
-        cep?: string;
-        institutionName?: string;
-        cnpj?: string;
-        position?: string;
-        segment?: string;
-        momentEnterprise?: string;
-        statusClinicalEng?: string;
-        momentCME?: string;
-      };
-    }
-  | {
-      type: 'SET_CARD';
-      payload: string;
-    };
+import { ActionLandingPage } from '@/types';
 
 interface FormCardProps {
-  dispatch: React.Dispatch<Action>;
+  dispatch: React.Dispatch<ActionLandingPage>;
 }
 
 const positions: string[] = [
@@ -215,7 +194,10 @@ const FormCard = ({ dispatch }: FormCardProps) => {
             defaultValue="Própria"
             name="StatusClinicalEng"
             onChange={e =>
-              dispatch({ type: 'SET_FORM', payload: { statusClinicalEng: e.target.value } })
+              dispatch({
+                type: 'SET_FORM',
+                payload: { statusClinicalEng: e.target.value },
+              })
             }
           >
             <FormControlLabel
@@ -242,7 +224,10 @@ const FormCard = ({ dispatch }: FormCardProps) => {
             defaultValue="Implementação"
             name="momentCME"
             onChange={e =>
-              dispatch({ type: 'SET_FORM', payload: { momentCME: e.target.value } })
+              dispatch({
+                type: 'SET_FORM',
+                payload: { momentCME: e.target.value },
+              })
             }
           >
             <FormControlLabel

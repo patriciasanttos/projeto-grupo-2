@@ -3,31 +3,10 @@ import Style from './index.module.scss';
 import { Box, Button, Typography } from '@mui/material';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 import AboutToolList from '../AboutToolList/AboutToolList';
-
-type Action =
-  | {
-      type: 'SET_FORM';
-      payload: {
-        name?: string;
-        email?: string;
-        tel?: string;
-        cep?: string;
-        institutionName?: string;
-        cnpj?: string;
-        position?: string;
-        segment?: string;
-        momentEnterprise?: string;
-        statusClinicalEng?: string;
-        momentCME?: string;
-      };
-    }
-  | {
-      type: 'SET_CARD';
-      payload: string;
-    };
+import { ActionLandingPage } from '@/types';
 
 interface PropsInitialCardForm {
-  dispatch: React.Dispatch<Action>;
+  dispatch: React.Dispatch<ActionLandingPage>;
 }
 
 const InitialCardForm = ({ dispatch }: PropsInitialCardForm) => {

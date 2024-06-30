@@ -10,44 +10,9 @@ import { LightTheme } from '@/themes';
 import AboutToolList from '@/components/AboutToolList/AboutToolList';
 import ServiceCardList from '@/components/ServiceCard/ServiceCardList';
 import Footer from '@/components/Footer/Footer';
+import { ActionLandingPage, StateLandinPage } from '@/types';
 
-interface State {
-  name: string;
-  email: string;
-  tel: string;
-  cep: string;
-  institutionName: string;
-  cnpj: string;
-  segment: string;
-  momentEnterprise: string;
-  statusClinicalEng: string;
-  momentCME: string;
-  card: string;
-}
-
-type Action =
-  | {
-      type: 'SET_FORM';
-      payload: {
-        name?: string;
-        email?: string;
-        tel?: string;
-        cep?: string;
-        institutionName?: string;
-        cnpj?: string;
-        position?: string;
-        segment?: string;
-        momentEnterprise?: string;
-        statusClinicalEng?: string;
-        momentCME?: string;
-      };
-    }
-  | {
-      type: 'SET_CARD';
-      payload: string;
-    };
-
-const Reducer = (state: State, action: Action) => {
+const Reducer = (state: StateLandinPage, action: ActionLandingPage) => {
   switch (action.type) {
     case 'SET_FORM':
       return { ...state, ...action.payload };
