@@ -5,6 +5,7 @@ export interface StateLandinPage {
   cep: string;
   institutionName: string;
   cnpj: string;
+  position: string;
   segment: string;
   momentEnterprise: string;
   statusClinicalEng: string;

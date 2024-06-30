@@ -14,9 +14,10 @@ import {
   Typography,
 } from '@mui/material';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
-import { ActionLandingPage } from '@/types';
+import { ActionLandingPage, StateLandinPage } from '@/types';
 
 interface FormCardProps {
+  state: StateLandinPage;
   dispatch: React.Dispatch<ActionLandingPage>;
 }
 
@@ -57,7 +58,7 @@ const HandleSubmit = (e: React.FormEvent) => {
   e.preventDefault();
 };
 
-const FormCard = ({ dispatch }: FormCardProps) => {
+const FormCard = ({ dispatch, state }: FormCardProps) => {
   return (
     <Box className={Style.formCard}>
       <Typography>
@@ -76,6 +77,7 @@ const FormCard = ({ dispatch }: FormCardProps) => {
           variant="standard"
           type="text"
           required
+          value={state.name}
           onChange={e =>
             dispatch({ type: 'SET_FORM', payload: { name: e.target.value } })
           }
@@ -86,6 +88,7 @@ const FormCard = ({ dispatch }: FormCardProps) => {
           variant="standard"
           type="email"
           required
+          value={state.email}
           onChange={e =>
             dispatch({ type: 'SET_FORM', payload: { email: e.target.value } })
           }
@@ -96,6 +99,7 @@ const FormCard = ({ dispatch }: FormCardProps) => {
           variant="standard"
           type="tel"
           required
+          value={state.tel}
           onChange={e =>
             dispatch({ type: 'SET_FORM', payload: { tel: e.target.value } })
           }
@@ -106,6 +110,7 @@ const FormCard = ({ dispatch }: FormCardProps) => {
           variant="standard"
           type="text"
           required
+          value={state.cep}
           onChange={e =>
             dispatch({ type: 'SET_FORM', payload: { cep: e.target.value } })
           }
@@ -116,6 +121,7 @@ const FormCard = ({ dispatch }: FormCardProps) => {
           variant="standard"
           type="text"
           required
+          value={state.institutionName}
           onChange={e =>
             dispatch({
               type: 'SET_FORM',
@@ -129,6 +135,7 @@ const FormCard = ({ dispatch }: FormCardProps) => {
           variant="standard"
           type="CNPJ"
           required
+          value={state.cnpj}
           onChange={e =>
             dispatch({ type: 'SET_FORM', payload: { cnpj: e.target.value } })
           }
@@ -137,6 +144,7 @@ const FormCard = ({ dispatch }: FormCardProps) => {
           disablePortal
           id="position"
           options={positions}
+          value={state.position}
           renderInput={params => (
             <TextField {...params} variant="standard" label="Cargo" required />
           )}
@@ -150,6 +158,7 @@ const FormCard = ({ dispatch }: FormCardProps) => {
           disablePortal
           id="segment"
           options={segment}
+          value={state.segment}
           renderInput={params => (
             <TextField
               {...params}
@@ -168,6 +177,7 @@ const FormCard = ({ dispatch }: FormCardProps) => {
           disablePortal
           id="momentEnterprise"
           options={momentEnterprise}
+          value={state.position}
           renderInput={params => (
             <TextField
               {...params}
@@ -186,13 +196,14 @@ const FormCard = ({ dispatch }: FormCardProps) => {
           }
         />
         <FormControl>
-          <FormLabel id="StatusClinicalEng">
+          <FormLabel id="statusClinicalEng">
             Situação da Engenharia Clínica
           </FormLabel>
           <RadioGroup
-            aria-labelledby="StatusClinicalEng"
+            aria-labelledby="statusClinicalEng"
             defaultValue="Própria"
             name="StatusClinicalEng"
+            value={state.statusClinicalEng}
             onChange={e =>
               dispatch({
                 type: 'SET_FORM',
@@ -223,6 +234,7 @@ const FormCard = ({ dispatch }: FormCardProps) => {
             aria-labelledby="momentCME"
             defaultValue="Implementação"
             name="momentCME"
+            value={state.momentCME}
             onChange={e =>
               dispatch({
                 type: 'SET_FORM',

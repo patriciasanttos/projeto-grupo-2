@@ -31,6 +31,7 @@ const LandingPage = () => {
     cep: '',
     institutionName: '',
     cnpj: '',
+    position: '',
     segment: '',
     momentEnterprise: '',
     statusClinicalEng: 'Própria',
@@ -45,7 +46,7 @@ const LandingPage = () => {
       case 'initial':
         return <InitialCardForm dispatch={dispatch} />;
       case 'form':
-        return <FormCard dispatch={dispatch} />;
+        return <FormCard state={state} dispatch={dispatch} />;
       default:
         break;
     }
