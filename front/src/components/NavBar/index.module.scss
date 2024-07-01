@@ -1,0 +1,14 @@
+@use '../../sass/variables' as *;
+@use '../../sass/mediaQueries' as *;
+
+.NavBar{
+     background-color:#001329; 
+    height: 10vh;
+    padding: 1vh 2vw;
+    box-shadow: 0 0.2rem 0.25rem #00000041;
+    &__logo{
+        height: 8vh;
+        width: auto;
+
+    }
+}
