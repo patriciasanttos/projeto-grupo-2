@@ -27,13 +27,13 @@ const Reducer = (state: StateCalculator, action: ActionCalculator) => {
     case 'SET_FORM':
       return { ...state, ...action.payload };
     case 'SET_PAGE':
-      return { ...state, card: action.payload };
+      return { ...state, page: action.payload };
     default:
       return state;
   }
 };
 
-const CalculatorForm1 = ({ dispatch }: PropsCalculatorForm) => {
+const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
   return (
     <Box component="section" className={Style.calculator}>
       <Box component="aside" className={Style.calculator__aside}>
@@ -69,6 +69,13 @@ const CalculatorForm1 = ({ dispatch }: PropsCalculatorForm) => {
             name="SurgeryRooms"
             label="Quantas salas cirúrgicas existem no hospital?"
             variant="outlined"
+            value={state.surgeryRooms}
+            onChange={e =>
+              dispatch({
+                type: 'SET_FORM',
+                payload: { surgeryRooms: e.target.value },
+              })
+            }
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">Salas</InputAdornment>
@@ -83,6 +90,13 @@ const CalculatorForm1 = ({ dispatch }: PropsCalculatorForm) => {
             name="ICUBeds"
             label="Quantos leitos de UTI estão disponíveis?"
             variant="outlined"
+            value={state.icuBeds}
+            onChange={e =>
+              dispatch({
+                type: 'SET_FORM',
+                payload: { icuBeds: e.target.value },
+              })
+            }
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">Leitos</InputAdornment>
@@ -98,6 +112,13 @@ const CalculatorForm1 = ({ dispatch }: PropsCalculatorForm) => {
             label="Quantos leitos estão disponíveis para internação?"
             variant="outlined"
             helperText="recuperação pós-anestésica (RPA), observações e hospital-dia (HD)"
+            value={state.hospitalizationBeds}
+            onChange={e =>
+              dispatch({
+                type: 'SET_FORM',
+                payload: { hospitalizationBeds: e.target.value },
+              })
+            }
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">Leitos</InputAdornment>
@@ -122,7 +143,7 @@ const CalculatorForm1 = ({ dispatch }: PropsCalculatorForm) => {
     </Box>
   );
 };
-const CalculatorForm2 = ({ dispatch }: PropsCalculatorForm) => {
+const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
   const Days: string[] = [
     '1 dia',
     '2 dias',
@@ -172,6 +193,13 @@ const CalculatorForm2 = ({ dispatch }: PropsCalculatorForm) => {
             variant="outlined"
             fullWidth
             margin="normal"
+            value={state.surgerysPerDay}
+            onChange={e =>
+              dispatch({
+                type: 'SET_FORM',
+                payload: { surgerysPerDay: e.target.value },
+              })
+            }
           />
           <Autocomplete
             disablePortal
@@ -187,6 +215,15 @@ const CalculatorForm2 = ({ dispatch }: PropsCalculatorForm) => {
                 margin="normal"
               />
             )}
+            value={state.weekDaySurgery}
+            onChange={(e, value) =>
+              value
+                ? dispatch({
+                    type: 'SET_FORM',
+                    payload: { weekDaySurgery: value },
+                  })
+                : null
+            }
           />
         </Box>
         <Box display={'flex'} columnGap={'5%'}>
@@ -275,6 +312,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 id="instrumentsSurgery"
                 name="instrumentsSurgery"
                 helperText="01 U.E. = 54 litros"
+                value={state.instrumentsSurgery}
+                onChange={e =>
+                  dispatch({
+                    type: 'SET_FORM',
+                    payload: { instrumentsSurgery: e.target.value },
+                  })
+                }
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">U.E.</InputAdornment>
@@ -286,6 +330,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 id="fabricSurgery"
                 name="FabricSurgery"
                 helperText="01 U.E. = 54 litros"
+                value={state.fabricSurgery}
+                onChange={e =>
+                  dispatch({
+                    type: 'SET_FORM',
+                    payload: { fabricSurgery: e.target.value },
+                  })
+                }
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">U.E.</InputAdornment>
@@ -299,6 +350,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
               id="instrumentsSurgery"
               name="instrumentsSurgery"
               helperText="01 U.E. (unidade de esterilização) = 01 DIN = 54 litros"
+              value={state.instrumentsSurgery}
+              onChange={e =>
+                dispatch({
+                  type: 'SET_FORM',
+                  payload: { instrumentsSurgery: e.target.value },
+                })
+              }
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">U.E.</InputAdornment>
@@ -314,6 +372,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 id="instrumentsICU"
                 name="InstrumentsICU"
                 helperText="01 U.E. = 54 litros"
+                value={state.instrumentsICU}
+                onChange={e =>
+                  dispatch({
+                    type: 'SET_FORM',
+                    payload: { instrumentsICU: e.target.value },
+                  })
+                }
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">U.E.</InputAdornment>
@@ -325,6 +390,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 id="fabricICU"
                 name="FabricICU"
                 helperText="01 U.E. = 54 litros"
+                value={state.fabricICU}
+                onChange={e =>
+                  dispatch({
+                    type: 'SET_FORM',
+                    payload: { fabricICU: e.target.value },
+                  })
+                }
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">U.E.</InputAdornment>
@@ -338,6 +410,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
               id="instrumentsICU"
               name="InstrumentsICU"
               helperText="01 U.E. (unidade de esterilização) = 01 DIN = 54 litros"
+              value={state.instrumentsICU}
+              onChange={e =>
+                dispatch({
+                  type: 'SET_FORM',
+                  payload: { instrumentsICU: e.target.value },
+                })
+              }
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">U.E.</InputAdornment>
@@ -355,6 +434,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 id="instrumentsHospitalization"
                 name="instrumentsHospitalization"
                 helperText="01 U.E. = 54 litros"
+                value={state.instrumentsHospitalization}
+                onChange={e =>
+                  dispatch({
+                    type: 'SET_FORM',
+                    payload: { instrumentsHospitalization: e.target.value },
+                  })
+                }
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">U.E.</InputAdornment>
@@ -366,6 +452,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 id="fabricHospitalization"
                 name="fabricHospitalization"
                 helperText="01 U.E. = 54 litros"
+                value={state.fabricHospitalization}
+                onChange={e =>
+                  dispatch({
+                    type: 'SET_FORM',
+                    payload: { fabricHospitalization: e.target.value },
+                  })
+                }
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">U.E.</InputAdornment>
@@ -379,6 +472,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
               id="instrumentsHospitalization"
               name="instrumentsHospitalization"
               helperText="01 U.E. (unidade de esterilização) = 01 DIN = 54 litros"
+              value={state.instrumentsHospitalization}
+              onChange={e =>
+                dispatch({
+                  type: 'SET_FORM',
+                  payload: { instrumentsHospitalization: e.target.value },
+                })
+              }
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">U.E.</InputAdornment>
@@ -394,6 +494,10 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
             type="number"
             fullWidth
             helperText="Horas por dia"
+            value={state.cmePeakInterval}
+            onChange={e =>
+              dispatch({ type: 'SET_FORM', payload: { cmePeakInterval: e.target.value } })
+            }
           />
         </Box>
         <Box display={'flex'} columnGap={'5%'}>
@@ -411,7 +515,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
             onClick={() => undefined} //todo
             fullWidth
           >
-            Próximo
+            Calcular 
           </Button>
         </Box>
       </Box>
