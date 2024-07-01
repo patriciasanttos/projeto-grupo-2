@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import Style from './page.module.scss';
 import {
   Autocomplete,
@@ -15,12 +15,25 @@ import {
 import { LightTheme } from '@/themes';
 import Image from 'next/image';
 import Logo from '../../../public/logo.svg';
+import { ActionCalculator, StateCalculator } from '@/types';
 
 interface PropsCalculatorForm {
-  setPage: React.Dispatch<React.SetStateAction<string>>;
+  state: StateCalculator;
+  dispatch: React.Dispatch<ActionCalculator>;
 }
 
-const CalculatorForm1 = ({ setPage }: PropsCalculatorForm) => {
+const Reducer = (state: StateCalculator, action: ActionCalculator) => {
+  switch (action.type) {
+    case 'SET_FORM':
+      return { ...state, ...action.payload };
+    case 'SET_PAGE':
+      return { ...state, card: action.payload };
+    default:
+      return state;
+  }
+};
+
+const CalculatorForm1 = ({ dispatch }: PropsCalculatorForm) => {
   return (
     <Box component="section" className={Style.calculator}>
       <Box component="aside" className={Style.calculator__aside}>
@@ -52,8 +65,8 @@ const CalculatorForm1 = ({ setPage }: PropsCalculatorForm) => {
         </Box>
         <Box component="form" className={Style.calculator__form}>
           <TextField
-            id="OperatingRooms"
-            name="OperatingRooms"
+            id="surgeryRooms"
+            name="SurgeryRooms"
             label="Quantas salas cirúrgicas existem no hospital?"
             variant="outlined"
             InputProps={{
@@ -66,7 +79,7 @@ const CalculatorForm1 = ({ setPage }: PropsCalculatorForm) => {
             margin="normal"
           />
           <TextField
-            id="ICUBeds"
+            id="icuBeds"
             name="ICUBeds"
             label="Quantos leitos de UTI estão disponíveis?"
             variant="outlined"
@@ -80,7 +93,7 @@ const CalculatorForm1 = ({ setPage }: PropsCalculatorForm) => {
             margin="normal"
           />
           <TextField
-            id="HospitalizationBeds"
+            id="hospitalizationBeds"
             name="HospitalizationBeds"
             label="Quantos leitos estão disponíveis para internação?"
             variant="outlined"
@@ -99,7 +112,7 @@ const CalculatorForm1 = ({ setPage }: PropsCalculatorForm) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => setPage('page2')}
+            onClick={() => dispatch({ type: 'SET_PAGE', payload: 'page2' })}
             fullWidth
           >
             Próximo
@@ -109,7 +122,7 @@ const CalculatorForm1 = ({ setPage }: PropsCalculatorForm) => {
     </Box>
   );
 };
-const CalculatorForm2 = ({ setPage }: PropsCalculatorForm) => {
+const CalculatorForm2 = ({ dispatch }: PropsCalculatorForm) => {
   const Days: string[] = [
     '1 dia',
     '2 dias',
@@ -153,8 +166,8 @@ const CalculatorForm2 = ({ setPage }: PropsCalculatorForm) => {
         </Box>
         <Box component="form" className={Style.calculator__form}>
           <TextField
-            id="OperatingRooms"
-            name="OperatingRooms"
+            id="surgerysPerDay"
+            name="SurgerysPerDay"
             label="Quantas cirurgias são realizadas em média por cada sala cirúrgica por dia?"
             variant="outlined"
             fullWidth
@@ -162,12 +175,12 @@ const CalculatorForm2 = ({ setPage }: PropsCalculatorForm) => {
           />
           <Autocomplete
             disablePortal
-            id="ICUBeds"
+            id="weekDaySurgery"
             options={Days}
             renderInput={params => (
               <TextField
                 {...params}
-                name="ICUBeds"
+                name="WeekDaySurgery"
                 label="Quantos dias da semana as cirurgias são normalmente realizadas?"
                 variant="outlined"
                 fullWidth
@@ -180,7 +193,7 @@ const CalculatorForm2 = ({ setPage }: PropsCalculatorForm) => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => setPage('page1')}
+            onClick={() => dispatch({ type: 'SET_PAGE', payload: 'page1' })}
             fullWidth
           >
             Voltar
@@ -188,7 +201,7 @@ const CalculatorForm2 = ({ setPage }: PropsCalculatorForm) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => setPage('page3')}
+            onClick={() => dispatch({ type: 'SET_PAGE', payload: 'page3' })}
             fullWidth
           >
             Próximo
@@ -198,13 +211,14 @@ const CalculatorForm2 = ({ setPage }: PropsCalculatorForm) => {
     </Box>
   );
 };
-const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
-  const [fabricProcessing, setFabricProcessing] = useState(false);
-
+const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
   const HandleFabricProcessing = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setFabricProcessing(event.target.checked);
+    dispatch({
+      type: 'SET_FORM',
+      payload: { fabricProcessing: event.target.checked },
+    });
   };
 
   return (
@@ -242,15 +256,19 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
           >
             <Typography variant="caption">Por Cirurgia</Typography>
             <FormControlLabel
-              value="yes"
+              value={state.fabricProcessing}
               control={
-                <Switch color="primary" onChange={HandleFabricProcessing} />
+                <Switch
+                  checked={state.fabricProcessing}
+                  color="primary"
+                  onChange={HandleFabricProcessing}
+                />
               }
               label="Processamento de Tecido"
               labelPlacement="start"
             />
           </Box>
-          {fabricProcessing ? (
+          {state.fabricProcessing ? (
             <Box className={Style.calculator__inputBox}>
               <TextField
                 label="Instrumentos"
@@ -266,7 +284,7 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
               <TextField
                 label="Tecido"
                 id="fabricSurgery"
-                name="instrumentsSurgery"
+                name="FabricSurgery"
                 helperText="01 U.E. = 54 litros"
                 InputProps={{
                   endAdornment: (
@@ -289,12 +307,12 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
             />
           )}
           <Typography variant="caption">Por Leito de UTI por Dia</Typography>
-          {fabricProcessing ? (
+          {state.fabricProcessing ? (
             <Box className={Style.calculator__inputBox}>
               <TextField
                 label="Instrumentos"
-                id="instrumentsSurgery"
-                name="instrumentsSurgery"
+                id="instrumentsICU"
+                name="InstrumentsICU"
                 helperText="01 U.E. = 54 litros"
                 InputProps={{
                   endAdornment: (
@@ -304,8 +322,8 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
               />
               <TextField
                 label="Tecido"
-                id="fabricSurgery"
-                name="instrumentsSurgery"
+                id="fabricICU"
+                name="FabricICU"
                 helperText="01 U.E. = 54 litros"
                 InputProps={{
                   endAdornment: (
@@ -317,8 +335,8 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
           ) : (
             <TextField
               label="Instrumentos"
-              id="instrumentsSurgery"
-              name="instrumentsSurgery"
+              id="instrumentsICU"
+              name="InstrumentsICU"
               helperText="01 U.E. (unidade de esterilização) = 01 DIN = 54 litros"
               InputProps={{
                 endAdornment: (
@@ -330,12 +348,12 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
           <Typography variant="caption">
             Por Leito de Internação por Dia{' '}
           </Typography>
-          {fabricProcessing ? (
+          {state.fabricProcessing ? (
             <Box className={Style.calculator__inputBox}>
               <TextField
                 label="Instrumentos"
-                id="instrumentsSurgery"
-                name="instrumentsSurgery"
+                id="instrumentsHospitalization"
+                name="instrumentsHospitalization"
                 helperText="01 U.E. = 54 litros"
                 InputProps={{
                   endAdornment: (
@@ -345,8 +363,8 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
               />
               <TextField
                 label="Tecido"
-                id="fabricSurgery"
-                name="instrumentsSurgery"
+                id="fabricHospitalization"
+                name="fabricHospitalization"
                 helperText="01 U.E. = 54 litros"
                 InputProps={{
                   endAdornment: (
@@ -358,8 +376,8 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
           ) : (
             <TextField
               label="Instrumentos"
-              id="instrumentsSurgery"
-              name="instrumentsSurgery"
+              id="instrumentsHospitalization"
+              name="instrumentsHospitalization"
               helperText="01 U.E. (unidade de esterilização) = 01 DIN = 54 litros"
               InputProps={{
                 endAdornment: (
@@ -369,8 +387,8 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
             />
           )}
           <TextField
-            id="OperatingRooms"
-            name="OperatingRooms"
+            id="cmePeakInterval"
+            name="CMEPeakInterval"
             label="Qual o intervalo de pico de funcionamento da CME?"
             variant="outlined"
             type="number"
@@ -382,7 +400,7 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => setPage('page2')}
+            onClick={() => dispatch({ type: 'SET_PAGE', payload: 'page2' })}
             fullWidth
           >
             Voltar
@@ -390,7 +408,7 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => setPage('page4')}
+            onClick={() => undefined} //todo
             fullWidth
           >
             Próximo
@@ -402,16 +420,33 @@ const CalculatorForm3 = ({ setPage }: PropsCalculatorForm) => {
 };
 
 const Calculator = () => {
-  const [page, setPage] = useState('page1');
+  const InitialArgs = {
+    surgeryRooms: '',
+    icuBeds: '',
+    hospitalizationBeds: '',
+    surgerysPerDay: '',
+    weekDaySurgery: '',
+    fabricProcessing: false,
+    instrumentsSurgery: '',
+    fabricSurgery: '',
+    instrumentsICU: '',
+    fabricICU: '',
+    instrumentsHospitalization: '',
+    fabricHospitalization: '',
+    cmePeakInterval: '',
+    page: 'page1',
+  };
+
+  const [state, dispatch] = useReducer(Reducer, InitialArgs);
 
   const RenderCalculator = (page: string) => {
     switch (page) {
       case 'page1':
-        return <CalculatorForm1 setPage={setPage} />;
+        return <CalculatorForm1 state={state} dispatch={dispatch} />;
       case 'page2':
-        return <CalculatorForm2 setPage={setPage} />;
+        return <CalculatorForm2 state={state} dispatch={dispatch} />;
       case 'page3':
-        return <CalculatorForm3 setPage={setPage} />;
+        return <CalculatorForm3 state={state} dispatch={dispatch} />;
       default:
         break;
     }
@@ -422,7 +457,7 @@ const Calculator = () => {
       <Box component="header" className={Style.header}>
         <Image src={Logo} alt="Logo Equipacare" className={Style.header__img} />
       </Box>
-      {RenderCalculator(page)}
+      {RenderCalculator(state.page)}
     </ThemeProvider>
   );
 };
