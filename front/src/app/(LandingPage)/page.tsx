@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import Style from './page.module.scss';
 import Image from 'next/image';
 import HeaderImage from '../../../public/headerImg.jpg';
@@ -10,16 +10,43 @@ import { LightTheme } from '@/themes';
 import AboutToolList from '@/components/AboutToolList/AboutToolList';
 import ServiceCardList from '@/components/ServiceCard/ServiceCardList';
 import Footer from '@/components/Footer/Footer';
+import { ActionLandingPage, StateLandinPage } from '@/types';
+
+const Reducer = (state: StateLandinPage, action: ActionLandingPage) => {
+  switch (action.type) {
+    case 'SET_FORM':
+      return { ...state, ...action.payload };
+    case 'SET_CARD':
+      return { ...state, card: action.payload };
+    default:
+      return state;
+  }
+};
 
 const LandingPage = () => {
-  const [card, setCard] = useState('initial');
+  const InitialArgs = {
+    name: '',
+    email: '',
+    tel: '',
+    cep: '',
+    institutionName: '',
+    cnpj: '',
+    position: '',
+    segment: '',
+    momentEnterprise: '',
+    statusClinicalEng: 'Própria',
+    momentCME: 'Implementação',
+    card: 'initial',
+  };
+
+  const [state, dispatch] = useReducer(Reducer, InitialArgs);
 
   const renderCardForm = (card: string) => {
     switch (card) {
       case 'initial':
-        return <InitialCardForm setCard={setCard} />;
+        return <InitialCardForm dispatch={dispatch} />;
       case 'form':
-        return <FormCard />;
+        return <FormCard state={state} dispatch={dispatch} />;
       default:
         break;
     }
@@ -27,7 +54,7 @@ const LandingPage = () => {
 
   return (
     <ThemeProvider theme={LightTheme}>
-      <nav style={{ height: '10vh', backgroundColor: 'midnightblue' }}>
+      <nav style={{ height: '10vh', backgroundColor: '#001329' }}>
         Temporario ate o nav ser inserido seguindo essa mesma medida
       </nav>
       <Box component="header" className={Style.header}>
@@ -54,10 +81,10 @@ const LandingPage = () => {
       </Box>
       <Box component="section" className={Style.cardForm}>
         <Container maxWidth="lg" className={Style.cardForm__card}>
-          {renderCardForm(card)}
+          {renderCardForm(state.card)}
         </Container>
       </Box>
-      {card != 'initial' ? (
+      {state.card != 'initial' ? (
         <Container maxWidth="lg" className={Style.aboutTool}>
           <Typography
             variant="h6"
@@ -79,13 +106,13 @@ const LandingPage = () => {
           fontWeight="600"
           textAlign="center"
           color={'white'}
-          marginBottom={"2vh"}
+          marginBottom={'2vh'}
         >
           A importância de garantir equipamentos adequados
         </Typography>
         <ServiceCardList />
       </Container>
-      <Footer/>
+      <Footer />
     </ThemeProvider>
   );
 };
