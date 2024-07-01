@@ -7,6 +7,7 @@ import { Box, Container, ThemeProvider, Typography } from '@mui/material';
 import InitialCardForm from '@/components/InitialCardForm/InitialCardForm';
 import FormCard from '@/components/CardForm/FormCard';
 import { LightTheme } from '@/themes';
+import NavBar from '@/components/NavBar/NavBar';
 import AboutToolList from '@/components/AboutToolList/AboutToolList';
 import ServiceCardList from '@/components/ServiceCard/ServiceCardList';
 import Footer from '@/components/Footer/Footer';
@@ -54,9 +55,7 @@ const LandingPage = () => {
 
   return (
     <ThemeProvider theme={LightTheme}>
-      <nav style={{ height: '10vh', backgroundColor: '#001329' }}>
-        Temporario ate o nav ser inserido seguindo essa mesma medida
-      </nav>
+      <NavBar />
       <Box component="header" className={Style.header}>
         <Image
           src={HeaderImage}
