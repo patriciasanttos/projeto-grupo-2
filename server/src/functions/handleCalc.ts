@@ -21,17 +21,13 @@ export default async function handleCalc(dimensions: CompanyDimensionType) {
 }
 
 function calcAutoclaves(autoclaves: Array<Autoclaves>, dimensions: CompanyDimensionType) {
-    const calcProcessingCapacityCME = (autoclave: AutoclavesInterface, dimensions: CompanyDimensionType, numAutoclaves: number) => {
-        const peakDailyTime = dimensions.cme_peak_interval - (autoclave.db_test_time + autoclave.heating_time);
-        const maxCycles = peakDailyTime / (autoclave.cycle_time + autoclave.charging_dischaging_time);
-        return numAutoclaves * autoclave.useful_vol * maxCycles;
+    const calcPercentual = (autoclave: AutoclavesInterface, dimensions: CompanyDimensionType, numAutoclaves: number) => {
+        const peakProcessing = dimensions.daily_vol_estimate.in_lit * 0.90;
+        const dailyPeak = (dimensions.cme_peak_interval * 60) - (autoclave.db_test_time + autoclave.heating_time);
+        const processingCapacityCME = dailyPeak / (autoclave.cycle_time + autoclave.charging_dischaging_time)
+        return peakProcessing / (numAutoclaves * autoclave.useful_vol * processingCapacityCME); 
     }
-    
-    const calcCapacityUtilization = (autoclave: AutoclavesInterface, dimensions: CompanyDimensionType, numAutoclaves: number) => {
-        const processingCapacityCME = calcProcessingCapacityCME(autoclave, dimensions, numAutoclaves);
-        return ((dimensions.daily_vol_estimate.in_lit * 0.90) / processingCapacityCME) * 100;
-    }
-    
+
     const calcTimeRequiredMinusOne = (autoclave: AutoclavesInterface, dimensions: CompanyDimensionType, numAutoclaves: number) => {
         const cycleTime = autoclave.cycle_time + autoclave.charging_dischaging_time;
         return (((((dimensions.daily_vol_estimate.in_lit * 0.90) / autoclave.useful_vol) * cycleTime) 
@@ -47,10 +43,10 @@ function calcAutoclaves(autoclaves: Array<Autoclaves>, dimensions: CompanyDimens
 
     autoclaves.forEach(({ dataValues: autoclave }) => {
         for (let numAutoclaves = 1; numAutoclaves <= 100; numAutoclaves++) {
-            const capacityUtilization = calcCapacityUtilization(autoclave, dimensions, numAutoclaves);
+            const percentual = calcPercentual(autoclave, dimensions, numAutoclaves);
             const timeRequiredMinusOne = calcTimeRequiredMinusOne(autoclave, dimensions, numAutoclaves);
 
-            if (capacityUtilization < 90 && timeRequiredMinusOne < 20) {
+            if (percentual < 90 && timeRequiredMinusOne < 20) {
                 switch (true) {
                     case numAutoclaves < minAutoclaves:
                         minAutoclaves = numAutoclaves;
@@ -68,22 +64,17 @@ function calcAutoclaves(autoclaves: Array<Autoclaves>, dimensions: CompanyDimens
         };
     });
 
-    return [ bestAutoclavesConfig[0], bestAutoclavesConfig[1] ];
+
+    return bestAutoclavesConfig;
 }
 
 function calcThermoWashers(thermoWashers: Array<ThermoWashers>, dimensions: CompanyDimensionType) {
-    const calcProcessingTime = (thermoWasher: ThermoWashersInterface, dimensions: CompanyDimensionType) => {
+    const calcPercentual = (thermoWasher: ThermoWashersInterface, dimensions: CompanyDimensionType) => {
         const dailyTracheas = ((dimensions.surgery_rooms * dimensions.surgerys_per_day * 3) + (dimensions.uti_beds * 3)) / thermoWasher.trachea_capacity;
         const instruments = (dimensions.daily_vol_estimate.instruments / (thermoWasher.instruments_capacity / 2)) * (thermoWasher.instruments_time + 10);
         const ventAssistTime = dailyTracheas * (thermoWasher.vent_assist_time + 10);
 
-        return instruments + ventAssistTime;
-    }
-
-    const calcPercentual = (thermoWashers: ThermoWashersInterface, dimensions: CompanyDimensionType) => {
-        const processingTime = calcProcessingTime(thermoWashers, dimensions);
-        
-        return processingTime / (60 * 24 * 2);
+        return (instruments + ventAssistTime) / (60 * 24 * 1);
     }
 
     let minThermoWashers = Number.MAX_SAFE_INTEGER;
@@ -96,7 +87,6 @@ function calcThermoWashers(thermoWashers: Array<ThermoWashers>, dimensions: Comp
     thermoWashers.forEach(({ dataValues: thermoWasher }) => {
         for (let numThermoWashers = 1; numThermoWashers <= 100; numThermoWashers++) {
             const percentual = calcPercentual(thermoWasher, dimensions);
-            console.log(numThermoWashers === minThermoWashers)
 
             if (percentual < 0.90) {
                 switch (true) {
