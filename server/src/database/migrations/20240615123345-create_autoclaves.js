@@ -12,31 +12,31 @@ module.exports = {
         unique: true,
         primaryKey: true
       },
-      marca: {
+      brand: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      vol_total: {
+      total_vol: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      vol_util: {
+      useful_vol: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      tempo_total_ciclo: {
+      cycle_time: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      tempo_carga_desc: {
+      charging_dischaging_time: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      tempo_teste_db: {
+      db_test_time: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      tempo_aquecimento: {
+      heating_time: {
         type: DataTypes.INTEGER,
         allowNull: false
       },

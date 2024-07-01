@@ -12,23 +12,23 @@ module.exports = {
         unique: true,
         primaryKey: true
       },
-      marca: {
+      brand: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      carga_instrumentos: {
+      instruments_capacity: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      carga_traqueias: {
+      trachea_capacity: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      tempo_instrumentos: {
+      instruments_time: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      tempo_assistencia_vent: {
+      vent_assist_time: {
         type: DataTypes.INTEGER,
         allowNull: false
       }

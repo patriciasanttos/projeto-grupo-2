@@ -1,26 +1,16 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "..";
+import { AutoclavesInterface } from "../../utils/types";
 
-interface AutoclavesInfo {
-    id: string,
-    marca: string,
-    vol_total: number,
-    vol_util: number,
-    tempo_total_ciclo: number,
-    tempo_carga_desc: number,
-    tempo_teste_db: number,
-    tempo_aquecimento: number,
-}
-
-class Autoclaves extends Model <AutoclavesInfo> implements AutoclavesInfo {
+class Autoclaves extends Model <AutoclavesInterface> implements AutoclavesInterface {
     public id!: string;
-    public marca!: string;
-    public vol_total!: number;
-    public vol_util!: number;
-    public tempo_total_ciclo!: number;
-    public tempo_carga_desc!: number;
-    public tempo_teste_db!: number;
-    public tempo_aquecimento!: number;
+    public brand!: string;
+    public total_vol!: number;
+    public useful_vol!: number;
+    public cycle_time!: number;
+    public charging_dischaging_time!: number;
+    public db_test_time!: number;
+    public heating_time!: number;
 }
 
 Autoclaves.init({
@@ -30,31 +20,31 @@ Autoclaves.init({
         primaryKey: true,
         allowNull: false
     },
-    marca: {
+    brand: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    vol_total: {
+    total_vol: {
         type: DataTypes.NUMBER,
         allowNull: false
     },
-    vol_util: {
+    useful_vol: {
         type: DataTypes.NUMBER,
         allowNull: false
     },
-    tempo_total_ciclo: {
+    cycle_time: {
         type: DataTypes.NUMBER,
         allowNull: false
     },
-    tempo_carga_desc: {
+    charging_dischaging_time: {
         type: DataTypes.NUMBER,
         allowNull: false
     },
-    tempo_teste_db: {
+    db_test_time: {
         type: DataTypes.NUMBER,
         allowNull: false
     },
-    tempo_aquecimento: {
+    heating_time: {
         type: DataTypes.NUMBER,
         allowNull: false
     }
