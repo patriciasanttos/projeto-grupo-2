@@ -1,22 +1,14 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "..";
+import { ThermoWashersInterface } from "../../utils/types";
 
-interface ThermoWashersInfo {
-    id: string,
-    marca: string,
-    carga_instrumentos: number,
-    carga_traqueias: number,
-    tempo_instrumentos: number,
-    tempo_assistencia_vent: number,
-}
-
-class ThermoWashers extends Model <ThermoWashersInfo> implements ThermoWashersInfo {
+class ThermoWashers extends Model <ThermoWashersInterface> implements ThermoWashersInterface {
     public id!: string;
-    public marca!: string;
-    public carga_instrumentos!: number;
-    public carga_traqueias!: number;
-    public tempo_instrumentos!: number;
-    public tempo_assistencia_vent!: number;
+    public brand!: string;
+    public instruments_capacity!: number;
+    public trachea_capacity!: number;
+    public instruments_time!: number;
+    public vent_assist_time!: number;
 }
 
 ThermoWashers.init({
@@ -26,23 +18,23 @@ ThermoWashers.init({
         primaryKey: true,
         allowNull: false
     },
-    marca: {
+    brand: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    carga_instrumentos: {
+    instruments_capacity: {
         type: DataTypes.NUMBER,
         allowNull: false
     },
-    carga_traqueias: {
+    trachea_capacity: {
         type: DataTypes.NUMBER,
         allowNull: false
     },
-    tempo_instrumentos: {
+    instruments_time: {
         type: DataTypes.NUMBER,
         allowNull: false
     },
-    tempo_assistencia_vent: {
+    vent_assist_time: {
         type: DataTypes.NUMBER,
         allowNull: false
     }

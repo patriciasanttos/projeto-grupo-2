@@ -1,9 +1,10 @@
-import { FlipCard } from '../FlipCard/FlipCard';
-import './styles.scss';
+import React from 'react';
+import Style from './index.module.scss';
+import FlipCard from '../FlipCard/FlipCard';
 
-export const FlipList = () => {
+const AboutToolList = () => {
   return (
-    <main>
+    <section className={Style.aboutTool__list}>
       <FlipCard
         image="quality.svg"
         alt="dollar"
@@ -14,7 +15,7 @@ export const FlipList = () => {
       <FlipCard
         image="hourglass.svg"
         alt="hourglass"
-        text="Utilizar a nossa ferramenta é simples e intuitivo. <br/>
+        text="Utilizar a nossa ferramenta é simples e intuitivo.
               Com apenas algumas informações ela gera recomendações precisas, eliminando 
               a complexidade do processo de seleção, reduzindo significativamente o tempo 
               gasto na tomada de decisão."
@@ -32,6 +33,8 @@ export const FlipList = () => {
         text="A nossa ferramenta de cálculo de CME foi desenvolvida para atender às necessidades 
               específicas do seu hospital."
       />
-    </main>
+    </section>
   );
 };
+
+export default AboutToolList;

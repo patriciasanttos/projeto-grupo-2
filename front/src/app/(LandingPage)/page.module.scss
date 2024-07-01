@@ -67,14 +67,27 @@
 
 .cardForm {
   &__card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: 4vh;
     margin-top: -25vh;
     background-color: white;
     border-radius: 4rem;
     padding: 5vh 5vw;
     color: $grayColor;
+
+    @include respond-to-small {
+      padding: 5vh 5vw 30vh;
+    }
+    
   }
+}
+
+.aboutTool {
+  padding: 5% 2%;
+
+  @include respond-to-small {
+    padding: 10% 2%;
+  }
+}
+
+.serviceCards {
+padding: 10vh 3vw;
 }

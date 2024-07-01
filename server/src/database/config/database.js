@@ -17,7 +17,8 @@ const dbConfig = {
   password: db.password,
   database: db.name,
   define: {
-    underscored: true
+    underscored: true,
+    timestamps: false
   }
 }
 

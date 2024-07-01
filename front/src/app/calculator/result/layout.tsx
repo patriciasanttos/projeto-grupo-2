@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { inter } from "../../../fonts/_fonts";
-import "../../globals.scss";
 
 export const metadata: Metadata = {
   title: "Equipacare",

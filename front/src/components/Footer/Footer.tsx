@@ -3,16 +3,11 @@ import Style from './index.module.scss';
 import Logo from '/public/logo.svg';
 import Image from 'next/image';
 import { Facebook, Instagram, LinkedIn, YouTube } from '@mui/icons-material';
-import { SvgIconTypeMap } from '@mui/material/SvgIcon';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { open_Sans } from '@/fonts/_fonts';
-
-type IconType = OverridableComponent<SvgIconTypeMap<object, 'svg'>> & {
-  muiName: string;
-};
+import { MUIIconType } from '@/types';
 
 interface PropsSocialMedia {
-  Media: IconType;
+  Media: MUIIconType;
   Link?: string;
 }
 
