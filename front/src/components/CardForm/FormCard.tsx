@@ -62,9 +62,13 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
   return (
     <Box className={Style.formCard}>
       <Typography>
-        Descubra a eficiência em apenas 2 minutos! Preencha nosso formulário
-        rápido e receba instantaneamente as melhores soluções em equipamentos
-        para o seu CME. Simples, rápido e personalizado
+        Descubra a eficiência em apenas 2 minutos! Simples, rápido e
+        personalizado!
+      </Typography>
+
+      <Typography>
+        Preencha nosso formulário e receba instantaneamente as melhores soluções
+        em equipamentos para o seu CME.
       </Typography>
       <Box
         component="form"

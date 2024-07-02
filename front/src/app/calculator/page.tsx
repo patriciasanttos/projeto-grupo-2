@@ -47,10 +47,21 @@ const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
           marginTop="5vh"
           lineHeight="2rem"
         >
-          Preencha os dados sobre o seu hospital. Essas informações são
-          essenciais para entendermos a capacidade e a estrutura básica da sua
-          instituição. Precisamos saber o tamanho do hospital, o número de
-          leitos e outras informações gerais.
+          Precisamos saber o tamanho do hospital, o número de leitos e outras
+          informações gerais.
+          <Typography
+            variant="body2"
+            fontWeight="500"
+            color="white"
+            lineHeight="2rem"
+          >
+            Essas informações são essenciais para determinar a capacidade de
+            atendimento e a demanda por materiais e equipamentos esterilizados,
+            garantindo assim a eficiência e segurança no atendimento aos
+            pacientes. A coleta desses dados permite um planejamento mais
+            preciso e uma alocação adequada de recursos, otimizando o
+            funcionamento do CME.
+          </Typography>
         </Typography>
       </Box>
       <Box component="main" className={Style.calculator__card}>
@@ -168,9 +179,11 @@ const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
           lineHeight="2rem"
         >
           Informe sobre as cirurgias realizadas em seu hospital. Precisamos
-          saber a quantidade de cirurgias, a frequência com que elas ocorrem e
-          outros detalhes relevantes. Isso nos ajudará a calcular o volume de
-          materiais esterilizados.
+          saber a quantidade de cirurgias e a frequência com que elas ocorrem.
+          Isso nos ajudará a calcular o volume de materiais esterilizados e para
+          garantir que as máquinas recomendadas mantenham um bom fluxo de
+          organização e agilidade, elementos essenciais para o sucesso das
+          operações.
         </Typography>
       </Box>
       <Box component="main" className={Style.calculator__card}>
@@ -496,7 +509,10 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
             helperText="Horas por dia"
             value={state.cmePeakInterval}
             onChange={e =>
-              dispatch({ type: 'SET_FORM', payload: { cmePeakInterval: e.target.value } })
+              dispatch({
+                type: 'SET_FORM',
+                payload: { cmePeakInterval: e.target.value },
+              })
             }
           />
         </Box>
@@ -515,7 +531,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
             onClick={() => undefined} //todo
             fullWidth
           >
-            Calcular 
+            Calcular
           </Button>
         </Box>
       </Box>
