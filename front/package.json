@@ -17,13 +17,15 @@
     "@mui/material": "^5.15.19",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-input-mask": "^3.0.0-alpha.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.4.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-input-mask": "^3.0.5",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.3",
     "eslint-config-prettier": "^9.1.0",
