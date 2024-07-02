@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 import { ActionLandingPage, StateLandinPage } from '@/types';
+import InputMask from 'react-input-mask';
 
 interface FormCardProps {
   state: StateLandinPage;
@@ -93,28 +94,40 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
             dispatch({ type: 'SET_FORM', payload: { email: e.target.value } })
           }
         />
-        <TextField
-          id="tel"
-          label="Contato"
-          variant="standard"
-          type="tel"
-          required
+        <InputMask
+          mask={'99 999999999'}
+          maskChar={null}
+          maskPlaceholder={''}
           value={state.tel}
           onChange={e =>
             dispatch({ type: 'SET_FORM', payload: { tel: e.target.value } })
           }
-        />
-        <TextField
-          id="cep"
-          label="CEP"
-          variant="standard"
-          type="text"
-          required
+        >
+          <TextField
+            id="tel"
+            label="Contato"
+            variant="standard"
+            type="tel"
+            required
+          />
+        </InputMask>
+        <InputMask
+          mask="99999-999"
+          maskChar={null}
+          maskPlaceholder={''}
           value={state.cep}
           onChange={e =>
             dispatch({ type: 'SET_FORM', payload: { cep: e.target.value } })
           }
-        />
+        >
+          <TextField
+            id="cep"
+            label="CEP"
+            variant="standard"
+            type="text"
+            required
+          />
+        </InputMask>
         <TextField
           id="institutionName"
           label="Nome da Instituiçao"
@@ -129,17 +142,23 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
             })
           }
         />
-        <TextField
-          id="cnpj"
-          label="CNPJ"
-          variant="standard"
-          type="CNPJ"
-          required
+        <InputMask
+          mask={'99.999.999/9999-99'}
+          maskChar={null}
+          maskPlaceholder={''}
           value={state.cnpj}
           onChange={e =>
             dispatch({ type: 'SET_FORM', payload: { cnpj: e.target.value } })
           }
-        />
+        >
+          <TextField
+            id="cnpj"
+            label="CNPJ"
+            variant="standard"
+            type="CNPJ"
+            required
+          />
+        </InputMask>
         <Autocomplete
           disablePortal
           id="position"
