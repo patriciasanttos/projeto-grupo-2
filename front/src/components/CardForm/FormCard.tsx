@@ -60,8 +60,9 @@ const momentEnterprise: string[] = [
   'Outro momento',
 ];
 
-const HandleSubmit = ({state, dispatch}: HandleSubmit) => {
-  console.log(state, dispatch)
+const HandleSubmit = ({ state, dispatch }: HandleSubmit) => {
+  dispatch({ type: 'SET_ERROR', payload: { validate: true } });
+  console.log(state)
 };
 
 const FormCard = ({ dispatch, state }: FormCardProps) => {
@@ -76,10 +77,7 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
         Preencha nosso formulário e receba instantaneamente as melhores soluções
         em equipamentos para o seu CME.
       </Typography>
-      <Box
-        component="form"
-        className={Style.formCard__form}
-      >
+      <Box component="form" className={Style.formCard__form}>
         <TextField
           id="name"
           label="Nome"
@@ -90,6 +88,8 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
           onChange={e =>
             dispatch({ type: 'SET_FORM', payload: { name: e.target.value } })
           }
+          error={state.errors.validate && !state.name.length}
+          helperText={state.errors.validate && !state.name.length ? 'Campo Obrigatório' : ''}
         />
         <TextField
           id="email"
@@ -101,6 +101,8 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
           onChange={e =>
             dispatch({ type: 'SET_FORM', payload: { email: e.target.value } })
           }
+          error={state.errors.validate && !state.email.length}
+          helperText={state.errors.validate && !state.email.length ? 'Campo Obrigatório' : ''}
         />
         <InputMask
           mask={'99 999999999'}
@@ -117,6 +119,8 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
             variant="standard"
             type="tel"
             required
+            error={state.errors.validate && !state.tel.length}
+            helperText={state.errors.validate && !state.tel.length ? 'Campo Obrigatório' : ''}
           />
         </InputMask>
         <InputMask
@@ -134,6 +138,8 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
             variant="standard"
             type="text"
             required
+            error={state.errors.validate && !state.cep.length}
+            helperText={state.errors.validate && !state.cep.length ? 'Campo Obrigatório' : ''}
           />
         </InputMask>
         <TextField
@@ -149,6 +155,8 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
               payload: { institutionName: e.target.value },
             })
           }
+          error={state.errors.validate && !state.institutionName.length}
+          helperText={state.errors.validate && !state.institutionName.length ? 'Campo Obrigatório' : ''}
         />
         <InputMask
           mask={'99.999.999/9999-99'}
@@ -165,6 +173,8 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
             variant="standard"
             type="CNPJ"
             required
+            error={state.errors.validate && !state.cnpj.length}
+            helperText={state.errors.validate && !state.cnpj.length ? 'Campo Obrigatório' : ''}
           />
         </InputMask>
         <Autocomplete
@@ -173,7 +183,14 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
           options={positions}
           value={state.position}
           renderInput={params => (
-            <TextField {...params} variant="standard" label="Cargo" required />
+            <TextField
+              {...params}
+              error={state.errors.validate && !state.position.length}
+              helperText={state.errors.validate && !state.position.length ? 'Campo Obrigatório' : ''}
+              variant="standard"
+              label="Cargo"
+              required
+            />
           )}
           onChange={(e, value) =>
             value
@@ -189,6 +206,8 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
           renderInput={params => (
             <TextField
               {...params}
+              error={state.errors.validate && !state.segment.length}
+              helperText={state.errors.validate && !state.segment.length ? 'Campo Obrigatório' : ''}
               variant="standard"
               label="Segmento da Empresa"
               required
@@ -204,10 +223,12 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
           disablePortal
           id="momentEnterprise"
           options={momentEnterprise}
-          value={state.position}
+          value={state.momentEnterprise}
           renderInput={params => (
             <TextField
               {...params}
+              error={state.errors.validate && !state.momentEnterprise.length}
+              helperText={state.errors.validate && !state.momentEnterprise.length ? 'Campo Obrigatório' : ''}
               variant="standard"
               label="Momento Atual do Empreendimento"
               required
@@ -288,7 +309,7 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
         </FormControl>
       </Box>
       <Button
-        onClick={() => HandleSubmit({state, dispatch})}
+        onClick={() => HandleSubmit({ state, dispatch })}
         variant="contained"
         size="large"
         endIcon={<KeyboardArrowRightRoundedIcon />}
