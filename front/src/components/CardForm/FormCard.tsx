@@ -22,6 +22,11 @@ interface FormCardProps {
   dispatch: React.Dispatch<ActionLandingPage>;
 }
 
+interface HandleSubmit {
+  state: StateLandinPage;
+  dispatch: React.Dispatch<ActionLandingPage>;
+}
+
 const positions: string[] = [
   'Sócio | CEO | Proprietário',
   'Diretoria | Superintendência',
@@ -55,8 +60,8 @@ const momentEnterprise: string[] = [
   'Outro momento',
 ];
 
-const HandleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
+const HandleSubmit = ({state, dispatch}: HandleSubmit) => {
+  console.log(state, dispatch)
 };
 
 const FormCard = ({ dispatch, state }: FormCardProps) => {
@@ -73,7 +78,6 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
       </Typography>
       <Box
         component="form"
-        onSubmit={HandleSubmit}
         className={Style.formCard__form}
       >
         <TextField
@@ -284,7 +288,7 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
         </FormControl>
       </Box>
       <Button
-        type="submit"
+        onClick={() => HandleSubmit({state, dispatch})}
         variant="contained"
         size="large"
         endIcon={<KeyboardArrowRightRoundedIcon />}
