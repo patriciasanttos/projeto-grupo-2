@@ -49,4 +49,10 @@ export type ActionCalculator =
   | {
       type: 'SET_PAGE';
       payload: string;
+    }
+  | {
+      type: 'SET_ERROR';
+      payload: {
+        validate?: boolean;
+      };
     };

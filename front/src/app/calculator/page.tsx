@@ -28,12 +28,23 @@ const Reducer = (state: StateCalculator, action: ActionCalculator) => {
       return { ...state, ...action.payload };
     case 'SET_PAGE':
       return { ...state, page: action.payload };
+    case 'SET_ERROR':
+      return { ...state, errors: { ...state.errors, ...action.payload } };
     default:
       return state;
   }
 };
 
 const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
+  const HandleValidate = () => {
+    !state.surgeryRooms.length ||
+    !state.icuBeds.length ||
+    !state.hospitalizationBeds.length
+      ? dispatch({ type: 'SET_ERROR', payload: { validate: true } })
+      : (dispatch({ type: 'SET_PAGE', payload: 'page2' }),
+        dispatch({ type: 'SET_ERROR', payload: { validate: false } }));
+  };
+
   return (
     <Box component="section" className={Style.calculator}>
       <Box component="aside" className={Style.calculator__aside}>
@@ -48,20 +59,12 @@ const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
           lineHeight="2rem"
         >
           Precisamos saber o tamanho do hospital, o número de leitos e outras
-          informações gerais.
-          <Typography
-            variant="body2"
-            fontWeight="500"
-            color="white"
-            lineHeight="2rem"
-          >
-            Essas informações são essenciais para determinar a capacidade de
-            atendimento e a demanda por materiais e equipamentos esterilizados,
-            garantindo assim a eficiência e segurança no atendimento aos
-            pacientes. A coleta desses dados permite um planejamento mais
-            preciso e uma alocação adequada de recursos, otimizando o
-            funcionamento do CME.
-          </Typography>
+          informações gerais. Essas informações são essenciais para determinar a
+          capacidade de atendimento e a demanda por materiais e equipamentos
+          esterilizados, garantindo assim a eficiência e segurança no
+          atendimento aos pacientes. A coleta desses dados permite um
+          planejamento mais preciso e uma alocação adequada de recursos,
+          otimizando o funcionamento do CME.
         </Typography>
       </Box>
       <Box component="main" className={Style.calculator__card}>
@@ -95,6 +98,12 @@ const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
             type="number"
             fullWidth
             margin="normal"
+            error={state.errors.validate && !state.surgeryRooms.length}
+            helperText={
+              state.errors.validate && !state.surgeryRooms.length
+                ? 'Campo Obrigatório'
+                : ''
+            }
           />
           <TextField
             id="icuBeds"
@@ -116,13 +125,18 @@ const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
             type="number"
             fullWidth
             margin="normal"
+            error={state.errors.validate && !state.icuBeds.length}
+            helperText={
+              state.errors.validate && !state.icuBeds.length
+                ? 'Campo Obrigatório'
+                : ''
+            }
           />
           <TextField
             id="hospitalizationBeds"
             name="HospitalizationBeds"
             label="Quantos leitos estão disponíveis para internação?"
             variant="outlined"
-            helperText="recuperação pós-anestésica (RPA), observações e hospital-dia (HD)"
             value={state.hospitalizationBeds}
             onChange={e =>
               dispatch({
@@ -138,13 +152,19 @@ const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
             type="number"
             fullWidth
             margin="normal"
+            error={state.errors.validate && !state.hospitalizationBeds.length}
+            helperText={
+              state.errors.validate && !state.hospitalizationBeds.length
+                ? 'Campo Obrigatório'
+                : 'recuperação pós-anestésica (RPA), observações e hospital-dia (HD)'
+            }
           />
         </Box>
         <Box>
           <Button
             variant="contained"
             color="primary"
-            onClick={() => dispatch({ type: 'SET_PAGE', payload: 'page2' })}
+            onClick={() => HandleValidate()}
             fullWidth
           >
             Próximo
@@ -165,6 +185,12 @@ const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
     'Todos os Dias',
   ];
 
+  const HandleValidate = () => {
+    !state.surgerysPerDay.length || !state.weekDaySurgery.length
+      ? dispatch({ type: 'SET_ERROR', payload: { validate: true } })
+      : (dispatch({ type: 'SET_PAGE', payload: 'page3' }),
+        dispatch({ type: 'SET_ERROR', payload: { validate: false } }));
+  };
   return (
     <Box component="section" className={Style.calculator}>
       <Box component="aside" className={Style.calculator__aside}>
@@ -213,6 +239,12 @@ const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
                 payload: { surgerysPerDay: e.target.value },
               })
             }
+            error={state.errors.validate && !state.surgerysPerDay.length}
+            helperText={
+              state.errors.validate && !state.surgerysPerDay.length
+                ? 'Campo Obrigatório'
+                : ''
+            }
           />
           <Autocomplete
             disablePortal
@@ -226,6 +258,12 @@ const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                error={state.errors.validate && !state.weekDaySurgery.length}
+                helperText={
+                  state.errors.validate && !state.weekDaySurgery.length
+                    ? 'Campo Obrigatório'
+                    : ''
+                }
               />
             )}
             value={state.weekDaySurgery}
@@ -251,7 +289,7 @@ const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => dispatch({ type: 'SET_PAGE', payload: 'page3' })}
+            onClick={() => HandleValidate()}
             fullWidth
           >
             Próximo
@@ -269,6 +307,27 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
       type: 'SET_FORM',
       payload: { fabricProcessing: event.target.checked },
     });
+  };
+
+  const HandleValidate = () => {
+    if (state.fabricProcessing) {
+      !state.instrumentsSurgery.length ||
+      !state.instrumentsICU.length ||
+      !state.instrumentsHospitalization.length ||
+      !state.fabricSurgery.length ||
+      !state.fabricICU.length ||
+      !state.fabricHospitalization.length ||
+      !state.cmePeakInterval.length
+        ? dispatch({ type: 'SET_ERROR', payload: { validate: true } })
+        : dispatch({ type: 'SET_ERROR', payload: { validate: false } });
+    } else {
+      !state.instrumentsSurgery.length ||
+      !state.instrumentsICU.length ||
+      !state.instrumentsHospitalization.length ||
+      !state.cmePeakInterval.length
+        ? dispatch({ type: 'SET_ERROR', payload: { validate: true } })
+        : dispatch({ type: 'SET_ERROR', payload: { validate: false } });
+    }
   };
 
   return (
@@ -324,7 +383,14 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 label="Instrumentos"
                 id="instrumentsSurgery"
                 name="instrumentsSurgery"
-                helperText="01 U.E. = 54 litros"
+                error={
+                  state.errors.validate && !state.instrumentsSurgery.length
+                }
+                helperText={
+                  state.errors.validate && !state.instrumentsSurgery.length
+                    ? 'Campo Obrigatório'
+                    : '01 U.E. = 54 litros'
+                }
                 value={state.instrumentsSurgery}
                 onChange={e =>
                   dispatch({
@@ -342,7 +408,12 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 label="Tecido"
                 id="fabricSurgery"
                 name="FabricSurgery"
-                helperText="01 U.E. = 54 litros"
+                error={state.errors.validate && !state.fabricSurgery.length}
+                helperText={
+                  state.errors.validate && !state.fabricSurgery.length
+                    ? 'Campo Obrigatório'
+                    : '01 U.E. = 54 litros'
+                }
                 value={state.fabricSurgery}
                 onChange={e =>
                   dispatch({
@@ -362,7 +433,12 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
               label="Instrumentos"
               id="instrumentsSurgery"
               name="instrumentsSurgery"
-              helperText="01 U.E. (unidade de esterilização) = 01 DIN = 54 litros"
+              error={state.errors.validate && !state.instrumentsSurgery.length}
+              helperText={
+                state.errors.validate && !state.instrumentsSurgery.length
+                  ? 'Campo Obrigatório'
+                  : '01 U.E. (unidade de esterilização) = 01 DIN = 54 litros'
+              }
               value={state.instrumentsSurgery}
               onChange={e =>
                 dispatch({
@@ -384,7 +460,12 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 label="Instrumentos"
                 id="instrumentsICU"
                 name="InstrumentsICU"
-                helperText="01 U.E. = 54 litros"
+                error={state.errors.validate && !state.instrumentsICU.length}
+                helperText={
+                  state.errors.validate && !state.instrumentsICU.length
+                    ? 'Campo Obrigatório'
+                    : '01 U.E. = 54 litros'
+                }
                 value={state.instrumentsICU}
                 onChange={e =>
                   dispatch({
@@ -402,7 +483,12 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 label="Tecido"
                 id="fabricICU"
                 name="FabricICU"
-                helperText="01 U.E. = 54 litros"
+                error={state.errors.validate && !state.fabricICU.length}
+                helperText={
+                  state.errors.validate && !state.fabricICU.length
+                    ? 'Campo Obrigatório'
+                    : '01 U.E. = 54 litros'
+                }
                 value={state.fabricICU}
                 onChange={e =>
                   dispatch({
@@ -422,7 +508,12 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
               label="Instrumentos"
               id="instrumentsICU"
               name="InstrumentsICU"
-              helperText="01 U.E. (unidade de esterilização) = 01 DIN = 54 litros"
+              error={state.errors.validate && !state.instrumentsICU.length}
+              helperText={
+                state.errors.validate && !state.instrumentsICU.length
+                  ? 'Campo Obrigatório'
+                  : '01 U.E. (unidade de esterilização) = 01 DIN = 54 litros'
+              }
               value={state.instrumentsICU}
               onChange={e =>
                 dispatch({
@@ -438,7 +529,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
             />
           )}
           <Typography variant="caption">
-            Por Leito de Internação por Dia{' '}
+            Por Leito de Internação por Dia
           </Typography>
           {state.fabricProcessing ? (
             <Box className={Style.calculator__inputBox}>
@@ -446,7 +537,12 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 label="Instrumentos"
                 id="instrumentsHospitalization"
                 name="instrumentsHospitalization"
-                helperText="01 U.E. = 54 litros"
+                error={state.errors.validate && !state.instrumentsHospitalization.length}
+                helperText={
+                  state.errors.validate && !state.instrumentsHospitalization.length
+                    ? 'Campo Obrigatório'
+                    : '01 U.E. = 54 litros'
+                }
                 value={state.instrumentsHospitalization}
                 onChange={e =>
                   dispatch({
@@ -464,7 +560,12 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 label="Tecido"
                 id="fabricHospitalization"
                 name="fabricHospitalization"
-                helperText="01 U.E. = 54 litros"
+                error={state.errors.validate && !state.fabricHospitalization.length}
+                helperText={
+                  state.errors.validate && !state.fabricHospitalization.length
+                    ? 'Campo Obrigatório'
+                    : '01 U.E. = 54 litros'
+                }
                 value={state.fabricHospitalization}
                 onChange={e =>
                   dispatch({
@@ -484,7 +585,12 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
               label="Instrumentos"
               id="instrumentsHospitalization"
               name="instrumentsHospitalization"
-              helperText="01 U.E. (unidade de esterilização) = 01 DIN = 54 litros"
+              error={state.errors.validate && !state.instrumentsHospitalization.length}
+              helperText={
+                state.errors.validate && !state.instrumentsHospitalization.length
+                  ? 'Campo Obrigatório'
+                  : '01 U.E. (unidade de esterilização) = 01 DIN = 54 litros'
+              }
               value={state.instrumentsHospitalization}
               onChange={e =>
                 dispatch({
@@ -506,7 +612,12 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
             variant="outlined"
             type="number"
             fullWidth
-            helperText="Horas por dia"
+            error={state.errors.validate && !state.cmePeakInterval.length}
+            helperText={
+              state.errors.validate && !state.cmePeakInterval.length
+                ? 'Campo Obrigatório'
+                : 'Horas por dia'
+            }
             value={state.cmePeakInterval}
             onChange={e =>
               dispatch({
@@ -528,7 +639,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => undefined} //todo
+            onClick={() => HandleValidate()}
             fullWidth
           >
             Calcular
@@ -555,6 +666,9 @@ const Calculator = () => {
     fabricHospitalization: '',
     cmePeakInterval: '',
     page: 'page1',
+    errors: {
+      validate: false,
+    },
   };
 
   const [state, dispatch] = useReducer(Reducer, InitialArgs);

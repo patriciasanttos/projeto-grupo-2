@@ -31,4 +31,7 @@ export interface StateCalculator {
   fabricHospitalization: string;
   cmePeakInterval: string;
   page: string;
+  errors: {
+    validate: boolean;
+  };
 }
