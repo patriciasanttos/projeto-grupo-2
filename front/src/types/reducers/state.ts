@@ -11,6 +11,9 @@ export interface StateLandinPage {
   statusClinicalEng: string;
   momentCME: string;
   card: string;
+  errors: {
+    validate: boolean;
+  };
 }
 
 export interface StateCalculator {
@@ -28,4 +31,7 @@ export interface StateCalculator {
   fabricHospitalization: string;
   cmePeakInterval: string;
   page: string;
+  errors: {
+    validate: boolean;
+  };
 }

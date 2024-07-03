@@ -19,6 +19,8 @@ const Reducer = (state: StateLandinPage, action: ActionLandingPage) => {
       return { ...state, ...action.payload };
     case 'SET_CARD':
       return { ...state, card: action.payload };
+    case 'SET_ERROR':
+      return { ...state, errors: {...state.errors, ...action.payload } };
     default:
       return state;
   }
@@ -38,6 +40,9 @@ const LandingPage = () => {
     statusClinicalEng: 'Própria',
     momentCME: 'Implementação',
     card: 'initial',
+    errors: {
+      validate: false,
+    },
   };
 
   const [state, dispatch] = useReducer(Reducer, InitialArgs);

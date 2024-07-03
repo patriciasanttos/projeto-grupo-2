@@ -18,6 +18,12 @@ export type ActionLandingPage =
   | {
       type: 'SET_CARD';
       payload: string;
+    }
+  | {
+      type: 'SET_ERROR';
+      payload: {
+        validate?: boolean;
+      };
     };
 
 export type ActionCalculator =
@@ -43,4 +49,10 @@ export type ActionCalculator =
   | {
       type: 'SET_PAGE';
       payload: string;
+    }
+  | {
+      type: 'SET_ERROR';
+      payload: {
+        validate?: boolean;
+      };
     };
