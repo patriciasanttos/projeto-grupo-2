@@ -8,8 +8,6 @@ const db = {
   password: process.env.DATABASE_PASSWORD
 }
 
-console.log(db)
-
 const dbConfig = {
   dialect: 'postgres',
   host: db.host,
