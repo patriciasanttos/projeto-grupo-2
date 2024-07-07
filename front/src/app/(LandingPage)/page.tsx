@@ -17,7 +17,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const Reducer = (state: StateLandinPage, action: ActionLandingPage) => {
   switch (action.type) {
     case 'SET_FORM':
-      return { ...state, ...action.payload };
+      return {
+        ...state,
+        dataCompany: { ...state.dataCompany, ...action.payload },
+      };
     case 'SET_CARD':
       return { ...state, card: action.payload };
     case 'SET_ERROR':
@@ -29,17 +32,19 @@ const Reducer = (state: StateLandinPage, action: ActionLandingPage) => {
 
 const LandingPage = () => {
   const InitialArgs = {
-    name: '',
-    email: '',
-    tel: '',
-    cep: '',
-    institutionName: '',
-    cnpj: '',
-    position: '',
-    segment: '',
-    momentEnterprise: '',
-    statusClinicalEng: 'Própria',
-    momentCME: 'Implementação',
+    dataCompany: {
+      name: '',
+      email: '',
+      tel: '',
+      cep: '',
+      institutionName: '',
+      cnpj: '',
+      position: '',
+      segment: '',
+      momentEnterprise: '',
+      statusClinicalEng: 'Própria',
+      momentCME: 'Implementação',
+    },
     card: 'initial',
     errors: {
       validate: false,

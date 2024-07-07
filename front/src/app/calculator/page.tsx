@@ -1,5 +1,5 @@
 'use client';
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import Style from './page.module.scss';
 import {
   Autocomplete,
@@ -16,6 +16,9 @@ import { LightTheme } from '@/themes';
 import Image from 'next/image';
 import Logo from '../../../public/logo.svg';
 import { ActionCalculator, StateCalculator } from '@/types';
+import { useSaveCompanyAndCalc } from '@/hooks/useCompany';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 
 interface PropsCalculatorForm {
   state: StateCalculator;
@@ -30,6 +33,11 @@ const Reducer = (state: StateCalculator, action: ActionCalculator) => {
       return { ...state, page: action.payload };
     case 'SET_ERROR':
       return { ...state, errors: { ...state.errors, ...action.payload } };
+    case 'SET_DATA':
+      return {
+        ...state,
+        dataCompany: { ...state.dataCompany, ...action.payload },
+      };
     default:
       return state;
   }
@@ -309,6 +317,48 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     });
   };
 
+  const { mutate } = useSaveCompanyAndCalc();
+
+  const HandleSubmit = () => {
+    const data = {
+      dimensions: {
+        surgery_rooms: Number(state.surgeryRooms),
+        surgerys_per_day: Number(state.surgerysPerDay),
+        week_days_surgery: Number(state.weekDaySurgery),
+        uti_beds: Number(state.icuBeds),
+        hospital_beds: Number(state.hospitalizationBeds),
+        tissue_processing: state.fabricProcessing,
+        cme_peak_interval: Number(state.cmePeakInterval),
+        vol_per_surgery: {
+          tissue: Number(state.fabricSurgery),
+          instruments: Number(state.instrumentsSurgery),
+        },
+        vol_per_uti_beds: {
+          tissue: Number(state.fabricICU),
+          instruments: Number(state.instrumentsICU),
+        },
+        vol_per_hospital_beds: {
+          tissue: Number(state.fabricHospitalization),
+          instruments: Number(state.instrumentsHospitalization),
+        },
+      },
+      data: {
+        cnpj: state.dataCompany.cnpj,
+        name: state.dataCompany.name,
+        email: state.dataCompany.email,
+        company_name: state.dataCompany.institutionName,
+        cep: state.dataCompany.cep,
+        phone: state.dataCompany.tel,
+        segment: state.dataCompany.segment,
+        role: state.dataCompany.position,
+        objective: state.dataCompany.momentEnterprise,
+        situation: state.dataCompany.statusClinicalEng,
+      },
+    };
+
+    mutate(data);
+  };
+
   const HandleValidate = () => {
     if (state.fabricProcessing) {
       !state.instrumentsSurgery.length ||
@@ -326,7 +376,8 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
       !state.instrumentsHospitalization.length ||
       !state.cmePeakInterval.length
         ? dispatch({ type: 'SET_ERROR', payload: { validate: true } })
-        : dispatch({ type: 'SET_ERROR', payload: { validate: false } });
+        : (dispatch({ type: 'SET_ERROR', payload: { validate: false } }),
+          HandleSubmit());
     }
   };
 
@@ -537,9 +588,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 label="Instrumentos"
                 id="instrumentsHospitalization"
                 name="instrumentsHospitalization"
-                error={state.errors.validate && !state.instrumentsHospitalization.length}
+                error={
+                  state.errors.validate &&
+                  !state.instrumentsHospitalization.length
+                }
                 helperText={
-                  state.errors.validate && !state.instrumentsHospitalization.length
+                  state.errors.validate &&
+                  !state.instrumentsHospitalization.length
                     ? 'Campo Obrigatório'
                     : '01 U.E. = 54 litros'
                 }
@@ -560,7 +615,9 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 label="Tecido"
                 id="fabricHospitalization"
                 name="fabricHospitalization"
-                error={state.errors.validate && !state.fabricHospitalization.length}
+                error={
+                  state.errors.validate && !state.fabricHospitalization.length
+                }
                 helperText={
                   state.errors.validate && !state.fabricHospitalization.length
                     ? 'Campo Obrigatório'
@@ -585,9 +642,13 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
               label="Instrumentos"
               id="instrumentsHospitalization"
               name="instrumentsHospitalization"
-              error={state.errors.validate && !state.instrumentsHospitalization.length}
+              error={
+                state.errors.validate &&
+                !state.instrumentsHospitalization.length
+              }
               helperText={
-                state.errors.validate && !state.instrumentsHospitalization.length
+                state.errors.validate &&
+                !state.instrumentsHospitalization.length
                   ? 'Campo Obrigatório'
                   : '01 U.E. (unidade de esterilização) = 01 DIN = 54 litros'
               }
@@ -669,8 +730,22 @@ const Calculator = () => {
     errors: {
       validate: false,
     },
+    dataCompany: {
+      name: '',
+      email: '',
+      tel: '',
+      cep: '',
+      institutionName: '',
+      cnpj: '',
+      position: '',
+      segment: '',
+      momentEnterprise: '',
+      statusClinicalEng: '',
+      momentCME: '',
+    },
   };
 
+  const searchParams = useSearchParams();
   const [state, dispatch] = useReducer(Reducer, InitialArgs);
 
   const RenderCalculator = (page: string) => {
@@ -686,13 +761,26 @@ const Calculator = () => {
     }
   };
 
+  useEffect(() => {
+    const params = Object.fromEntries(searchParams.entries());
+    dispatch({ type: 'SET_DATA', payload: params });
+  }, [searchParams]);
+
+  const queryClient = new QueryClient();
+
   return (
-    <ThemeProvider theme={LightTheme}>
-      <Box component="header" className={Style.header}>
-        <Image src={Logo} alt="Logo Equipacare" className={Style.header__img} />
-      </Box>
-      {RenderCalculator(state.page)}
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={LightTheme}>
+        <Box component="header" className={Style.header}>
+          <Image
+            src={Logo}
+            alt="Logo Equipacare"
+            className={Style.header__img}
+          />
+        </Box>
+        {RenderCalculator(state.page)}
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 
