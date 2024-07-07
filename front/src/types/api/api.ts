@@ -19,12 +19,6 @@ export interface CompanyType {
       tissue: number;
       instruments: number;
     };
-    daily_vol_estimate: {
-      tissue: number;
-      instruments: number;
-      total: number;
-      in_lit: number;
-    };
   };
   data: {
     cnpj: string;
