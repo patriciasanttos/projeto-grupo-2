@@ -8,7 +8,7 @@ const companyRepository = new CompanyRepository();
 
 class MainController {
     checkFirstSubmitByCNPJ = async (request: Request, response: Response) => {
-        const { cnpj } = request.body
+        const { cnpj } = request.params
 
         //-----Validar CPNJ
         if (!validateCNPJ(cnpj))

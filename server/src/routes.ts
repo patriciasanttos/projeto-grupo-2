@@ -5,7 +5,7 @@ const router = Router();
 const mainController = new MainController()
 
 router
-    .get('/', mainController.checkFirstSubmitByCNPJ)
+    .get('/:cnpj', mainController.checkFirstSubmitByCNPJ)
     .post('/', mainController.saveCompanyAndCalc);
 
 export default router;
