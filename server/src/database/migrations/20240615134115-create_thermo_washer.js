@@ -31,7 +31,11 @@ module.exports = {
       vent_assist_time: {
         type: DataTypes.INTEGER,
         allowNull: false
-      }
+      },
+      price: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
     });
   },
 

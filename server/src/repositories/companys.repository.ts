@@ -5,7 +5,7 @@ import spreadSheetPost from './spreadsheet.repository';
 export default class CompanyRepository {
      async createCompany ({ data, dimensions }: CompanyType) {
         try {
-            //-----Erro caso o CNPJ já esteja no banco de dados
+            // -----Erro caso o CNPJ já esteja no banco de dados
             // if((await this.getCompany(data.cnpj)).code === 200)
             //     return {
             //         code: 409,
@@ -14,7 +14,7 @@ export default class CompanyRepository {
             //         }
             //     }
 
-            //-----Salvar os dados da empresa na tabela
+            // -----Salvar os dados da empresa na tabela
             // await Company.create({ ...data });
             // await spreadSheetPost({ data, dimensions })
 

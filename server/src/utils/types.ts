@@ -29,7 +29,7 @@ export type CompanyDimensionType = {
     tissue: number,
     instruments: number
   },
-  voluvol_per_uti_bedsme_por_leito_uti: {
+  vol_per_uti_beds: {
     tissue: number,
     instruments: number
   },
@@ -54,6 +54,7 @@ export interface AutoclavesInterface {
   charging_dischaging_time: number,
   db_test_time: number,
   heating_time: number,
+  price: number
 }
 
 export interface ThermoWashersInterface {
@@ -63,4 +64,5 @@ export interface ThermoWashersInterface {
   trachea_capacity: number,
   instruments_time: number,
   vent_assist_time: number,
+  price: number
 }

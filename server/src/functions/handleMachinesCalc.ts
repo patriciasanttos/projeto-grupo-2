@@ -12,11 +12,11 @@ export default async function handleCalc(dimensions: CompanyDimensionType) {
     const thermoWashers = calcThermoWashers(machines.thermoWashers, dimensions);
 
     return {
-        numAutoclaves: Math.max(...autoclaves.map(machine => machine.numMachines)),
-        numThermoWashers: Math.max(...thermoWashers.map(machine => machine.numMachines)),
+        numAutoclaves: autoclaves.numMachines,
+        numThermoWashers: thermoWashers.numMachines,
 
-        autoclaves: autoclaves,
-        thermoWashers: thermoWashers
+        autoclaves: autoclaves.bestAutoclavesConfig,
+        thermoWashers: thermoWashers.bestThermoWashersConfig
     };
 }
 
@@ -34,11 +34,13 @@ function calcAutoclaves(autoclaves: Array<Autoclaves>, dimensions: CompanyDimens
             + autoclave.db_test_time + autoclave.heating_time) / 60) / (numAutoclaves - 1);
     }
 
+    let numMachines = 1;
     let minAutoclaves = Number.MAX_SAFE_INTEGER;
     let bestAutoclavesConfig: Array<{
         brand: string,
         model: string,
-        numMachines: number
+        total_vol: number,
+        price: number
     }> = [];
 
     autoclaves.forEach(({ dataValues: autoclave }) => {
@@ -46,15 +48,26 @@ function calcAutoclaves(autoclaves: Array<Autoclaves>, dimensions: CompanyDimens
             const percentual = calcPercentual(autoclave, dimensions, numAutoclaves);
             const timeRequiredMinusOne = calcTimeRequiredMinusOne(autoclave, dimensions, numAutoclaves);
 
-            if (percentual < 90 && timeRequiredMinusOne < 20) {
+            if (percentual < 0.90 && timeRequiredMinusOne < 20) {
                 switch (true) {
                     case numAutoclaves < minAutoclaves:
                         minAutoclaves = numAutoclaves;
-                        bestAutoclavesConfig = [{ brand: autoclave.brand, model: autoclave.id, numMachines: numAutoclaves }];
+                        numMachines = numAutoclaves;
+                        bestAutoclavesConfig = [{ 
+                            brand: autoclave.brand, 
+                            model: autoclave.id,
+                            total_vol: autoclave.total_vol,
+                            price: autoclave.price
+                        }];
                         break;
                     
                     case numAutoclaves === minAutoclaves:
-                        bestAutoclavesConfig.push({ brand: autoclave.brand, model: autoclave.id, numMachines: numAutoclaves });
+                        bestAutoclavesConfig.push({ 
+                            brand: autoclave.brand, 
+                            model: autoclave.id,
+                            total_vol: autoclave.total_vol,
+                            price: autoclave.price
+                        });
                         break;
                     
                     default:
@@ -65,7 +78,10 @@ function calcAutoclaves(autoclaves: Array<Autoclaves>, dimensions: CompanyDimens
     });
 
 
-    return bestAutoclavesConfig;
+    return {
+        numMachines,
+        bestAutoclavesConfig: [ bestAutoclavesConfig[0], bestAutoclavesConfig[1] ]
+    };
 }
 
 function calcThermoWashers(thermoWashers: Array<ThermoWashers>, dimensions: CompanyDimensionType) {
@@ -77,11 +93,14 @@ function calcThermoWashers(thermoWashers: Array<ThermoWashers>, dimensions: Comp
         return (instruments + ventAssistTime) / (60 * 24 * 1);
     }
 
+    let numMachines = 1;
     let minThermoWashers = Number.MAX_SAFE_INTEGER;
     let bestThermoWashersConfig: Array<{
         brand: string,
         model: string,
-        numMachines: number
+        instruments_capacity: number,
+        trachea_capacity: number,
+        price: number
     }> = [];
 
     thermoWashers.forEach(({ dataValues: thermoWasher }) => {
@@ -92,11 +111,24 @@ function calcThermoWashers(thermoWashers: Array<ThermoWashers>, dimensions: Comp
                 switch (true) {
                     case numThermoWashers < minThermoWashers:
                         minThermoWashers = numThermoWashers;
-                        bestThermoWashersConfig = [{ brand: thermoWasher.brand, model: thermoWasher.id, numMachines: numThermoWashers }];
+                        numMachines = numThermoWashers;
+                        bestThermoWashersConfig = [{ 
+                            brand: thermoWasher.brand, 
+                            model: thermoWasher.id,
+                            instruments_capacity: thermoWasher.instruments_capacity,
+                            trachea_capacity: thermoWasher.trachea_capacity,
+                            price: thermoWasher.price
+                        }];
                         break;
                     
                     case numThermoWashers === minThermoWashers:
-                        bestThermoWashersConfig.push({ brand: thermoWasher.brand, model: thermoWasher.id, numMachines: numThermoWashers });
+                        bestThermoWashersConfig.push({ 
+                            brand: thermoWasher.brand, 
+                            model: thermoWasher.id,
+                            instruments_capacity: thermoWasher.instruments_capacity,
+                            trachea_capacity: thermoWasher.trachea_capacity,
+                            price: thermoWasher.price
+                        });
                         break;
                     
                     default:
@@ -106,5 +138,8 @@ function calcThermoWashers(thermoWashers: Array<ThermoWashers>, dimensions: Comp
         };
     });
 
-    return [ bestThermoWashersConfig[0] ];
+    return {
+        numMachines,
+        bestThermoWashersConfig: [ bestThermoWashersConfig[0] ]
+    };
 }
