@@ -33,6 +33,8 @@ class MainController {
                 const calcResult = await handleCalc(request.body.dimensions);
 
                 return response.status(res.code).json({
+                    cnpj,
+
                     num_autoclaves: calcResult.numAutoclaves,
                     num_thermo_washers: calcResult.numThermoWashers,
 

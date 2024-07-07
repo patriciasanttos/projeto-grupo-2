@@ -46,7 +46,7 @@ function calcAutoclaves(autoclaves: Array<Autoclaves>, dimensions: CompanyDimens
             const percentual = calcPercentual(autoclave, dimensions, numAutoclaves);
             const timeRequiredMinusOne = calcTimeRequiredMinusOne(autoclave, dimensions, numAutoclaves);
 
-            if (percentual < 90 && timeRequiredMinusOne < 20) {
+            if (percentual < 0.90 && timeRequiredMinusOne < 20) {
                 switch (true) {
                     case numAutoclaves < minAutoclaves:
                         minAutoclaves = numAutoclaves;

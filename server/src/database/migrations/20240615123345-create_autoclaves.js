@@ -40,6 +40,10 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      }
     });
   },
 

@@ -1,8 +1,6 @@
 import axios from "axios";
 import { CompanyType } from "../utils/types";
-const dotenv = require("dotenv");
-
-dotenv.config();
+require('dotenv').config();
 
 export default async function({ data, dimensions }: CompanyType) {
     const dataPost = {
@@ -26,8 +24,8 @@ export default async function({ data, dimensions }: CompanyType) {
         "Intervalo pico funcionamento CME": dimensions.cme_peak_interval,
         "Volume por cirurgia tecido":  dimensions.vol_per_surgery.tissue,
         "Volume por cirurgia instrumentos": dimensions.vol_per_surgery.instruments,
-        "Volume por leito UTI tecido": dimensions.voluvol_per_uti_bedsme_por_leito_uti.tissue,
-        "Volume por leito UTI instrumentos": dimensions.voluvol_per_uti_bedsme_por_leito_uti.instruments,
+        "Volume por leito UTI tecido": dimensions.vol_per_uti_beds.tissue,
+        "Volume por leito UTI instrumentos": dimensions.vol_per_uti_beds.instruments,
         "Volume por leito internacao tecido": dimensions.vol_per_hospital_beds.tissue,
         "Volume por leito internacao instrumentos": dimensions.vol_per_hospital_beds.instruments,
         "Estimativa volume diario tecido": dimensions.daily_vol_estimate.tissue,

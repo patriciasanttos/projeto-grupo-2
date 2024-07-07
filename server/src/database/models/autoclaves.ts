@@ -11,6 +11,7 @@ class Autoclaves extends Model <AutoclavesInterface> implements AutoclavesInterf
     public charging_dischaging_time!: number;
     public db_test_time!: number;
     public heating_time!: number;
+    public price!: number;
 }
 
 Autoclaves.init({
@@ -45,6 +46,10 @@ Autoclaves.init({
         allowNull: false
     },
     heating_time: {
+        type: DataTypes.NUMBER,
+        allowNull: false
+    },
+    price: {
         type: DataTypes.NUMBER,
         allowNull: false
     }

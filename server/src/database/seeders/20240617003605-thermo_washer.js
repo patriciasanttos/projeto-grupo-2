@@ -13,6 +13,7 @@ module.exports = {
           trachea_capacity: 18,
           instruments_time: 60,
           vent_assist_time: 60,
+          price: 1000.00
         },
         {
           id: "A2",
@@ -21,6 +22,7 @@ module.exports = {
           trachea_capacity: 30,
           instruments_time: 60,
           vent_assist_time: 60,
+          price: 2000.00
         },
         {
           id: "B1",
@@ -29,6 +31,7 @@ module.exports = {
           trachea_capacity: 18,
           instruments_time: 75,
           vent_assist_time: 70,
+          price: 3000.00
         },
         {
           id: "B2",
@@ -37,6 +40,7 @@ module.exports = {
           trachea_capacity: 34,
           instruments_time: 46,
           vent_assist_time: 56,
+          price: 4000.00
         },
         {
           id: "C1",
@@ -45,6 +49,7 @@ module.exports = {
           trachea_capacity: 15,
           instruments_time: 45,
           vent_assist_time: 60,
+          price: 5000.00
         },
         {
           id: "C2",
@@ -53,6 +58,7 @@ module.exports = {
           trachea_capacity: 35,
           instruments_time: 45,
           vent_assist_time: 60,
+          price: 6000.00
         },
         {
           id: "D1",
@@ -61,6 +67,7 @@ module.exports = {
           trachea_capacity: 20,
           instruments_time: 40,
           vent_assist_time: 40,
+          price: 7000.00
         },
         {
           id: "D2",
@@ -69,6 +76,7 @@ module.exports = {
           trachea_capacity: 30,
           instruments_time: 45,
           vent_assist_time: 60,
+          price: 8000.00
         },
         {
           id: "E1",
@@ -77,6 +85,7 @@ module.exports = {
           trachea_capacity: 18,
           instruments_time: 30,
           vent_assist_time: 45,
+          price: 9000.00
         },
         {
           id: "E2",
@@ -85,6 +94,7 @@ module.exports = {
           trachea_capacity: 18,
           instruments_time: 25,
           vent_assist_time: 35,
+          price: 10000.00
         },
         {
           id: "E3",
@@ -93,6 +103,7 @@ module.exports = {
           trachea_capacity: 35,
           instruments_time: 27,
           vent_assist_time: 35,
+          price: 11000.00
         },
         {
           id: "F1",
@@ -101,6 +112,7 @@ module.exports = {
           trachea_capacity: 20,
           instruments_time: 45,
           vent_assist_time: 45,
+          price: 12000.00
         },
       ],
       {}

@@ -1,5 +1,4 @@
-const dotenv = require("dotenv");
-dotenv.config();
+require('dotenv').config();
 
 const db = {
   host: process.env.DATABASE_HOST,
@@ -8,6 +7,8 @@ const db = {
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD
 }
+
+console.log(db)
 
 const dbConfig = {
   dialect: 'postgres',

@@ -9,6 +9,7 @@ class ThermoWashers extends Model <ThermoWashersInterface> implements ThermoWash
     public trachea_capacity!: number;
     public instruments_time!: number;
     public vent_assist_time!: number;
+    public price!: number;
 }
 
 ThermoWashers.init({
@@ -35,6 +36,10 @@ ThermoWashers.init({
         allowNull: false
     },
     vent_assist_time: {
+        type: DataTypes.NUMBER,
+        allowNull: false
+    },
+    price: {
         type: DataTypes.NUMBER,
         allowNull: false
     }

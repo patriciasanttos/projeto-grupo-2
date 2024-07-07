@@ -15,6 +15,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 1000.00
         },
         {
           id: "A2",
@@ -25,6 +26,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 2000.00
         },
         {
           id: "A3",
@@ -35,6 +37,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 3000.00
         },
         {
           id: "A4",
@@ -45,6 +48,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 4000.00
         },
         {
           id: "A5",
@@ -55,6 +59,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 5000.00
         },
         {
           id: "A6",
@@ -65,6 +70,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 6000.00
         },
         {
           id: "A7",
@@ -75,6 +81,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 7000.00
         },
         {
           id: "A8",
@@ -85,6 +92,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 8000.00
         },
         {
           id: "A9",
@@ -95,6 +103,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 9000.00
         },
         {
           id: "B1",
@@ -105,6 +114,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 10000.00
         },
         {
           id: "B2",
@@ -115,6 +125,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 11000.00
         },
         {
           id: "B3",
@@ -125,6 +136,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 12000.00
         },
         {
           id: "B4",
@@ -135,6 +147,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 13000.00
         },
         {
           id: "B5",
@@ -145,6 +158,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 14000.00
         },
         {
           id: "B6",
@@ -155,6 +169,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 15000.00
         },
         {
           id: "B7",
@@ -165,6 +180,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 16000.00
         },
         {
           id: "B8",
@@ -175,6 +191,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 17000.00
         },
         {
           id: "C1",
@@ -185,6 +202,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 18000.00
         },
         {
           id: "C2",
@@ -195,6 +213,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 19000.00
         },
         {
           id: "C3",
@@ -205,6 +224,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 20000.00
         },
         {
           id: "C4",
@@ -215,6 +235,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 21000.00
         },
         {
           id: "C5",
@@ -225,6 +246,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 22000.00
         },
         {
           id: "C6",
@@ -235,6 +257,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 23000.00
         },
         {
           id: "C7",
@@ -245,6 +268,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 24000.00
         },
         {
           id: "C8",
@@ -255,6 +279,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 25000.00
         },
         {
           id: "D1",
@@ -265,6 +290,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 26000.00
         },
         {
           id: "D2",
@@ -275,6 +301,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 27000.00
         },
         {
           id: "D3",
@@ -285,6 +312,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 28000.00
         },
         {
           id: "D4",
@@ -295,6 +323,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 29000.00
         },
         {
           id: "D5",
@@ -305,6 +334,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 30000.00
         },
         {
           id: "D6",
@@ -315,6 +345,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 31000.00
         },
         {
           id: "D7",
@@ -325,6 +356,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 32000.00
         },
         {
           id: "D8",
@@ -335,6 +367,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 33000.00
         },
         {
           id: "E1",
@@ -345,6 +378,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 34000.00
         },
         {
           id: "E2",
@@ -355,6 +389,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 35000.00
         },
         {
           id: "E3",
@@ -365,6 +400,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 36000.00
         },
         {
           id: "E4",
@@ -375,6 +411,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 37000.00
         },
         {
           id: "E5",
@@ -385,6 +422,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 38000.00
         },
         {
           id: "E6",
@@ -395,6 +433,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 39000.00
         },
         {
           id: "E7",
@@ -405,6 +444,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 40000.00
         },
         {
           id: "E8",
@@ -415,6 +455,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 41000.00
         },
         {
           id: "E9",
@@ -425,6 +466,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 42000.00
         },
         {
           id: "E10",
@@ -435,6 +477,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 43000.00
         },
         {
           id: "E11",
@@ -445,6 +488,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 20,
+          price: 44000.00
         },
         {
           id: "E12",
@@ -455,6 +499,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 12,
+          price: 45000.00
         },
         {
           id: "E13",
@@ -465,6 +510,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 5,
+          price: 46000.00
         },
         {
           id: "F1",
@@ -475,6 +521,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 10,
+          price: 47000.00
         },
         {
           id: "F2",
@@ -485,6 +532,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 10,
+          price: 48000.00
         },
         {
           id: "F3",
@@ -495,6 +543,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 10,
+          price: 49000.00
         },
         {
           id: "F4",
@@ -505,6 +554,7 @@ module.exports = {
           charging_dischaging_time: 10,
           db_test_time: 30,
           heating_time: 10,
+          price: 50000.00
         }
       ], {}
     );
