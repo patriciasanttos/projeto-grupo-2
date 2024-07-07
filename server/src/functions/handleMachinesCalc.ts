@@ -98,6 +98,8 @@ function calcThermoWashers(thermoWashers: Array<ThermoWashers>, dimensions: Comp
     let bestThermoWashersConfig: Array<{
         brand: string,
         model: string,
+        instruments_capacity: number,
+        trachea_capacity: number,
         price: number
     }> = [];
 
@@ -113,6 +115,8 @@ function calcThermoWashers(thermoWashers: Array<ThermoWashers>, dimensions: Comp
                         bestThermoWashersConfig = [{ 
                             brand: thermoWasher.brand, 
                             model: thermoWasher.id,
+                            instruments_capacity: thermoWasher.instruments_capacity,
+                            trachea_capacity: thermoWasher.trachea_capacity,
                             price: thermoWasher.price
                         }];
                         break;
@@ -121,6 +125,8 @@ function calcThermoWashers(thermoWashers: Array<ThermoWashers>, dimensions: Comp
                         bestThermoWashersConfig.push({ 
                             brand: thermoWasher.brand, 
                             model: thermoWasher.id,
+                            instruments_capacity: thermoWasher.instruments_capacity,
+                            trachea_capacity: thermoWasher.trachea_capacity,
                             price: thermoWasher.price
                         });
                         break;
