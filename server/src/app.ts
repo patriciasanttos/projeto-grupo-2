@@ -13,9 +13,12 @@ app
     res.header('Access-Control-Allow-Methods', 'GET, POST');
 
     app.use(cors());
+
     next();
   })
-  .use(router);
-
+  .use(router)
+  .use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    return res.status(500).send({ message: error.message });
+  });
 
 export default app;

@@ -22,6 +22,9 @@ class MainController {
     };
 
     saveCompanyAndCalc = async (request: Request, response: Response) => {
+        if (request.body.data === undefined || request.body.dimensions === undefined)
+            return response.status(400).json({ error: 'Invalid body request' });
+
         const { cnpj } = request.body.data
 
         //-----Validar CPNJ

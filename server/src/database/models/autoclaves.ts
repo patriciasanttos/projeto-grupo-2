@@ -2,17 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "..";
 import { AutoclavesInterface } from "../../utils/types";
 
-class Autoclaves extends Model <AutoclavesInterface> implements AutoclavesInterface {
-    public id!: string;
-    public brand!: string;
-    public total_vol!: number;
-    public useful_vol!: number;
-    public cycle_time!: number;
-    public charging_dischaging_time!: number;
-    public db_test_time!: number;
-    public heating_time!: number;
-    public price!: number;
-}
+class Autoclaves extends Model <AutoclavesInterface> {}
 
 Autoclaves.init({
     id: {
@@ -50,7 +40,7 @@ Autoclaves.init({
         allowNull: false
     },
     price: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.FLOAT,
         allowNull: false
     }
 }, {

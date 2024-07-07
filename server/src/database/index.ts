@@ -5,7 +5,8 @@ const connection = new Sequelize(String(dbConfig.database), String(dbConfig.user
     dialect: 'postgres',
     host: dbConfig.host,
     port: dbConfig.port,
-    define: dbConfig.define
+    define: dbConfig.define,
+    logging: false
 });
 
 export default connection;
