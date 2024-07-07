@@ -16,6 +16,9 @@ import {
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 import { ActionLandingPage, StateLandinPage } from '@/types';
 import InputMask from 'react-input-mask';
+import { validateLandingPageState } from '@/utils/validateLandingPageState';
+import { useCheckFirstSubmitByCNPJ } from '@/hooks/useCompany';
+import { clearCNPJ } from '@/utils/clearCNPJ';
 
 interface FormCardProps {
   state: StateLandinPage;
@@ -60,12 +63,20 @@ const momentEnterprise: string[] = [
   'Outro momento',
 ];
 
-const HandleSubmit = ({ state, dispatch }: HandleSubmit) => {
-  dispatch({ type: 'SET_ERROR', payload: { validate: true } });
-  console.log(state)
-};
-
 const FormCard = ({ dispatch, state }: FormCardProps) => {
+  const {mutate} = useCheckFirstSubmitByCNPJ();
+  
+  const HandleSubmit = ({ state, dispatch }: HandleSubmit) => {
+    dispatch({ type: 'SET_ERROR', payload: { validate: true } });
+
+    validateLandingPageState(state) ? (
+      mutate(clearCNPJ(state.cnpj))
+      //todo
+    ) : (
+      console.log('Tratar erro') //todo
+    ) ;
+  };
+
   return (
     <Box className={Style.formCard}>
       <Typography>
