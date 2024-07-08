@@ -20,34 +20,17 @@ export const useDataCompanyContext = () => {
 
 export const DataCompanyProvider = ({ children }: { children: ReactNode }) => {
   const [dataCompany, setDataCompany] = useState<DataCompanyType>({
-    dimensions: {
-      surgeryRooms: '',
-      icuBeds: '',
-      hospitalizationBeds: '',
-      surgerysPerDay: '',
-      weekDaySurgery: '',
-      fabricProcessing: false,
-      instrumentsSurgery: '',
-      fabricSurgery: '',
-      instrumentsICU: '',
-      fabricICU: '',
-      instrumentsHospitalization: '',
-      fabricHospitalization: '',
-      cmePeakInterval: '',
-    },
-    data: {
-      name: '',
-      email: '',
-      tel: '',
-      cep: '',
-      institutionName: '',
-      cnpj: '',
-      position: '',
-      segment: '',
-      momentEnterprise: '',
-      statusClinicalEng: '',
-      momentCME: '',
-    },
+    name: '',
+    email: '',
+    tel: '',
+    cep: '',
+    institutionName: '',
+    cnpj: '',
+    position: '',
+    segment: '',
+    momentEnterprise: '',
+    statusClinicalEng: '',
+    momentCME: '',
   });
 
   return (
