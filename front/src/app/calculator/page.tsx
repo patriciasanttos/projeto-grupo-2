@@ -18,6 +18,7 @@ import Logo from '../../../public/logo.svg';
 import { ActionCalculator, StateCalculator } from '@/types';
 import { useSaveCompanyAndCalc } from '@/hooks/useCompany';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { clearCNPJ } from '@/utils/clearCNPJ';
 
 interface PropsCalculatorForm {
   state: StateCalculator;
@@ -351,7 +352,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
         },
       },
       data: {
-        cnpj: dataCompany.cnpj,
+        cnpj: clearCNPJ(dataCompany.cnpj),
         name: dataCompany.name,
         email: dataCompany.email,
         company_name: dataCompany.institutionName,
