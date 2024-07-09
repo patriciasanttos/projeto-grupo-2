@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { DataCompanyType } from '@/types';
 import { createContext, ReactNode, useContext, useState } from 'react';
 

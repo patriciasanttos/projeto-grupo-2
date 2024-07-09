@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Style from './index.module.scss';
 import {
   Autocomplete,
@@ -19,7 +19,8 @@ import InputMask from 'react-input-mask';
 import { validateLandingPageState } from '@/utils/validateLandingPageState';
 import { useCheckFirstSubmitByCNPJ } from '@/hooks/useCompany';
 import { clearCNPJ } from '@/utils/clearCNPJ';
-import Router from 'next/router';
+import { useDataCompanyContext } from '@/context/dataCompanyContext';
+import { useRouter } from 'next/navigation';
 
 interface FormCardProps {
   state: StateLandinPage;
@@ -65,25 +66,41 @@ const momentEnterprise: string[] = [
 ];
 
 const FormCard = ({ dispatch, state }: FormCardProps) => {
+  const { dataCompany, setDataCompany } = useDataCompanyContext();
   const { mutate } = useCheckFirstSubmitByCNPJ();
+  const router = useRouter();
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
-  const HandleSubmit = ({ state, dispatch }: HandleSubmit) => {
+  const HandleSubmit = async ({ state, dispatch }: HandleSubmit) => {
     dispatch({ type: 'SET_ERROR', payload: { validate: true } });
 
     if (validateLandingPageState(state)) {
-      mutate(clearCNPJ(state.dataCompany.cnpj), {
-        onError: () => {
-          const queryString = new URLSearchParams(state.dataCompany).toString();
-          Router.push(`/calculator?${queryString}`);
-        },
-        onSuccess: () => {
-          console.log("Cliente já cadastrado") //todo
-        }
-      });
+      try {
+        setDataCompany(state.dataCompany);
+        setShouldRedirect(true);
+      } catch (error) {
+        console.error('Erro ao definir dataCompany:', error);
+        return;
+      }
     } else {
       console.log('Por favor, preencha todos os campos obrigatórios.'); //todo
+      return;
     }
   };
+
+  useEffect(() => {
+    if (shouldRedirect) {
+      console.log(dataCompany);
+      mutate(clearCNPJ(state.dataCompany.cnpj), {
+        onError: () => {
+          router.push('/calculator');
+        },
+        onSuccess: () => {
+          console.log('Cliente já cadastrado'); //todo
+        },
+      });
+    }
+  }, [shouldRedirect]);
 
   return (
     <Box className={Style.formCard}>
