@@ -13,7 +13,6 @@ import ServiceCardList from '@/components/ServiceCard/ServiceCardList';
 import Footer from '@/components/Footer/Footer';
 import { ActionLandingPage, StateLandinPage } from '@/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { DataCompanyProvider } from '@/context/dataCompanyContext';
 
 const Reducer = (state: StateLandinPage, action: ActionLandingPage) => {
   switch (action.type) {
@@ -68,7 +67,6 @@ const LandingPage = () => {
   const queryClient = new QueryClient();
 
   return (
-    <DataCompanyProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={LightTheme}>
           <NavBar />
@@ -130,7 +128,6 @@ const LandingPage = () => {
           <Footer />
         </ThemeProvider>
       </QueryClientProvider>
-    </DataCompanyProvider>
   );
 };
 

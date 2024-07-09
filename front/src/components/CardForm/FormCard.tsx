@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Style from './index.module.scss';
 import {
   Autocomplete,
@@ -19,7 +19,6 @@ import InputMask from 'react-input-mask';
 import { validateLandingPageState } from '@/utils/validateLandingPageState';
 import { useCheckFirstSubmitByCNPJ } from '@/hooks/useCompany';
 import { clearCNPJ } from '@/utils/clearCNPJ';
-import { useDataCompanyContext } from '@/context/dataCompanyContext';
 import { useRouter } from 'next/navigation';
 
 interface FormCardProps {
@@ -66,31 +65,14 @@ const momentEnterprise: string[] = [
 ];
 
 const FormCard = ({ dispatch, state }: FormCardProps) => {
-  const { dataCompany, setDataCompany } = useDataCompanyContext();
   const { mutate } = useCheckFirstSubmitByCNPJ();
   const router = useRouter();
-  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const HandleSubmit = async ({ state, dispatch }: HandleSubmit) => {
     dispatch({ type: 'SET_ERROR', payload: { validate: true } });
 
     if (validateLandingPageState(state)) {
-      try {
-        setDataCompany(state.dataCompany);
-        setShouldRedirect(true);
-      } catch (error) {
-        console.error('Erro ao definir dataCompany:', error);
-        return;
-      }
-    } else {
-      console.log('Por favor, preencha todos os campos obrigatórios.'); //todo
-      return;
-    }
-  };
-
-  useEffect(() => {
-    if (shouldRedirect) {
-      console.log(dataCompany);
+      localStorage.setItem('dataLocal', JSON.stringify(state.dataCompany));
       mutate(clearCNPJ(state.dataCompany.cnpj), {
         onError: () => {
           router.push('/calculator');
@@ -99,8 +81,11 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
           console.log('Cliente já cadastrado'); //todo
         },
       });
+    } else {
+      console.log('Por favor, preencha todos os campos obrigatórios.'); //todo
+      return;
     }
-  }, [shouldRedirect]);
+  };
 
   return (
     <Box className={Style.formCard}>
