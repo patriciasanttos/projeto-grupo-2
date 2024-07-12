@@ -9,7 +9,7 @@ module.exports = {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
-        allowNull: false,
+        allowNull: false
       },
       name: {
         type: DataTypes.STRING,
@@ -53,6 +53,12 @@ module.exports = {
       situation: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      autoclaves: {
+        type: DataTypes.STRING
+      },
+      thermo_washers: {
+        type: DataTypes.STRING
       },
       created_at: {
         type: DataTypes.DATE,

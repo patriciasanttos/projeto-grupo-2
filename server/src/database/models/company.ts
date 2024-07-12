@@ -13,27 +13,15 @@ interface CompanyInfo {
     role: string,
     objective: string,
     situation: string,
+    autoclaves?: string,
+    thermo_washers?: string,
     created_at?: string,
     updated_at?: string,
 }
 
 type CompanyInfoCreation = Optional<CompanyInfo, 'id'>;
 
-class Company extends Model<CompanyInfo, CompanyInfoCreation> {
-    public id!: string;
-    public cnpj!: string;
-    public name!: string;
-    public email!: string;
-    public company_name!: string;
-    public cep!: string;
-    public phone!: string;
-    public segment!: string;
-    public role!: string;
-    public objective!: string;
-    public situation!: string;
-    public created_at!: string;
-    public updated_at!: string;
-}
+class Company extends Model<CompanyInfo, CompanyInfoCreation> {}
 
 Company.init({
     id: {
@@ -86,10 +74,16 @@ Company.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+    autoclaves: {
+        type: DataTypes.STRING
+    },
+    thermo_washers: {
+        type: DataTypes.STRING
+    },
     created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
-        allowNull: false
+        allowNull: false,
     },
     updated_at: {
         type: DataTypes.DATE
