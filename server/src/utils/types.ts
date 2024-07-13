@@ -13,6 +13,8 @@ export type CompanyDataType = {
   phone: string,
   segment: string,
   role: string,
+  autoclaves?: string,
+  thermo_washers?: string,
   objective: string,
   situation: string
 }

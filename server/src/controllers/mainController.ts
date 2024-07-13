@@ -17,7 +17,10 @@ class MainController {
         //-----Buscar empresa no banco de dados
         await companyRepository.getCompany(cnpj)
            .then((res: { code: number, data?: {} }) => {
-                return response.status(res.code).json(res.data);
+                if (res.code === 200)
+                    return response.status(401).json(res.data);
+    
+                return response.status(200).json(res.data);
             })
     };
 
@@ -31,25 +34,45 @@ class MainController {
         if (!validateCNPJ(cnpj))
             return response.status(400).json({ error: 'CNPJ inválido' });
 
+        //-----Calcular estimativa diária dos materiais
         const dimensions = calcDailyEstimate(request.body.dimensions);
-        //-----Cadastrar empresa no banco de dados
-        await companyRepository.createCompany({ data: request.body.data, dimensions })
-            .then(async (res: { code: number, data?: {} }) => {
-                if (res.code === 409)
-                    return response.status(res.code).json(res.data);
 
-                const calcResult = await handleCalc(dimensions);
+        //-----Calcular máquinas recomendadas
+        await handleCalc(dimensions)
+            .then(async calcResult => {
+                //-----Cadastrar empresa no banco de dados
+                const autoclaves = calcResult.autoclaves.map(autoclave => autoclave.model).join('/');
+                const thermoWashers = calcResult.thermoWashers.map(thermoWasher => thermoWasher.model).join('/');
 
-                return response.status(res.code).json({
-                    cnpj,
+                await companyRepository.createCompany(
+                    { 
+                        data: { 
+                            ...request.body.data,
+                            autoclaves,
+                            thermoWashers
+                        }, 
+                        dimensions
+                    },
+                    { autoclaves, thermoWashers }
+                ).then(async (res: { code: number, data?: {} }) => {
+                    if (res.code === 409)
+                        return response.status(res.code).json({ error: 'Empresa já cadastrada' });
 
-                    num_autoclaves: calcResult.numAutoclaves,
-                    num_thermo_washers: calcResult.numThermoWashers,
-
-                    autoclaves: calcResult.autoclaves,
-                    thermo_washers: calcResult.thermoWashers
+                    return response.status(res.code).json({
+                        cnpj,
+    
+                        num_autoclaves: calcResult.numAutoclaves,
+                        num_thermo_washers: calcResult.numThermoWashers,
+    
+                        autoclaves: calcResult.autoclaves,
+                        thermo_washers: calcResult.thermoWashers
+                    });
+                }).catch(() => {
+                    return response.status(500).json({
+                        error: 'Internal Server Error'
+                    });
                 });
-            });
+            })
     };
 }
 

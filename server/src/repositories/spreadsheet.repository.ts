@@ -1,8 +1,11 @@
 import axios from "axios";
 import { CompanyType } from "../utils/types";
+import calcDailyEstimate from "../functions/calcDailyEstimate";
 require('dotenv').config();
 
-export default async function({ data, dimensions }: CompanyType) {
+export default async function({ data, dimensions: companyDimensions }: CompanyType, machines: { autoclaves: string, thermoWashers: string }) {
+    const dimensions = calcDailyEstimate(companyDimensions);
+
     const dataPost = {
         'Nome': data.name,
         'Cnpj': `${data.cnpj.slice(0, 2)}.${data.cnpj.slice(2, 5)}.${data.cnpj.slice(5, 8)}/${data.cnpj.slice(8, 12)}-${data.cnpj.slice(12, 14)}`,
@@ -15,21 +18,24 @@ export default async function({ data, dimensions }: CompanyType) {
         'Momento atual': data.objective,
         'Situação da engenharia': data.situation,
 
+        'Autoclaves': machines.autoclaves,
+        'Lavadoras Termodesinfetoras': machines.thermoWashers,
+        
         "Salas cirurgicas": dimensions.surgery_rooms,
         "Cirurgias por dia por sala": dimensions.surgerys_per_day,
         "Dias da semana cirurgia": dimensions.week_days_surgery,
         "Leitos UTI": dimensions.uti_beds,
-        "Leitos internacao": dimensions.hospital_beds,
+        "Leitos internação": dimensions.hospital_beds,
         "Processamento de tecido": dimensions.tissue_processing ? 'Sim' : 'Não',
         "Intervalo pico funcionamento CME": dimensions.cme_peak_interval,
-        "Volume por cirurgia tecido":  dimensions.vol_per_surgery.tissue,
-        "Volume por cirurgia instrumentos": dimensions.vol_per_surgery.instruments,
-        "Volume por leito UTI tecido": dimensions.vol_per_uti_beds.tissue,
-        "Volume por leito UTI instrumentos": dimensions.vol_per_uti_beds.instruments,
-        "Volume por leito internacao tecido": dimensions.vol_per_hospital_beds.tissue,
-        "Volume por leito internacao instrumentos": dimensions.vol_per_hospital_beds.instruments,
-        "Estimativa volume diario tecido": dimensions.daily_vol_estimate.tissue,
-        "Estimativa volume diario instrumentos": dimensions.daily_vol_estimate.instruments,
+        "Volume por cirurgia (Tecido)":  dimensions.vol_per_surgery.tissue,
+        "Volume por cirurgia (Instrumentos)": dimensions.vol_per_surgery.instruments,
+        "Volume por leito UTI (Tecido)": dimensions.vol_per_uti_beds.tissue,
+        "Volume por leito UTI (Instrumentos)": dimensions.vol_per_uti_beds.instruments,
+        "Volume por leito internacao (Tecido)": dimensions.vol_per_hospital_beds.tissue,
+        "Volume por leito internacao (Instrumentos)": dimensions.vol_per_hospital_beds.instruments,
+        "Estimativa volume diario (Tecido)": dimensions.daily_vol_estimate.tissue,
+        "Estimativa volume diario (Instrumentos)": dimensions.daily_vol_estimate.instruments,
         "Estimativa volume diario total": dimensions.daily_vol_estimate.total,
         "Estimativa volume diario em litros": dimensions.daily_vol_estimate.in_lit
     };
