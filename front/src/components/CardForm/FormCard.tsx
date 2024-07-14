@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import Style from './index.module.scss';
 import {
   Autocomplete,
@@ -20,6 +20,7 @@ import { validateLandingPageState } from '@/utils/validateLandingPageState';
 import { useCheckFirstSubmitByCNPJ } from '@/hooks/useCompany';
 import { clearCNPJ } from '@/utils/clearCNPJ';
 import { useRouter } from 'next/navigation';
+import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 interface FormCardProps {
   state: StateLandinPage;
@@ -65,14 +66,26 @@ const momentEnterprise: string[] = [
 ];
 
 const FormCard = ({ dispatch, state }: FormCardProps) => {
+  const [recaptchaToken, setRecaptchaToken] = useState<string>();
+
   const { mutate } = useCheckFirstSubmitByCNPJ();
   const router = useRouter();
+
+  const onVerifyRecaptcha = useCallback( (token: string) => {
+    if (recaptchaToken !== token) {
+      setRecaptchaToken(token);
+    }
+  }, [])
 
   const HandleSubmit = async ({ state, dispatch }: HandleSubmit) => {
     dispatch({ type: 'SET_ERROR', payload: { validate: true } });
 
     if (validateLandingPageState(state)) {
       localStorage.setItem('dataLocal', JSON.stringify(state.dataCompany));
+
+      // TODO: Send recaptchaToken to back-end
+      console.log('Recaptcha Token: ', recaptchaToken)
+      
       mutate(clearCNPJ(state.dataCompany.cnpj), {
         onError: () => {
           router.push('/calculator');
@@ -382,6 +395,9 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
       >
         Teste Grátis
       </Button>
+      <GoogleReCaptcha
+        onVerify={onVerifyRecaptcha}
+      />
     </Box>
   );
 };

@@ -13,6 +13,7 @@ import ServiceCardList from '@/components/ServiceCard/ServiceCardList';
 import Footer from '@/components/Footer/Footer';
 import { ActionLandingPage, StateLandinPage } from '@/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 const Reducer = (state: StateLandinPage, action: ActionLandingPage) => {
   switch (action.type) {
@@ -67,6 +68,7 @@ const LandingPage = () => {
   const queryClient = new QueryClient();
 
   return (
+    <GoogleReCaptchaProvider reCaptchaKey="6LfbaA8qAAAAAKbtpHfbsQEoXB2eFyHvkBq4cvJg">
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={LightTheme}>
           <NavBar />
@@ -128,6 +130,7 @@ const LandingPage = () => {
           <Footer />
         </ThemeProvider>
       </QueryClientProvider>
+    </GoogleReCaptchaProvider>
   );
 };
 
