@@ -3,25 +3,44 @@ import validateCNPJ from "../functions/validate_cnpj";
 import CompanyRepository from "../repositories/companys.repository";
 import handleCalc from "../functions/handleMachinesCalc";
 import calcDailyEstimate from "../functions/calcDailyEstimate";
+import handleRecaptcha from "../functions/handleRecaptcha";
 
 const companyRepository = new CompanyRepository();
 
 class MainController {
     checkFirstSubmitByCNPJ = async (request: Request, response: Response) => {
+        const token = request.headers.authorization
         const { cnpj } = request.params
+
+        if (!token || !cnpj)
+            return response.status(400).json({ error: 'Invalid request' });
 
         //-----Validar CPNJ
         if (!validateCNPJ(cnpj))
             return response.status(400).json({ error: 'CNPJ inválido' });
 
+        if (!await handleRecaptcha(token))
+            return response.status(401).json({ error: 'ReCaptcha error' });
+            
+
         //-----Buscar empresa no banco de dados
         await companyRepository.getCompany(cnpj)
            .then((res: { code: number, data?: {} }) => {
-                if (res.code === 200)
-                    return response.status(401).json(res.data);
-    
-                return response.status(200).json(res.data);
-            })
+                switch (res.code) {
+                    case 200:
+                        response.status(401).json(res.data);
+                        break;
+
+                    case 404:
+                        response.status(200).json(res.data);
+                        break;
+
+                    default:
+                        response.status(res.code).json(res.data);
+                }
+
+                return;
+            });
     };
 
     saveCompanyAndCalc = async (request: Request, response: Response) => {
