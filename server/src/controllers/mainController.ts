@@ -15,13 +15,16 @@ class MainController {
         if (!token || !cnpj)
             return response.status(400).json({ error: 'Invalid request' });
 
+        
         //-----Validar CPNJ
         if (!validateCNPJ(cnpj))
             return response.status(400).json({ error: 'CNPJ inválido' });
 
-        if (!await handleRecaptcha(token))
+        //-----Validar reCaptcha
+        const validateRecaptcha = await handleRecaptcha(token);
+        if (!validateRecaptcha)
             return response.status(401).json({ error: 'ReCaptcha error' });
-            
+
 
         //-----Buscar empresa no banco de dados
         await companyRepository.getCompany(cnpj)
