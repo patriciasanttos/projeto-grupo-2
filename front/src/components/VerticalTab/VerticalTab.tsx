@@ -18,8 +18,12 @@ interface TabPanelProps {
 }
 
 interface VerticalTabsProps {
-  machines: AutoclaveType[] | ThermoWasherType[];
+  machines: (AutoclaveType | ThermoWasherType)[];
   numMachines: number;
+}
+
+interface BrandsMachineType {
+  [brand: string]: (AutoclaveType | ThermoWasherType)[];
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -58,24 +62,26 @@ function a11yProps(index: number) {
 function VerticalTabs({ machines, numMachines }: VerticalTabsProps) {
   const [value, setValue] = React.useState(0);
 
-  let brands = {};
+  const brandsMachine = machines.reduce((acc: BrandsMachineType, machine) => {
+    if (!acc[machine.brand]) {
+      acc[machine.brand] = [];
+    }
 
-  machines.forEach((machine: AutoclaveType | ThermoWasherType) => {
-    const brand = machine.brand;
-    
-    if (Object.keys(brands).includes(brand)) return;
+    acc[machine.brand].push(machine);
+    return acc;
+  }, {});
 
-    brands = {
-      ...brands,
-      brand: [
-        ...machines.map((value: AutoclaveType | ThermoWasherType)=> value)
-      ]
+  const aaaaa = Object.entries(brandsMachine).map((arrayMachines, index) => {
+    const bbbbb = arrayMachines.map(machines => {
+      return machines;
+    });
+    return {
+      index,
+      bbbbb,
     };
-
-
   });
 
-  console.log(brands);
+  console.log(aaaaa);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -98,24 +104,37 @@ function VerticalTabs({ machines, numMachines }: VerticalTabsProps) {
         aria-label="Vertical tabs example"
         sx={{ borderRight: 2, borderColor: 'divider' }}
       >
-        {machines.map((machine, index) => (
-          <Tab key={index} label={machine.brand} {...a11yProps(index)} />
+        {Object.entries(brandsMachine).map((item, index) => (
+          <Tab key={index} label={item[0]} {...a11yProps(index)} />
         ))}
       </Tabs>
-      <TabPanel value={value} index={0} numMachines={numMachines}>
-        {machines.map((value, index) => (
-          <Accordion key={index}>
-            <AccordionSummary
-              expandIcon={<ExpandMore />}
-              aria-controls="panel1-content"
-              id="panel1-header"
-            >
-              {value.model}
-            </AccordionSummary>
-            <AccordionDetails>{console.log(machines)}</AccordionDetails>
-          </Accordion>
-        ))}
-      </TabPanel>
+      {Object.entries(aaaaa).map(arrayMachines => (
+        <TabPanel
+          key={arrayMachines[1].index}
+          value={value}
+          index={arrayMachines[1].index}
+          numMachines={numMachines}
+        >
+          {Object.entries(machines).map((machine, i) => (
+            <Accordion key={i}>
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1-content"
+                id={`panel1-header-${machines[1].model}`}
+              >
+                {machines.indexOf(machine[1]) == arrayMachines[1].index
+                  ? machine[1].brand
+                  : ''}
+              </AccordionSummary>
+              <AccordionDetails>
+                {console.log(
+                  machines.indexOf(machine[1]) == arrayMachines[1].index,
+                )}
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </TabPanel>
+      ))}
     </Box>
   );
 }
