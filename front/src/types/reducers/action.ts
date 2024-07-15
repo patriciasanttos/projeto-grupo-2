@@ -1,3 +1,5 @@
+import { CalculatorResponseType } from "../api/api";
+
 export type ActionLandingPage =
   | {
       type: 'SET_FORM';
@@ -55,4 +57,14 @@ export type ActionCalculator =
       payload: {
         validate?: boolean;
       };
+    };
+
+export type ActionResult =
+  | {
+      type: 'SET_MACHINE';
+      payload: number;
+    }
+  | {
+      type: 'SET_DATA';
+      payload: CalculatorResponseType;
     };

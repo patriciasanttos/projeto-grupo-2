@@ -15,10 +15,15 @@ import {
 import { LightTheme } from '@/themes';
 import Image from 'next/image';
 import Logo from '../../../public/logo.svg';
-import { ActionCalculator, StateCalculator } from '@/types';
+import {
+  ActionCalculator,
+  CalculatorResponseType,
+  StateCalculator,
+} from '@/types';
 import { useSaveCompanyAndCalc } from '@/hooks/useCompany';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { clearCNPJ } from '@/utils/clearCNPJ';
+import { useRouter } from 'next/navigation';
 
 interface PropsCalculatorForm {
   state: StateCalculator;
@@ -304,8 +309,6 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     });
   };
 
-  const { mutate } = useSaveCompanyAndCalc();
-
   const [dataCompany, setDataCompany] = useState({
     name: '',
     email: '',
@@ -327,6 +330,9 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
       setDataCompany(parsedData);
     }
   }, []);
+
+  const { mutate } = useSaveCompanyAndCalc();
+  const router = useRouter();
 
   const HandleSubmit = async () => {
     const data = {
@@ -364,13 +370,14 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
         situation: dataCompany.statusClinicalEng,
       },
     };
-    console.log(data);
-    mutate(data),
-      {
-        onSuccess: () => {
-          console.log('Foii');
-        },
-      };
+
+    mutate(data, {
+      onSuccess: ( res : { res: CalculatorResponseType }) => {
+        const querystring = encodeURIComponent(JSON.stringify(res));
+        console.log('foi', 'res:', res, 'querystring:', querystring);
+        router.push(`/calculator/${querystring}`);
+      },
+    });
   };
 
   const HandleValidate = () => {
@@ -748,6 +755,7 @@ const Calculator = () => {
   };
 
   const [state, dispatch] = useReducer(Reducer, InitialArgs);
+
   const RenderCalculator = (page: string) => {
     switch (page) {
       case 'page1':
