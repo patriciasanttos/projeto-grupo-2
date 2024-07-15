@@ -15,7 +15,7 @@ class MainController {
             return response.status(400).json({ error: 'CNPJ inválido' });
 
         //-----Buscar empresa no banco de dados
-        await companyRepository.getCompany(cnpj)
+        await companyRepository.checkCompany(cnpj)
            .then((res: { code: number, data?: {} }) => {
                 if (res.code === 200)
                     return response.status(401).json(res.data);
@@ -74,6 +74,22 @@ class MainController {
                 });
             })
     };
+
+    confirmCompanyContact = async (request: Request, response: Response) => {
+        if (request.body.cnpj === undefined || request.body.contact === undefined)
+            return response.status(400).json({ error: 'Invalid body request' });
+
+        const { cnpj, contact } = request.body;
+
+        //-----Validar CPNJ
+        if (!validateCNPJ(cnpj))
+            return response.status(400).json({ error: 'CNPJ inválido' });
+
+        await companyRepository.updateCompany(cnpj, contact)
+            .then((res: { code: number, data?: {} }) => {
+                return response.status(res.code).json(res.data);
+            })
+    }
 }
 
 export default MainController;
