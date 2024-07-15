@@ -60,13 +60,19 @@ module.exports = {
       thermo_washers: {
         type: DataTypes.STRING
       },
+      contact: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
       created_at: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-        allowNull: false
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
+          allowNull: false,
       },
       updated_at: {
-        type: DataTypes.DATE
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
+          allowNull: false
       }
     });
   },
