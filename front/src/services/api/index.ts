@@ -1,7 +1,12 @@
 import axiosClient from '../axiosClient';
 
-export const get = async (url: string) => {
-  const response = await axiosClient.get(url);
+export const get = async (url: string, token: string) => {
+  const response = await axiosClient
+    .get(url, {
+      headers: {
+        Authorization: token,
+      }
+    });
   return response.data;
 };
 

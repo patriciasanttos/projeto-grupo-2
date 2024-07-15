@@ -66,16 +66,16 @@ const momentEnterprise: string[] = [
 ];
 
 const FormCard = ({ dispatch, state }: FormCardProps) => {
-  const [recaptchaToken, setRecaptchaToken] = useState<string>();
+  const [recaptchaToken, setRecaptchaToken] = useState<string>('');
 
   const { mutate } = useCheckFirstSubmitByCNPJ();
   const router = useRouter();
 
-  const onVerifyRecaptcha = useCallback( (token: string) => {
+  const onVerifyRecaptcha = useCallback((token: string) => {
     if (recaptchaToken !== token) {
       setRecaptchaToken(token);
     }
-  }, [])
+  }, []);
 
   const HandleSubmit = async ({ state, dispatch }: HandleSubmit) => {
     dispatch({ type: 'SET_ERROR', payload: { validate: true } });
@@ -83,15 +83,15 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
     if (validateLandingPageState(state)) {
       localStorage.setItem('dataLocal', JSON.stringify(state.dataCompany));
 
-      // TODO: Send recaptchaToken to back-end
-      console.log('Recaptcha Token: ', recaptchaToken)
-      
-      mutate(clearCNPJ(state.dataCompany.cnpj), {
+      mutate({
+        cnpj: clearCNPJ(state.dataCompany.cnpj),
+        token: recaptchaToken
+      }, {
         onError: () => {
-          router.push('/calculator');
+          console.log('Cliente já cadastrado'); //todo
         },
         onSuccess: () => {
-          console.log('Cliente já cadastrado'); //todo
+          router.push('/calculator');
         },
       });
     } else {
@@ -303,7 +303,7 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
               }
               helperText={
                 state.errors.validate &&
-                !state.dataCompany.momentEnterprise.length
+                  !state.dataCompany.momentEnterprise.length
                   ? 'Campo Obrigatório'
                   : ''
               }
@@ -315,9 +315,9 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
           onChange={(e, value) =>
             value
               ? dispatch({
-                  type: 'SET_FORM',
-                  payload: { momentEnterprise: value },
-                })
+                type: 'SET_FORM',
+                payload: { momentEnterprise: value },
+              })
               : null
           }
         />
@@ -396,6 +396,7 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
         Teste Grátis
       </Button>
       <GoogleReCaptcha
+        key={process.env.RECAPTCHA_KEY}
         onVerify={onVerifyRecaptcha}
       />
     </Box>
