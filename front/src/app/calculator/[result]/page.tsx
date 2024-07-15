@@ -47,9 +47,19 @@ const Result = ({ params }: { params: { result: string } }) => {
   const RenderVerticalTab = () => {
     switch (state.machine) {
       case 0:
-        return <VerticalTab machines={state.data.autoclaves} />;
+        return (
+          <VerticalTab
+            machines={state.data.autoclaves}
+            numMachines={state.data.num_autoclaves}
+          />
+        );
       case 1:
-        return <VerticalTab machines={state.data.thermo_washers} />;
+        return (
+          <VerticalTab
+            machines={state.data.thermo_washers}
+            numMachines={state.data.num_thermo_washers}
+          />
+        );
       default:
         break;
     }
@@ -59,7 +69,7 @@ const Result = ({ params }: { params: { result: string } }) => {
     const decodedString = decodeURIComponent(params.result);
     const jsonObject = JSON.parse(decodedString);
     dispatch({ type: 'SET_DATA', payload: jsonObject });
-  },[]);
+  }, []);
 
   return (
     <>
