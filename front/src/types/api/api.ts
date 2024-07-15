@@ -33,3 +33,26 @@ export interface CompanyType {
     situation: string;
   };
 }
+
+export interface AutoclaveType {
+  brand: string;
+  model: string;
+  total_vol: number;
+  price: number;
+}
+
+export interface ThermoWasherType {
+  brand: string;
+  model: string;
+  instruments_capacity: number;
+  trachea_capacity: number;
+  price: number;
+}
+
+export interface CalculatorResponseType {
+  autoclaves: AutoclaveType[];
+  cnpj: string;
+  num_autoclaves: number;
+  num_thermo_washers: number;
+  thermo_washers: ThermoWasherType[];
+}
