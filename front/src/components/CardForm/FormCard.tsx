@@ -19,7 +19,7 @@ import InputMask from 'react-input-mask';
 import { validateLandingPageState } from '@/utils/validateLandingPageState';
 import { useCheckFirstSubmitByCNPJ } from '@/hooks/useCompany';
 import { clearCNPJ } from '@/utils/clearCNPJ';
-import Router from 'next/router';
+import { useRouter } from 'next/navigation';
 
 interface FormCardProps {
   state: StateLandinPage;
@@ -66,22 +66,24 @@ const momentEnterprise: string[] = [
 
 const FormCard = ({ dispatch, state }: FormCardProps) => {
   const { mutate } = useCheckFirstSubmitByCNPJ();
+  const router = useRouter();
 
-  const HandleSubmit = ({ state, dispatch }: HandleSubmit) => {
+  const HandleSubmit = async ({ state, dispatch }: HandleSubmit) => {
     dispatch({ type: 'SET_ERROR', payload: { validate: true } });
 
     if (validateLandingPageState(state)) {
+      localStorage.setItem('dataLocal', JSON.stringify(state.dataCompany));
       mutate(clearCNPJ(state.dataCompany.cnpj), {
         onError: () => {
-          const queryString = new URLSearchParams(state.dataCompany).toString();
-          Router.push(`/calculator?${queryString}`);
+          router.push('/calculator');
         },
         onSuccess: () => {
-          console.log("Cliente já cadastrado") //todo
-        }
+          console.log('Cliente já cadastrado'); //todo
+        },
       });
     } else {
       console.log('Por favor, preencha todos os campos obrigatórios.'); //todo
+      return;
     }
   };
 
