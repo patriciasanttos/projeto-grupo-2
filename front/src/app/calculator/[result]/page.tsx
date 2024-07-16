@@ -44,39 +44,12 @@ const Result = ({ params }: { params: { result: string } }) => {
     dispatch({ type: 'SET_MACHINE', payload: newValue });
   };
 
-  let autoclavesteste = [
-    {
-      brand: 'A',
-      model: 'a2',
-      total_vol: 1111,
-      price: 1111,
-    },
-    {
-      brand: 'A',
-      model: 'a3',
-      total_vol: 1111,
-      price: 1111,
-    },
-    {
-      brand: 'C',
-      model: 'c2',
-      total_vol: 1111,
-      price: 1111,
-    },
-    {
-      brand: 'F',
-      model: 'f4',
-      total_vol: 1111,
-      price: 1111,
-    },
-  ];
-
   const RenderVerticalTab = () => {
     switch (state.machine) {
       case 0:
         return (
           <VerticalTab
-            machines={autoclavesteste}
+            machines={state.data.autoclaves}
             numMachines={state.data.num_autoclaves}
           />
         );

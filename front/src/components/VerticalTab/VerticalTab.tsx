@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import Style from './index.module.scss';
 import Tabs from '@mui/material/Tabs';
@@ -22,10 +20,11 @@ interface VerticalTabsProps {
   numMachines: number;
 }
 
-interface BrandsMachineType {
+interface MachinesByBrandsType {
   [brand: string]: (AutoclaveType | ThermoWasherType)[];
 }
 
+//Responsável por renderizar o conteúdo do painel que corresponde a cada aba.
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, numMachines, ...other } = props;
 
@@ -52,6 +51,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+//Retorna os props de acessibilidade para cada aba.
 function a11yProps(index: number) {
   return {
     id: `vertical-tab-${index}`,
@@ -59,30 +59,24 @@ function a11yProps(index: number) {
   };
 }
 
+//Gerencia a lógica de estado das abas e renderiza as abas e seus respectivos painéis.
 function VerticalTabs({ machines, numMachines }: VerticalTabsProps) {
   const [value, setValue] = React.useState(0);
 
-  const brandsMachine = machines.reduce((acc: BrandsMachineType, machine) => {
-    if (!acc[machine.brand]) {
-      acc[machine.brand] = [];
-    }
+  // Agrupa as máquinas por marca
+  const machinesByBrands = machines.reduce(
+    (acc: MachinesByBrandsType, machine) => {
+      if (!acc[machine.brand]) {
+        acc[machine.brand] = [];
+      }
 
-    acc[machine.brand].push(machine);
-    return acc;
-  }, {});
+      acc[machine.brand].push(machine);
+      return acc;
+    },
+    {},
+  );
 
-  const aaaaa = Object.entries(brandsMachine).map((arrayMachines, index) => {
-    const bbbbb = arrayMachines.map(machines => {
-      return machines;
-    });
-    return {
-      index,
-      bbbbb,
-    };
-  });
-
-  console.log(aaaaa);
-
+  // Função para lidar com a mudança de aba
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -104,32 +98,41 @@ function VerticalTabs({ machines, numMachines }: VerticalTabsProps) {
         aria-label="Vertical tabs example"
         sx={{ borderRight: 2, borderColor: 'divider' }}
       >
-        {Object.entries(brandsMachine).map((item, index) => (
-          <Tab key={index} label={item[0]} {...a11yProps(index)} />
+        {Object.entries(machinesByBrands).map(([brand], index) => (
+          <Tab key={index} label={brand} {...a11yProps(index)} />
         ))}
       </Tabs>
-      {Object.entries(aaaaa).map(arrayMachines => (
+      {Object.entries(machinesByBrands).map(([brand, machines], index) => (
         <TabPanel
-          key={arrayMachines[1].index}
+          key={index}
           value={value}
-          index={arrayMachines[1].index}
+          index={index}
           numMachines={numMachines}
         >
-          {Object.entries(machines).map((machine, i) => (
+          {machines.map((machine, i) => (
             <Accordion key={i}>
               <AccordionSummary
                 expandIcon={<ExpandMore />}
-                aria-controls="panel1-content"
-                id={`panel1-header-${machines[1].model}`}
+                aria-controls={`panel1-content-${i}`}
+                id={`panel1-header-${i}`}
               >
-                {machines.indexOf(machine[1]) == arrayMachines[1].index
-                  ? machine[1].brand
-                  : ''}
+                {machine.model}
               </AccordionSummary>
               <AccordionDetails>
-                {console.log(
-                  machines.indexOf(machine[1]) == arrayMachines[1].index,
+                <Typography>Marca:{brand}</Typography>
+                {'total_vol' in machine ? (
+                  // Se for uma Autoclave
+                  <Typography>
+                    {machine.model} (Total Volume: {machine.total_vol})
+                  </Typography>
+                ) : (
+                  // Se for uma Thermo Washer
+                  <Typography>
+                    {machine.model} (Instruments Capacity:
+                    {machine.instruments_capacity})
+                  </Typography>
                 )}
+                <Typography>Preço:{machine.price}</Typography>
               </AccordionDetails>
             </Accordion>
           ))}
