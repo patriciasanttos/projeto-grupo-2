@@ -7,6 +7,6 @@ const connection = new Sequelize(String(dbConfig.database), String(dbConfig.user
     port: dbConfig.port,
     define: dbConfig.define,
     logging: false
-});
+})
 
 export default connection;

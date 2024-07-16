@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import Style from './page.module.scss';
 import {
   Autocomplete,
@@ -15,10 +15,15 @@ import {
 import { LightTheme } from '@/themes';
 import Image from 'next/image';
 import Logo from '../../../public/logo.svg';
-import { ActionCalculator, StateCalculator } from '@/types';
+import {
+  ActionCalculator,
+  CalculatorResponseType,
+  StateCalculator,
+} from '@/types';
 import { useSaveCompanyAndCalc } from '@/hooks/useCompany';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
+import { clearCNPJ } from '@/utils/clearCNPJ';
+import { useRouter } from 'next/navigation';
 
 interface PropsCalculatorForm {
   state: StateCalculator;
@@ -33,11 +38,6 @@ const Reducer = (state: StateCalculator, action: ActionCalculator) => {
       return { ...state, page: action.payload };
     case 'SET_ERROR':
       return { ...state, errors: { ...state.errors, ...action.payload } };
-    case 'SET_DATA':
-      return {
-        ...state,
-        dataCompany: { ...state.dataCompany, ...action.payload },
-      };
     default:
       return state;
   }
@@ -183,15 +183,7 @@ const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
   );
 };
 const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
-  const Days: string[] = [
-    '1 dia',
-    '2 dias',
-    '3 dias',
-    '4 dias',
-    '5 dias',
-    '6 dias',
-    'Todos os Dias',
-  ];
+  const Days: string[] = ['1 ', '2 ', '3 ', '4 ', '5 ', '6 ', '7']; //todo
 
   const HandleValidate = () => {
     !state.surgerysPerDay.length || !state.weekDaySurgery.length
@@ -317,9 +309,32 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     });
   };
 
-  const { mutate } = useSaveCompanyAndCalc();
+  const [dataCompany, setDataCompany] = useState({
+    name: '',
+    email: '',
+    tel: '',
+    cep: '',
+    institutionName: '',
+    cnpj: '',
+    position: '',
+    segment: '',
+    momentEnterprise: '',
+    statusClinicalEng: '',
+    momentCME: '',
+  });
 
-  const HandleSubmit = () => {
+  useEffect(() => {
+    const dataLocal = localStorage.getItem('dataLocal');
+    if (dataLocal) {
+      const parsedData = JSON.parse(dataLocal);
+      setDataCompany(parsedData);
+    }
+  }, []);
+
+  const { mutate } = useSaveCompanyAndCalc();
+  const router = useRouter();
+
+  const HandleSubmit = async () => {
     const data = {
       dimensions: {
         surgery_rooms: Number(state.surgeryRooms),
@@ -343,20 +358,26 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
         },
       },
       data: {
-        cnpj: state.dataCompany.cnpj,
-        name: state.dataCompany.name,
-        email: state.dataCompany.email,
-        company_name: state.dataCompany.institutionName,
-        cep: state.dataCompany.cep,
-        phone: state.dataCompany.tel,
-        segment: state.dataCompany.segment,
-        role: state.dataCompany.position,
-        objective: state.dataCompany.momentEnterprise,
-        situation: state.dataCompany.statusClinicalEng,
+        cnpj: clearCNPJ(dataCompany.cnpj),
+        name: dataCompany.name,
+        email: dataCompany.email,
+        company_name: dataCompany.institutionName,
+        cep: dataCompany.cep,
+        phone: dataCompany.tel,
+        segment: dataCompany.segment,
+        role: dataCompany.position,
+        objective: dataCompany.momentEnterprise,
+        situation: dataCompany.statusClinicalEng,
       },
     };
 
-    mutate(data);
+    mutate(data, {
+      onSuccess: ( res : { res: CalculatorResponseType }) => {
+        const querystring = encodeURIComponent(JSON.stringify(res));
+        console.log('foi', 'res:', res, 'querystring:', querystring);
+        router.push(`/calculator/${querystring}`);
+      },
+    });
   };
 
   const HandleValidate = () => {
@@ -369,7 +390,8 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
       !state.fabricHospitalization.length ||
       !state.cmePeakInterval.length
         ? dispatch({ type: 'SET_ERROR', payload: { validate: true } })
-        : dispatch({ type: 'SET_ERROR', payload: { validate: false } });
+        : (dispatch({ type: 'SET_ERROR', payload: { validate: false } }),
+          HandleSubmit());
     } else {
       !state.instrumentsSurgery.length ||
       !state.instrumentsICU.length ||
@@ -730,22 +752,8 @@ const Calculator = () => {
     errors: {
       validate: false,
     },
-    dataCompany: {
-      name: '',
-      email: '',
-      tel: '',
-      cep: '',
-      institutionName: '',
-      cnpj: '',
-      position: '',
-      segment: '',
-      momentEnterprise: '',
-      statusClinicalEng: '',
-      momentCME: '',
-    },
   };
 
-  const searchParams = useSearchParams();
   const [state, dispatch] = useReducer(Reducer, InitialArgs);
 
   const RenderCalculator = (page: string) => {
@@ -760,11 +768,6 @@ const Calculator = () => {
         break;
     }
   };
-
-  useEffect(() => {
-    const params = Object.fromEntries(searchParams.entries());
-    dispatch({ type: 'SET_DATA', payload: params });
-  }, [searchParams]);
 
   const queryClient = new QueryClient();
 

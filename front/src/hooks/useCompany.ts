@@ -7,7 +7,7 @@ import { CompanyType } from '@/types';
 
 export const useCheckFirstSubmitByCNPJ = () => {
   return useMutation({
-    mutationFn: (cnpj: { cnpj: string }) => checkFirstSubmitByCNPJ(cnpj),
+    mutationFn: (cnpj: string) => checkFirstSubmitByCNPJ(cnpj),
   });
 };
 

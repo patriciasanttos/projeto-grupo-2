@@ -1,3 +1,5 @@
+import { AutoclaveType, ThermoWasherType } from '../api/api';
+
 export interface StateLandinPage {
   dataCompany: {
     name: string;
@@ -36,17 +38,15 @@ export interface StateCalculator {
   errors: {
     validate: boolean;
   };
-  dataCompany: {
-    name: string;
-    email: string;
-    tel: string;
-    cep: string;
-    institutionName: string;
+}
+
+export interface StateResult {
+  machine: number;
+  data: {
+    autoclaves: AutoclaveType[];
     cnpj: string;
-    position: string;
-    segment: string;
-    momentEnterprise: string;
-    statusClinicalEng: string;
-    momentCME: string;
+    num_autoclaves: number;
+    num_thermo_washers: number;
+    thermo_washers: ThermoWasherType[];
   };
 }

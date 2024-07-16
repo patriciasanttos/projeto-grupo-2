@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import Style from './index.module.scss';
 import {
   Autocomplete,
@@ -19,7 +19,8 @@ import InputMask from 'react-input-mask';
 import { validateLandingPageState } from '@/utils/validateLandingPageState';
 import { useCheckFirstSubmitByCNPJ } from '@/hooks/useCompany';
 import { clearCNPJ } from '@/utils/clearCNPJ';
-import Router from 'next/router';
+import { useRouter } from 'next/navigation';
+import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 interface FormCardProps {
   state: StateLandinPage;
@@ -65,23 +66,37 @@ const momentEnterprise: string[] = [
 ];
 
 const FormCard = ({ dispatch, state }: FormCardProps) => {
-  const { mutate } = useCheckFirstSubmitByCNPJ();
+  const [recaptchaToken, setRecaptchaToken] = useState<string>('');
 
-  const HandleSubmit = ({ state, dispatch }: HandleSubmit) => {
+  const { mutate } = useCheckFirstSubmitByCNPJ();
+  const router = useRouter();
+
+  const onVerifyRecaptcha = useCallback((token: string) => {
+    if (recaptchaToken !== token) {
+      setRecaptchaToken(token);
+    }
+  }, []);
+
+  const HandleSubmit = async ({ state, dispatch }: HandleSubmit) => {
     dispatch({ type: 'SET_ERROR', payload: { validate: true } });
 
     if (validateLandingPageState(state)) {
-      mutate(clearCNPJ(state.dataCompany.cnpj), {
+      localStorage.setItem('dataLocal', JSON.stringify(state.dataCompany));
+
+      mutate({
+        cnpj: clearCNPJ(state.dataCompany.cnpj),
+        token: recaptchaToken
+      }, {
         onError: () => {
-          const queryString = new URLSearchParams(state.dataCompany).toString();
-          Router.push(`/calculator?${queryString}`);
+          console.log('Cliente já cadastrado'); //todo
         },
         onSuccess: () => {
-          console.log("Cliente já cadastrado") //todo
-        }
+          router.push('/calculator');
+        },
       });
     } else {
       console.log('Por favor, preencha todos os campos obrigatórios.'); //todo
+      return;
     }
   };
 
@@ -288,7 +303,7 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
               }
               helperText={
                 state.errors.validate &&
-                !state.dataCompany.momentEnterprise.length
+                  !state.dataCompany.momentEnterprise.length
                   ? 'Campo Obrigatório'
                   : ''
               }
@@ -300,9 +315,9 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
           onChange={(e, value) =>
             value
               ? dispatch({
-                  type: 'SET_FORM',
-                  payload: { momentEnterprise: value },
-                })
+                type: 'SET_FORM',
+                payload: { momentEnterprise: value },
+              })
               : null
           }
         />
@@ -380,6 +395,10 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
       >
         Teste Grátis
       </Button>
+      <GoogleReCaptcha
+        key={process.env.RECAPTCHA_KEY}
+        onVerify={onVerifyRecaptcha}
+      />
     </Box>
   );
 };
