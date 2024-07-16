@@ -12,6 +12,7 @@ app
     res.header('Access-Control-Allow-Headers', 'Authorization');
     res.header('Access-Control-Allow-Origin', process.env.CLIENT_HOST);
     res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     app.use(cors());
 
