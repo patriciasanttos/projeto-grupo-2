@@ -47,6 +47,7 @@ const Reducer = (state: StateCalculator, action: ActionCalculator) => {
 };
 
 const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
+  // Realiza a validação básica e navega para a próxima etapa do formulário.
   const HandleValidate = () => {
     !state.surgeryRooms.length ||
     !state.icuBeds.length ||
@@ -188,6 +189,7 @@ const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
 const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
   const Days: string[] = ['1 ', '2 ', '3 ', '4 ', '5 ', '6 ', '7'];
 
+  // Realiza a validação básica e navega para a próxima etapa do formulário.
   const HandleValidate = () => {
     !state.surgerysPerDay.length || !state.weekDaySurgery.length
       ? dispatch({ type: 'SET_ERROR', payload: { validate: true } })
@@ -303,6 +305,7 @@ const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
   );
 };
 const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
+  //Define se o processamento de tecido é realizado ou não
   const HandleFabricProcessing = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -312,6 +315,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     });
   };
 
+  // Estado inicial recuperado do localStorage ao montar o componente.
   const [dataCompany, setDataCompany] = useState({
     name: '',
     email: '',
@@ -326,6 +330,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     momentCME: '',
   });
 
+  //Busca e define os dados da empresa salvos no localStorage.
   useEffect(() => {
     const dataLocal = localStorage.getItem('dataLocal');
     if (dataLocal) {
@@ -338,6 +343,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
   const router = useRouter();
 
   const HandleSubmit = async () => {
+    // Compila os dados do formulário e da empresa
     const data = {
       dimensions: {
         surgery_rooms: Number(state.surgeryRooms),
@@ -375,6 +381,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     };
 
     mutate(data, {
+      // Navega para a página de resultados com os dados retornados
       onSuccess: (res: { res: CalculatorResponseType }) => {
         const querystring = encodeURIComponent(JSON.stringify(res));
         router.push(`/calculator/${querystring}`);
@@ -394,6 +401,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     });
   };
 
+  // Verifica se todos os campos obrigatórios estão preenchidos
   const HandleValidate = () => {
     if (state.fabricProcessing) {
       !state.instrumentsSurgery.length ||
