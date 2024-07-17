@@ -71,12 +71,14 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
   const { mutate } = useCheckFirstSubmitByCNPJ();
   const router = useRouter();
 
+  // Função para atualizar o token do ReCaptcha
   const onVerifyRecaptcha = useCallback((token: string) => {
     if (recaptchaToken !== token) {
       setRecaptchaToken(token);
     }
   }, []);
 
+  // Função para lidar com o envio do formulário
   const HandleSubmit = async ({ state, dispatch }: HandleSubmit) => {
     dispatch({ type: 'SET_ERROR', payload: { validate: true } });
 
@@ -88,14 +90,14 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
         token: recaptchaToken
       }, {
         onError: () => {
-          console.log('Cliente já cadastrado'); //todo
+          console.log('Cliente já cadastrado'); // TODO: Adicionar lógica de erro adequada
         },
         onSuccess: () => {
           router.push('/calculator');
         },
       });
     } else {
-      console.log('Por favor, preencha todos os campos obrigatórios.'); //todo
+      console.log('Por favor, preencha todos os campos obrigatórios.'); // TODO: Adicionar lógica de erro adequada
       return;
     }
   };
