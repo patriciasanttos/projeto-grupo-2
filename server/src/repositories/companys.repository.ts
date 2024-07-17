@@ -90,7 +90,7 @@ export default class CompanyRepository {
                     }
                 };
 
-            await company.update({ contactConfirm: contactConfirm, rate });
+            await company.update({ contactConfirm, rate });
 
             return {
                 code: 200,
