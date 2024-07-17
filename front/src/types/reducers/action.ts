@@ -58,6 +58,8 @@ export type ActionCalculator =
       type: 'SET_ERROR';
       payload: {
         validate?: boolean;
+        snackbarError?: boolean;
+        calculatorError?: string;
       };
     };
 

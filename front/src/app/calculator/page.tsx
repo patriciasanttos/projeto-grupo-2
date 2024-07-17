@@ -7,6 +7,7 @@ import {
   Button,
   FormControlLabel,
   InputAdornment,
+  Snackbar,
   Switch,
   TextField,
   ThemeProvider,
@@ -24,6 +25,7 @@ import { useSaveCompanyAndCalc } from '@/hooks/useCompany';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { clearCNPJ } from '@/utils/clearCNPJ';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 interface PropsCalculatorForm {
   state: StateCalculator;
@@ -372,10 +374,21 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     };
 
     mutate(data, {
-      onSuccess: ( res : { res: CalculatorResponseType }) => {
+      onSuccess: (res: { res: CalculatorResponseType }) => {
         const querystring = encodeURIComponent(JSON.stringify(res));
-        console.log('foi', 'res:', res, 'querystring:', querystring);
         router.push(`/calculator/${querystring}`);
+      },
+      onError: error => {
+        if (axios.isAxiosError(error)) {
+          const errorMsg = error.response?.data.error || 'Erro desconhecido';
+          dispatch({
+            type: 'SET_ERROR',
+            payload: {
+              calculatorError: errorMsg,
+              snackbarError: true,
+            },
+          });
+        }
       },
     });
   };
@@ -751,6 +764,8 @@ const Calculator = () => {
     page: 'page1',
     errors: {
       validate: false,
+      snackbarError: false,
+      calculatorError: '',
     },
   };
 
@@ -782,6 +797,17 @@ const Calculator = () => {
           />
         </Box>
         {RenderCalculator(state.page)}
+        <Snackbar
+          open={state.errors.snackbarError}
+          autoHideDuration={5000}
+          onClose={() =>
+            dispatch({
+              type: 'SET_ERROR',
+              payload: { calculatorError: '', snackbarError: false },
+            })
+          }
+          message={state.errors.calculatorError}
+        />
       </ThemeProvider>
     </QueryClientProvider>
   );

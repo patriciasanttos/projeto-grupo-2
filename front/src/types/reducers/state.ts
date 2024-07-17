@@ -39,6 +39,8 @@ export interface StateCalculator {
   page: string;
   errors: {
     validate: boolean;
+    snackbarError: boolean;
+    calculatorError: string;
   };
 }
 
