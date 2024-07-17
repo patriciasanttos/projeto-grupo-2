@@ -21,7 +21,7 @@ export const useSaveCompanyAndCalc = () => {
 
 export const useConfirmCompanyContact = () => {
   return useMutation({
-    mutationFn: (data: { cnpj: string; contact: boolean; rate: string }) =>
+    mutationFn: (data: { cnpj: string; contactConfirm: boolean; rate: string }) =>
       confirmCompanyContact(data),
   });
 };

@@ -17,7 +17,7 @@ export const saveCompanyAndCalc = async (data: CompanyType) => {
 
 export const confirmCompanyContact = async (data: {
   cnpj: string;
-  contact: boolean;
+  contactConfirm: boolean;
   rate: string;
 }) => {
   return await patch('/', data);
