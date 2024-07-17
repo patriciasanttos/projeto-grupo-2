@@ -9,9 +9,17 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
+import { useConfirmCompanyContact } from '@/hooks/useCompany';
+import axios from 'axios';
+import { clearCNPJ } from '@/utils/clearCNPJ';
 
-const ModalResult = () => {
+interface ModalResultProps {
+  cnpj: string;
+}
+
+const ModalResult = ({ cnpj }: ModalResultProps) => {
   const [open, setOpen] = React.useState(false);
+  const { mutate } = useConfirmCompanyContact();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,26 +33,45 @@ const ModalResult = () => {
     setTimeout(() => handleClickOpen(), 5000);
   }, []);
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const formJson: Record<string, unknown> = Object.fromEntries(
+      formData.entries(),
+    );
+    const supportFeedback = formJson.supportFeedback as string;
+
+    const data = {
+      cnpj: cnpj,
+      contactConfirm: true,
+      rate: supportFeedback,
+    };
+
+    mutate(data, {
+      onSuccess: () => {
+        console.log('foii');
+      },
+      onError: error => {
+        if (axios.isAxiosError(error)) {
+          const errorMsg = error.response?.data.error || 'Erro desconhecido';
+					console.log(error)
+        }
+      },
+    });
+
+    handleClose();
+  };
+
   return (
     <Dialog
-			className={Style.modal}
+      className={Style.modal}
       open={open}
       onClose={handleClose}
       PaperProps={{
         component: 'form',
-        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-
-          const formData = new FormData(event.currentTarget);
-          const formJson: Record<string, unknown> = Object.fromEntries(
-            formData.entries(),
-          );
-          const supportFeedback = formJson.supportFeedback as string;
-
-          console.log(supportFeedback);
-
-          handleClose();
-        },
+        onSubmit: (event: React.FormEvent<HTMLFormElement>) =>
+          handleSubmit(event),
       }}
     >
       <DialogTitle>Quer um atendimento mais completo?</DialogTitle>

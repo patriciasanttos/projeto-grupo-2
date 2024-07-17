@@ -8,6 +8,7 @@ import Logo from '../../../../public/logo.svg';
 import VerticalTab from '@/components/VerticalTab/VerticalTab';
 import { ActionResult, StateResult } from '@/types';
 import ModalResult from '@/components/ModalResult/ModalResult';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 function a11yProps(index: number) {
   return {
@@ -75,34 +76,38 @@ const Result = ({ params }: { params: { result: string } }) => {
     localStorage.removeItem('dataLocal');
   }, []);
 
+  const queryClient = new QueryClient();
+
   return (
     <>
-      <ThemeProvider theme={LightTheme}>
-        <Box component="header" className={Style.header}>
-          <Image
-            src={Logo}
-            alt="Logo Equipacare"
-            className={Style.header__img}
-          />
-        </Box>
-        <Box sx={{ width: '100%' }}>
-          <Box
-            sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'white' }}
-          >
-            <Tabs
-              textColor="primary"
-              value={state.machine}
-              onChange={handleMachine}
-              aria-label="basic tabs example"
-            >
-              <Tab label="Autoclave" {...a11yProps(0)} />
-              <Tab label="Lavadora Termodesinfectora" {...a11yProps(1)} />
-            </Tabs>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={LightTheme}>
+          <Box component="header" className={Style.header}>
+            <Image
+              src={Logo}
+              alt="Logo Equipacare"
+              className={Style.header__img}
+            />
           </Box>
-        </Box>
-        {RenderVerticalTab()}
-        <ModalResult />
-      </ThemeProvider>
+          <Box sx={{ width: '100%' }}>
+            <Box
+              sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'white' }}
+            >
+              <Tabs
+                textColor="primary"
+                value={state.machine}
+                onChange={handleMachine}
+                aria-label="basic tabs example"
+              >
+                <Tab label="Autoclave" {...a11yProps(0)} />
+                <Tab label="Lavadora Termodesinfectora" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+          </Box>
+          {RenderVerticalTab()}
+          <ModalResult cnpj={state.data.cnpj}/>
+        </ThemeProvider>
+      </QueryClientProvider>
     </>
   );
 };
