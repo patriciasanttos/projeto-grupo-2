@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import {
   checkFirstSubmitByCNPJ,
   saveCompanyAndCalc,
+  confirmCompanyContact
 } from '../services/api/company';
 import { CompanyType } from '@/types';
 
@@ -17,3 +18,9 @@ export const useSaveCompanyAndCalc = () => {
     mutationFn: (data: CompanyType) => saveCompanyAndCalc(data),
   });
 };
+
+export const useConfirmCompanyContact = () => {
+  return useMutation({
+    mutationFn: (data: { cnpj: string, contact: boolean }) => confirmCompanyContact(data)
+  });
+}
