@@ -54,6 +54,7 @@ const LandingPage = () => {
 
   const [state, dispatch] = useReducer(Reducer, InitialArgs);
 
+  //Responsável por renderizar o componente correto
   const renderCardForm = (card: string) => {
     switch (card) {
       case 'initial':
