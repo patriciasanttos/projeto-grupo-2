@@ -21,9 +21,9 @@ class MainController {
             return response.status(400).json({ error: 'CNPJ inválido' });
 
         //-----Validar reCaptcha
-        // const validateRecaptcha = await handleRecaptcha(token);
-        // if (!validateRecaptcha)
-        //     return response.status(401).json({ error: 'ReCaptcha error' });
+        const validateRecaptcha = await handleRecaptcha(token);
+        if (!validateRecaptcha)
+            return response.status(401).json({ error: 'ReCaptcha error' });
 
 
         //-----Buscar empresa no banco de dados
