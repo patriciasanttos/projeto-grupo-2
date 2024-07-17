@@ -21,6 +21,7 @@ import { useCheckFirstSubmitByCNPJ } from '@/hooks/useCompany';
 import { clearCNPJ } from '@/utils/clearCNPJ';
 import { useRouter } from 'next/navigation';
 import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
+import axios from 'axios';
 
 interface FormCardProps {
   state: StateLandinPage;
@@ -85,19 +86,31 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
     if (validateLandingPageState(state)) {
       localStorage.setItem('dataLocal', JSON.stringify(state.dataCompany));
 
-      mutate({
-        cnpj: clearCNPJ(state.dataCompany.cnpj),
-        token: recaptchaToken
-      }, {
-        onError: () => {
-          console.log('Cliente já cadastrado'); // TODO: Adicionar lógica de erro adequada
+      mutate(
+        {
+          cnpj: clearCNPJ(state.dataCompany.cnpj),
+          token: recaptchaToken,
         },
-        onSuccess: () => {
-          router.push('/calculator');
+        {
+          onError: error => {
+            if (axios.isAxiosError(error)) {
+              const errorMsg =
+                error.response?.data.error || 'Erro desconhecido';
+              dispatch({
+                type: 'SET_ERROR',
+                payload: {
+                  firstSubmitError: errorMsg,
+                  snackbarError: true,
+                },
+              });
+            }
+          },
+          onSuccess: () => {
+            router.push('/calculator');
+          },
         },
-      });
+      );
     } else {
-      console.log('Por favor, preencha todos os campos obrigatórios.'); // TODO: Adicionar lógica de erro adequada
       return;
     }
   };
@@ -305,7 +318,7 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
               }
               helperText={
                 state.errors.validate &&
-                  !state.dataCompany.momentEnterprise.length
+                !state.dataCompany.momentEnterprise.length
                   ? 'Campo Obrigatório'
                   : ''
               }
@@ -317,9 +330,9 @@ const FormCard = ({ dispatch, state }: FormCardProps) => {
           onChange={(e, value) =>
             value
               ? dispatch({
-                type: 'SET_FORM',
-                payload: { momentEnterprise: value },
-              })
+                  type: 'SET_FORM',
+                  payload: { momentEnterprise: value },
+                })
               : null
           }
         />

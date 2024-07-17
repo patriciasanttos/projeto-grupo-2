@@ -17,6 +17,8 @@ export interface StateLandinPage {
   card: string;
   errors: {
     validate: boolean;
+    snackbarError: boolean;
+    firstSubmitError: string;
   };
 }
 

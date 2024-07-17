@@ -3,7 +3,13 @@ import React, { useReducer } from 'react';
 import Style from './page.module.scss';
 import Image from 'next/image';
 import HeaderImage from '../../../public/headerImg.jpg';
-import { Box, Container, ThemeProvider, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  Snackbar,
+  ThemeProvider,
+  Typography,
+} from '@mui/material';
 import InitialCardForm from '@/components/InitialCardForm/InitialCardForm';
 import FormCard from '@/components/CardForm/FormCard';
 import { LightTheme } from '@/themes';
@@ -49,6 +55,8 @@ const LandingPage = () => {
     card: 'initial',
     errors: {
       validate: false,
+      snackbarError: false,
+      firstSubmitError: '',
     },
   };
 
@@ -129,6 +137,17 @@ const LandingPage = () => {
             <ServiceCardList />
           </Container>
           <Footer />
+          <Snackbar
+            open={state.errors.snackbarError}
+            autoHideDuration={5000}
+            onClose={() =>
+              dispatch({
+                type: 'SET_ERROR',
+                payload: { firstSubmitError: '', snackbarError: false },
+              })
+            }
+            message={state.errors.firstSubmitError}
+          />
         </ThemeProvider>
       </QueryClientProvider>
     </GoogleReCaptchaProvider>

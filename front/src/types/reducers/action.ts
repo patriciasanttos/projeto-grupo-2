@@ -1,4 +1,4 @@
-import { CalculatorResponseType } from "../api/api";
+import { CalculatorResponseType } from '../api/api';
 
 export type ActionLandingPage =
   | {
@@ -25,6 +25,8 @@ export type ActionLandingPage =
       type: 'SET_ERROR';
       payload: {
         validate?: boolean;
+        snackbarError?: boolean;
+        firstSubmitError?: string;
       };
     };
 

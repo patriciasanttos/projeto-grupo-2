@@ -183,7 +183,7 @@ const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
   );
 };
 const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
-  const Days: string[] = ['1 ', '2 ', '3 ', '4 ', '5 ', '6 ', '7']; //todo
+  const Days: string[] = ['1 ', '2 ', '3 ', '4 ', '5 ', '6 ', '7'];
 
   const HandleValidate = () => {
     !state.surgerysPerDay.length || !state.weekDaySurgery.length
