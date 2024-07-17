@@ -22,7 +22,15 @@ export default class CompanyRepository {
                     error: 'Empresa já cadastrada'
                 }
             };
-        } catch (err: any) {
+        } catch (error: any) {
+            if (error.name.includes('Sequelize'))
+                return {
+                    code: 500, 
+                    data: {
+                        error: 'Database connection error'
+                    }
+                }
+
             return {
                 code: 500, 
                 data: {
@@ -50,8 +58,15 @@ export default class CompanyRepository {
             return {
                 code: 201
             };
-        } catch (err: any) {
-            console.log(err)
+        } catch (error: any) {
+            if (error.name.includes('Sequelize'))
+                return {
+                    code: 500, 
+                    data: {
+                        error: 'Database connection error'
+                    }
+                }
+
             return {
                 code: 500,
                 data: {
@@ -61,7 +76,7 @@ export default class CompanyRepository {
         }
     };
 
-    async updateCompany (cnpj: string, contact: boolean) {
+    async updateCompany (cnpj: string, contactConfirm: boolean, rate: string) {
         try {
             //-----Buscar CNPJ da empresa na tabela
             const company = await Company
@@ -75,12 +90,12 @@ export default class CompanyRepository {
                     }
                 };
 
-            await company.update({ contact: contact });
+            await company.update({ contactConfirm, rate });
 
             return {
                 code: 200,
                 data: {
-                    error: 'Contato confirmado'
+                    error: 'Avaliação salva'
                 }
             };
         } catch (error: any) {

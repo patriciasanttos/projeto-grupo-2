@@ -15,7 +15,8 @@ interface CompanyInfo {
     situation: string,
     autoclaves?: string,
     thermo_washers?: string,
-    contact?: boolean,
+    contactConfirm?: boolean,
+    rate?: string,
     created_at?: string,
     updated_at?: string,
 }
@@ -81,9 +82,12 @@ Company.init({
     thermo_washers: {
         type: DataTypes.STRING
     },
-    contact: {
+    contactConfirm: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    rate: {
+        type: DataTypes.STRING,
     },
     created_at: {
         type: DataTypes.DATE,

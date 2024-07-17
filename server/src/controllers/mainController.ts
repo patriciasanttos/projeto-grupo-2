@@ -97,17 +97,17 @@ class MainController {
             })
     };
 
-    confirmCompanyContact = async (request: Request, response: Response) => {
-        if (request.body.cnpj === undefined || request.body.contact === undefined)
+    ratingService = async (request: Request, response: Response) => {
+        if (request.body.cnpj === undefined || request.body.contactConfirm === undefined || request.body.rate )
             return response.status(400).json({ error: 'Invalid body request' });
 
-        const { cnpj, contact } = request.body;
+        const { cnpj, contactConfirm, rate } = request.body;
 
         //-----Validar CPNJ
         if (!validateCNPJ(cnpj))
             return response.status(400).json({ error: 'CNPJ inválido' });
 
-        await companyRepository.updateCompany(cnpj, contact)
+        await companyRepository.updateCompany(cnpj, contactConfirm, rate)
             .then((res: { code: number, data?: {} }) => {
                 return response.status(res.code).json(res.data);
             })
