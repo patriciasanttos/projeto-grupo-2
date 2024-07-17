@@ -70,6 +70,9 @@ const Result = ({ params }: { params: { result: string } }) => {
     const decodedString = decodeURIComponent(params.result);
     const jsonObject = JSON.parse(decodedString);
     dispatch({ type: 'SET_DATA', payload: jsonObject });
+
+    //Limpa os dados da empresa do LocalStorage
+    localStorage.removeItem('dataLocal');
   }, []);
 
   return (
