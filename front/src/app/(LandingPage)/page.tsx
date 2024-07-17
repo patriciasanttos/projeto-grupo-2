@@ -4,6 +4,7 @@ import Style from './page.module.scss';
 import Image from 'next/image';
 import HeaderImage from '../../../public/headerImg.jpg';
 import {
+  Alert,
   Box,
   Container,
   Snackbar,
@@ -77,7 +78,9 @@ const LandingPage = () => {
   const queryClient = new QueryClient();
 
   return (
-    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY || ''}>
+    <GoogleReCaptchaProvider
+      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY || ''}
+    >
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={LightTheme}>
           <NavBar />
@@ -137,17 +140,21 @@ const LandingPage = () => {
             <ServiceCardList />
           </Container>
           <Footer />
-          <Snackbar
-            open={state.errors.snackbarError}
-            autoHideDuration={5000}
-            onClose={() =>
-              dispatch({
-                type: 'SET_ERROR',
-                payload: { firstSubmitError: '', snackbarError: false },
-              })
-            }
-            message={state.errors.firstSubmitError}
-          />
+          <Snackbar open={state.errors.snackbarError} autoHideDuration={5000}>
+            <Alert
+              onClose={() =>
+                dispatch({
+                  type: 'SET_ERROR',
+                  payload: { firstSubmitError: '', snackbarError: false },
+                })
+              }
+              severity="error"
+              variant="filled"
+              sx={{ width: '100%' }}
+            >
+              {state.errors.firstSubmitError}
+            </Alert>
+          </Snackbar>
         </ThemeProvider>
       </QueryClientProvider>
     </GoogleReCaptchaProvider>

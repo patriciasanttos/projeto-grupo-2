@@ -2,6 +2,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import Style from './page.module.scss';
 import {
+  Alert,
   Autocomplete,
   Box,
   Button,
@@ -797,17 +798,21 @@ const Calculator = () => {
           />
         </Box>
         {RenderCalculator(state.page)}
-        <Snackbar
-          open={state.errors.snackbarError}
-          autoHideDuration={5000}
-          onClose={() =>
-            dispatch({
-              type: 'SET_ERROR',
-              payload: { calculatorError: '', snackbarError: false },
-            })
-          }
-          message={state.errors.calculatorError}
-        />
+        <Snackbar open={state.errors.snackbarError} autoHideDuration={5000}>
+          <Alert
+            onClose={() =>
+              dispatch({
+                type: 'SET_ERROR',
+                payload: { calculatorError: '', snackbarError: false },
+              })
+            }
+            severity="error"
+            variant="filled"
+            sx={{ width: '100%' }}
+          >
+            {state.errors.calculatorError}
+          </Alert>
+        </Snackbar>
       </ThemeProvider>
     </QueryClientProvider>
   );
