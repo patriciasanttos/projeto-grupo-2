@@ -77,7 +77,7 @@ const LandingPage = () => {
   const queryClient = new QueryClient();
 
   return (
-    <GoogleReCaptchaProvider reCaptchaKey="6LfbaA8qAAAAAKbtpHfbsQEoXB2eFyHvkBq4cvJg">
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY || ''}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={LightTheme}>
           <NavBar />
