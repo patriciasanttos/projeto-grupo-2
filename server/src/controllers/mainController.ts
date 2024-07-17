@@ -97,7 +97,7 @@ class MainController {
             })
     };
 
-    confirmCompanyContact = async (request: Request, response: Response) => {
+    ratingService = async (request: Request, response: Response) => {
         if (request.body.cnpj === undefined || request.body.contact === undefined)
             return response.status(400).json({ error: 'Invalid body request' });
 

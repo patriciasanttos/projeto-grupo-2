@@ -7,6 +7,6 @@ const mainController = new MainController()
 router
     .get('/:cnpj', mainController.checkFirstSubmitByCNPJ)
     .post('/', mainController.saveCompanyAndCalc)
-    .patch('/', mainController.confirmCompanyContact);
+    .patch('/', mainController.ratingService);
 
 export default router;
