@@ -60,7 +60,7 @@ module.exports = {
       thermo_washers: {
         type: DataTypes.STRING
       },
-      contactConfirm: {
+      contact_confirm: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
