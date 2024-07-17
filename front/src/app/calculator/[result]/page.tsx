@@ -7,6 +7,7 @@ import { LightTheme } from '@/themes';
 import Logo from '../../../../public/logo.svg';
 import VerticalTab from '@/components/VerticalTab/VerticalTab';
 import { ActionResult, StateResult } from '@/types';
+import ModalResult from '@/components/ModalResult/ModalResult';
 
 function a11yProps(index: number) {
   return {
@@ -97,6 +98,7 @@ const Result = ({ params }: { params: { result: string } }) => {
           </Box>
         </Box>
         {RenderVerticalTab()}
+        <ModalResult />
       </ThemeProvider>
     </>
   );
