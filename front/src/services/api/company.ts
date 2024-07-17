@@ -1,5 +1,5 @@
 import { CompanyType } from '@/types';
-import { get, post } from './index';
+import { get, post, patch } from './index';
 
 export const checkFirstSubmitByCNPJ = async ({ cnpj, token }: { cnpj: string, token: string }) => {
   return await get(`/${cnpj}`, token);
@@ -8,3 +8,7 @@ export const checkFirstSubmitByCNPJ = async ({ cnpj, token }: { cnpj: string, to
 export const saveCompanyAndCalc = async (data: CompanyType) => {
   return await post('/', data);
 };
+
+export const confirmCompanyContact = async (data: { cnpj: string, contact: boolean }) => {
+  return await patch('/', data);
+}
