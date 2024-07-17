@@ -64,7 +64,7 @@ module.exports = {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
-      hate: {
+      rate: {
         type: DataTypes.STRING
       },
       created_at: {

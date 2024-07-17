@@ -24,8 +24,6 @@ export default class CompanyRepository {
             };
         } catch (error: any) {
             if (error.name.includes('Sequelize'))
-                console.log(error)
-
                 return {
                     code: 500, 
                     data: {
