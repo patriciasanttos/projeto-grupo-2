@@ -10,6 +10,7 @@ import { ActionResult, StateResult } from '@/types';
 import ModalResult from '@/components/ModalResult/ModalResult';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+// Função auxiliar para configurar acessibilidade das abas
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
@@ -42,10 +43,12 @@ const Result = ({ params }: { params: { result: string } }) => {
 
   const [state, dispatch] = useReducer(Reducer, initialArgs);
 
+  // Função para lidar com a mudança de aba entre Autoclave e Lavadora Termodesinfectora
   const handleMachine = (event: React.SyntheticEvent, newValue: number) => {
     dispatch({ type: 'SET_MACHINE', payload: newValue });
   };
 
+  // Renderiza o componente VerticalTab baseado na máquina selecionada
   const RenderVerticalTab = () => {
     switch (state.machine) {
       case 0:
@@ -68,11 +71,14 @@ const Result = ({ params }: { params: { result: string } }) => {
   };
 
   useEffect(() => {
+    // Decodifica a string de parâmetro result e converte em objeto JSON
     const decodedString = decodeURIComponent(params.result);
     const jsonObject = JSON.parse(decodedString);
+
+    // Atualiza o estado local com os dados decodificados
     dispatch({ type: 'SET_DATA', payload: jsonObject });
 
-    //Limpa os dados da empresa do LocalStorage
+    // Limpa os dados da empresa do LocalStorage após o processamento
     localStorage.removeItem('dataLocal');
   }, []);
 
@@ -105,7 +111,7 @@ const Result = ({ params }: { params: { result: string } }) => {
             </Box>
           </Box>
           {RenderVerticalTab()}
-          <ModalResult cnpj={state.data.cnpj}/>
+          <ModalResult cnpj={state.data.cnpj} />
         </ThemeProvider>
       </QueryClientProvider>
     </>
