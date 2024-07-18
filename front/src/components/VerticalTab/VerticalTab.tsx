@@ -123,12 +123,12 @@ function VerticalTabs({ machines, numMachines }: VerticalTabsProps) {
                 {'total_vol' in machine ? (
                   // Se for uma Autoclave
                   <Typography>
-                    {machine.model} (Total Volume: {machine.total_vol})
+                    {machine.model} (Volume Total da Câmara: {machine.total_vol})
                   </Typography>
                 ) : (
                   // Se for uma Thermo Washer
                   <Typography>
-                    {machine.model} (Instruments Capacity:
+                    {machine.model} (Capacidade de Carga:
                     {machine.instruments_capacity})
                   </Typography>
                 )}
