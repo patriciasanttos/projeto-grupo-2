@@ -2,7 +2,9 @@ import React, { useEffect, useReducer } from 'react';
 import Style from './index.module.scss';
 import {
   Alert,
+  Backdrop,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -32,7 +34,7 @@ const Reducer = (state: StateModalResult, action: ActionModalResult) => {
 
 const ModalResult = ({ cnpj }: ModalResultProps) => {
   // Hook personalizado para confirmar o contato da empresa
-  const { mutate } = useConfirmCompanyContact();
+  const { mutate, isPending } = useConfirmCompanyContact();
 
   const InitialArgs: StateModalResult = {
     open: false,
@@ -166,6 +168,12 @@ const ModalResult = ({ cnpj }: ModalResultProps) => {
           {state.snackbar.SnackbarText}
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: '#ffffff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isPending}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 };
