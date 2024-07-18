@@ -65,7 +65,7 @@ module.exports = {
         defaultValue: false
       },
       rate: {
-        type: DataTypes.STRING
+        type: DataTypes.TEXT('long')
       },
       created_at: {
           type: DataTypes.DATE,
