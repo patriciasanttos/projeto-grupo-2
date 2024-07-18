@@ -13,10 +13,20 @@ const InitialCardForm = ({ dispatch }: PropsInitialCardForm) => {
   return (
     <>
       <Box display="flex" flexDirection="column">
-        <Typography variant="subtitle2" fontWeight="600" textAlign="center">
+        <Typography
+          variant="subtitle2"
+          className={Style.initialCardForm__title}
+          fontWeight="600"
+          textAlign="center"
+        >
           Você pode testar a ferramenta gratuitamente uma vez.
         </Typography>
-        <Typography variant="subtitle1" fontWeight="600" textAlign="center">
+        <Typography
+          variant="subtitle1"
+          className={Style.initialCardForm__subTitle}
+          fontWeight="600"
+          textAlign="center"
+        >
           Após isso, caso queira obter análises mais detalhadas, um de nossos
           consultores entrará em contato via e-mail.
         </Typography>
