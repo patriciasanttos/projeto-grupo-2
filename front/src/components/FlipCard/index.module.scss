@@ -10,7 +10,9 @@
 
 .flipCard__inner {
   border-radius: 1rem;
+  border: none;
   background-color: $oceanBlueColor;
+  box-shadow: 0px 0.4rem 1rem 0.4rem #00000030;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,7 +21,7 @@
   height: 100%;
 
   transform-style: preserve-3d;
-  transition: 0.8s;
+  transition: ease 0.8s;
   position: relative;
 }
 
