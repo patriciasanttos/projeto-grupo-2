@@ -1,9 +1,11 @@
 import Company from "../database/models/company";
 import { CompanyType } from "../utils/types";
-import spreadSheetPost from './spreadsheet.repository';
+import SpreadsheetRepository from './spreadsheet.repository';
+
+const spreadsheetRepository = new SpreadsheetRepository();
 
 export default class CompanyRepository {
-    async checkCompany (cnpj: string) {
+    async getCompany (cnpj: string) {
         try {
             //-----Buscar CNPJ da empresa na tabela
             const company = await Company.findOne({ where: { cnpj } });
@@ -18,9 +20,7 @@ export default class CompanyRepository {
 
             return {
                 code: 200,
-                data: {
-                    error: 'Empresa já cadastrada'
-                }
+                data: company
             };
         } catch (error: any) {
             if (error.name.includes('Sequelize'))
@@ -43,7 +43,7 @@ export default class CompanyRepository {
     async createCompany ({ data, dimensions }: CompanyType, machines: { autoclaves: string, thermoWashers: string }) {
         try {
             // -----Erro caso o CNPJ já esteja no banco de dados
-            if((await this.checkCompany(data.cnpj)).code === 200)
+            if((await this.getCompany(data.cnpj)).code === 200)
                 return {
                     code: 409,
                     data: {
@@ -52,8 +52,8 @@ export default class CompanyRepository {
                 }
 
             // -----Salvar os dados da empresa na tabela
-            await Company.create({ ...data });
-            await spreadSheetPost({ data, dimensions }, machines);
+            const company = await Company.create({ ...data });
+            await spreadsheetRepository.saveCompany({ data: company.dataValues, dimensions }, machines);
 
             return {
                 code: 201
@@ -91,6 +91,15 @@ export default class CompanyRepository {
                 };
 
             await company.update({ contact_confirm: contactConfirm, rate });
+            
+            if (contactConfirm)
+                await spreadsheetRepository.saveQualifiedLeads({ 
+                    name: company.dataValues.name, 
+                    companyName: company.dataValues.company_name,
+                    cnpj, 
+                    rate 
+                });
+
 
             return {
                 code: 200,
