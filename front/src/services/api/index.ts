@@ -14,7 +14,7 @@ export const post = async (url: string, data = {}) => {
   return response.data;
 };
 
-export const patch = async (url: string, data = {}) => {
-  const response = await axiosClient.patch(url, data);
+export const put = async (url: string, data = {}) => {
+  const response = await axiosClient.put(url, data);
   return response.data;
 }

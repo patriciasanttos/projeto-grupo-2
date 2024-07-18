@@ -1,5 +1,5 @@
 import { CompanyType } from '@/types';
-import { get, post, patch } from './index';
+import { get, post, put } from './index';
 
 export const checkFirstSubmitByCNPJ = async ({
   cnpj,
@@ -20,5 +20,5 @@ export const confirmCompanyContact = async (data: {
   contactConfirm: boolean;
   rate: string;
 }) => {
-  return await patch('/', data);
+  return await put('/', data);
 };
