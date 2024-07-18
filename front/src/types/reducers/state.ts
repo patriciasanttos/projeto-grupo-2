@@ -54,3 +54,12 @@ export interface StateResult {
     thermo_washers: ThermoWasherType[];
   };
 }
+
+export interface StateModalResult {
+  open: boolean;
+  snackbar: {
+    snackbarType: 'error' | 'info' | 'success' | 'warning';
+    SnackbarText: string;
+    SnackbarOpen: boolean;
+  };
+}

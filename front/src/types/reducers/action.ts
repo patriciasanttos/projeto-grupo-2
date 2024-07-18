@@ -72,3 +72,17 @@ export type ActionResult =
       type: 'SET_DATA';
       payload: CalculatorResponseType;
     };
+
+export type ActionModalResult =
+  | {
+      type: 'SET_OPEN';
+      payload: boolean;
+    }
+  | {
+      type: 'SET_SNACKBAR';
+      payload: {
+        snackbarType: 'error' | 'info' | 'success' | 'warning';
+        SnackbarText: string;
+        SnackbarOpen: boolean;
+      };
+    };
