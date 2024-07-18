@@ -11,11 +11,13 @@ app
     cors({
       origin: process.env.CLIENT_HOST,
       allowedHeaders: ["Content-Type", "Authorization"],
-      methods: ["GET", "POST", "PATCH"],
+      methods: ["GET", "POST", "PUT"],
     })
   )
   .use(router)
   .use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    console.log(error)
+
     return res.status(500).send({ message: error.message });
   });
 

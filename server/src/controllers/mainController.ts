@@ -27,19 +27,19 @@ class MainController {
 
 
         //-----Buscar empresa no banco de dados
-        await companyRepository.checkCompany(cnpj)
+        await companyRepository.getCompany(cnpj)
            .then((res: { code: number, data?: {} }) => {
                 switch (res.code) {
                     case 200:
-                        response.status(401).json(res.data);
+                        response.status(401).send();
                         break;
 
                     case 404:
-                        response.status(200).json(res.data);
+                        response.status(200).send();
                         break;
 
                     default:
-                        response.status(res.code).json(res.data);
+                        response.status(res.code).send();
                 }
 
                 return;
