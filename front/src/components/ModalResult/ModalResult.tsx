@@ -31,6 +31,7 @@ const Reducer = (state: StateModalResult, action: ActionModalResult) => {
 };
 
 const ModalResult = ({ cnpj }: ModalResultProps) => {
+  // Hook personalizado para confirmar o contato da empresa
   const { mutate } = useConfirmCompanyContact();
 
   const InitialArgs: StateModalResult = {
@@ -44,10 +45,12 @@ const ModalResult = ({ cnpj }: ModalResultProps) => {
 
   const [state, dispatch] = useReducer(Reducer, InitialArgs);
 
+  // Função para abrir o modal
   const handleClickOpen = () => {
     dispatch({ type: 'SET_OPEN', payload: true });
   };
 
+  // Função para fechar o modal
   const handleClose = () => {
     dispatch({ type: 'SET_OPEN', payload: false });
   };
@@ -56,15 +59,18 @@ const ModalResult = ({ cnpj }: ModalResultProps) => {
     setTimeout(() => handleClickOpen(), 5000);
   }, []);
 
+  // Função para manipular o envio do formulário
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // Coleta os dados do formulário
     const formData = new FormData(event.currentTarget);
     const formJson: Record<string, unknown> = Object.fromEntries(
       formData.entries(),
     );
     const supportFeedback = formJson.supportFeedback as string;
 
+    // Dados para enviar na requisição
     const data = {
       cnpj: cnpj,
       contactConfirm: true,
@@ -73,6 +79,7 @@ const ModalResult = ({ cnpj }: ModalResultProps) => {
 
     mutate(data, {
       onSuccess: () => {
+        // Mostra o Snackbar de sucesso
         dispatch({
           type: 'SET_SNACKBAR',
           payload: {
@@ -86,6 +93,7 @@ const ModalResult = ({ cnpj }: ModalResultProps) => {
         if (axios.isAxiosError(error)) {
           const errorMsg: string =
             error.response?.data.error || 'Erro desconhecido';
+          // Mostra o Snackbar de erro com a mensagem apropriada
           dispatch({
             type: 'SET_SNACKBAR',
             payload: {
@@ -98,6 +106,7 @@ const ModalResult = ({ cnpj }: ModalResultProps) => {
       },
     });
 
+    // Fecha o modal após enviar os dados
     handleClose();
   };
 
