@@ -2,11 +2,15 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import Style from './page.module.scss';
 import {
+  Alert,
   Autocomplete,
+  Backdrop,
   Box,
   Button,
+  CircularProgress,
   FormControlLabel,
   InputAdornment,
+  Snackbar,
   Switch,
   TextField,
   ThemeProvider,
@@ -24,6 +28,7 @@ import { useSaveCompanyAndCalc } from '@/hooks/useCompany';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { clearCNPJ } from '@/utils/clearCNPJ';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 interface PropsCalculatorForm {
   state: StateCalculator;
@@ -44,6 +49,7 @@ const Reducer = (state: StateCalculator, action: ActionCalculator) => {
 };
 
 const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
+  // Realiza a validação básica e navega para a próxima etapa do formulário.
   const HandleValidate = () => {
     !state.surgeryRooms.length ||
     !state.icuBeds.length ||
@@ -183,8 +189,9 @@ const CalculatorForm1 = ({ dispatch, state }: PropsCalculatorForm) => {
   );
 };
 const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
-  const Days: string[] = ['1 ', '2 ', '3 ', '4 ', '5 ', '6 ', '7']; //todo
+  const Days: string[] = ['1 ', '2 ', '3 ', '4 ', '5 ', '6 ', '7'];
 
+  // Realiza a validação básica e navega para a próxima etapa do formulário.
   const HandleValidate = () => {
     !state.surgerysPerDay.length || !state.weekDaySurgery.length
       ? dispatch({ type: 'SET_ERROR', payload: { validate: true } })
@@ -300,6 +307,7 @@ const CalculatorForm2 = ({ dispatch, state }: PropsCalculatorForm) => {
   );
 };
 const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
+  //Define se o processamento de tecido é realizado ou não
   const HandleFabricProcessing = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -309,6 +317,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     });
   };
 
+  // Estado inicial recuperado do localStorage ao montar o componente.
   const [dataCompany, setDataCompany] = useState({
     name: '',
     email: '',
@@ -323,6 +332,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     momentCME: '',
   });
 
+  //Busca e define os dados da empresa salvos no localStorage.
   useEffect(() => {
     const dataLocal = localStorage.getItem('dataLocal');
     if (dataLocal) {
@@ -331,10 +341,11 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     }
   }, []);
 
-  const { mutate } = useSaveCompanyAndCalc();
+  const { mutate, isPending } = useSaveCompanyAndCalc();
   const router = useRouter();
 
   const HandleSubmit = async () => {
+    // Compila os dados do formulário e da empresa
     const data = {
       dimensions: {
         surgery_rooms: Number(state.surgeryRooms),
@@ -372,14 +383,27 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
     };
 
     mutate(data, {
-      onSuccess: ( res : { res: CalculatorResponseType }) => {
+      // Navega para a página de resultados com os dados retornados
+      onSuccess: (res: { res: CalculatorResponseType }) => {
         const querystring = encodeURIComponent(JSON.stringify(res));
-        console.log('foi', 'res:', res, 'querystring:', querystring);
         router.push(`/calculator/${querystring}`);
+      },
+      onError: error => {
+        if (axios.isAxiosError(error)) {
+          const errorMsg = error.response?.data.error || 'Erro desconhecido';
+          dispatch({
+            type: 'SET_ERROR',
+            payload: {
+              calculatorError: errorMsg,
+              snackbarError: true,
+            },
+          });
+        }
       },
     });
   };
 
+  // Verifica se todos os campos obrigatórios estão preenchidos
   const HandleValidate = () => {
     if (state.fabricProcessing) {
       !state.instrumentsSurgery.length ||
@@ -404,54 +428,106 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
   };
 
   return (
-    <Box component="section" className={Style.calculator}>
-      <Box component="aside" className={Style.calculator__aside}>
-        <Typography variant="h5" fontWeight="700" color="white">
-          Volume de Materiais Processados:
-        </Typography>
-        <Typography
-          variant="body2"
-          fontWeight="500"
-          color="white"
-          marginTop="5vh"
-          lineHeight="2rem"
-        >
-          Forneça o volume médio de materiais processados no seu hospital. Essa
-          etapa é crucial para que possamos calcular a demanda de autoclaves e
-          lavadoras termo-desinfectoras necessárias para a sua instituição.
-        </Typography>
-      </Box>
-      <Box component="main" className={Style.calculator__card}>
-        <Box>
-          <Typography variant="body2" fontWeight="700" textAlign="center">
-            Informe o volume médio de materiais processados no seu hospital.
+    <>
+      <Box component="section" className={Style.calculator}>
+        <Box component="aside" className={Style.calculator__aside}>
+          <Typography variant="h5" fontWeight="700" color="white">
+            Volume de Materiais Processados:
           </Typography>
-          <Typography variant="body2" textAlign="center" marginTop="2%">
-            Essas informações são cruciais para nossos cálculos.
+          <Typography
+            variant="body2"
+            fontWeight="500"
+            color="white"
+            marginTop="5vh"
+            lineHeight="2rem"
+          >
+            Forneça o volume médio de materiais processados no seu hospital.
+            Essa etapa é crucial para que possamos calcular a demanda de
+            autoclaves e lavadoras termo-desinfectoras necessárias para a sua
+            instituição.
           </Typography>
         </Box>
-        <Box component="form" className={Style.calculator__form}>
-          <Box
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-          >
-            <Typography variant="caption">Por Cirurgia</Typography>
-            <FormControlLabel
-              value={state.fabricProcessing}
-              control={
-                <Switch
-                  checked={state.fabricProcessing}
-                  color="primary"
-                  onChange={HandleFabricProcessing}
-                />
-              }
-              label="Processamento de Tecido"
-              labelPlacement="start"
-            />
+        <Box component="main" className={Style.calculator__card}>
+          <Box>
+            <Typography variant="body2" fontWeight="700" textAlign="center">
+              Informe o volume médio de materiais processados no seu hospital.
+            </Typography>
+            <Typography variant="body2" textAlign="center" marginTop="2%">
+              Essas informações são cruciais para nossos cálculos.
+            </Typography>
           </Box>
-          {state.fabricProcessing ? (
-            <Box className={Style.calculator__inputBox}>
+          <Box component="form" className={Style.calculator__form}>
+            <Box
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+            >
+              <Typography variant="caption">Por Cirurgia</Typography>
+              <FormControlLabel
+                value={state.fabricProcessing}
+                control={
+                  <Switch
+                    checked={state.fabricProcessing}
+                    color="primary"
+                    onChange={HandleFabricProcessing}
+                  />
+                }
+                label="Processamento de Tecido"
+                labelPlacement="start"
+              />
+            </Box>
+            {state.fabricProcessing ? (
+              <Box className={Style.calculator__inputBox}>
+                <TextField
+                  label="Instrumentos"
+                  id="instrumentsSurgery"
+                  name="instrumentsSurgery"
+                  error={
+                    state.errors.validate && !state.instrumentsSurgery.length
+                  }
+                  helperText={
+                    state.errors.validate && !state.instrumentsSurgery.length
+                      ? 'Campo Obrigatório'
+                      : '01 U.E. = 54 litros'
+                  }
+                  value={state.instrumentsSurgery}
+                  onChange={e =>
+                    dispatch({
+                      type: 'SET_FORM',
+                      payload: { instrumentsSurgery: e.target.value },
+                    })
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">U.E.</InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField
+                  label="Tecido"
+                  id="fabricSurgery"
+                  name="FabricSurgery"
+                  error={state.errors.validate && !state.fabricSurgery.length}
+                  helperText={
+                    state.errors.validate && !state.fabricSurgery.length
+                      ? 'Campo Obrigatório'
+                      : '01 U.E. = 54 litros'
+                  }
+                  value={state.fabricSurgery}
+                  onChange={e =>
+                    dispatch({
+                      type: 'SET_FORM',
+                      payload: { fabricSurgery: e.target.value },
+                    })
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">U.E.</InputAdornment>
+                    ),
+                  }}
+                />
+              </Box>
+            ) : (
               <TextField
                 label="Instrumentos"
                 id="instrumentsSurgery"
@@ -462,7 +538,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 helperText={
                   state.errors.validate && !state.instrumentsSurgery.length
                     ? 'Campo Obrigatório'
-                    : '01 U.E. = 54 litros'
+                    : '01 U.E. (unidade de esterilização) = 01 DIN = 54 litros'
                 }
                 value={state.instrumentsSurgery}
                 onChange={e =>
@@ -477,58 +553,58 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                   ),
                 }}
               />
-              <TextField
-                label="Tecido"
-                id="fabricSurgery"
-                name="FabricSurgery"
-                error={state.errors.validate && !state.fabricSurgery.length}
-                helperText={
-                  state.errors.validate && !state.fabricSurgery.length
-                    ? 'Campo Obrigatório'
-                    : '01 U.E. = 54 litros'
-                }
-                value={state.fabricSurgery}
-                onChange={e =>
-                  dispatch({
-                    type: 'SET_FORM',
-                    payload: { fabricSurgery: e.target.value },
-                  })
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">U.E.</InputAdornment>
-                  ),
-                }}
-              />
-            </Box>
-          ) : (
-            <TextField
-              label="Instrumentos"
-              id="instrumentsSurgery"
-              name="instrumentsSurgery"
-              error={state.errors.validate && !state.instrumentsSurgery.length}
-              helperText={
-                state.errors.validate && !state.instrumentsSurgery.length
-                  ? 'Campo Obrigatório'
-                  : '01 U.E. (unidade de esterilização) = 01 DIN = 54 litros'
-              }
-              value={state.instrumentsSurgery}
-              onChange={e =>
-                dispatch({
-                  type: 'SET_FORM',
-                  payload: { instrumentsSurgery: e.target.value },
-                })
-              }
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">U.E.</InputAdornment>
-                ),
-              }}
-            />
-          )}
-          <Typography variant="caption">Por Leito de UTI por Dia</Typography>
-          {state.fabricProcessing ? (
-            <Box className={Style.calculator__inputBox}>
+            )}
+            <Typography variant="caption">Por Leito de UTI por Dia</Typography>
+            {state.fabricProcessing ? (
+              <Box className={Style.calculator__inputBox}>
+                <TextField
+                  label="Instrumentos"
+                  id="instrumentsICU"
+                  name="InstrumentsICU"
+                  error={state.errors.validate && !state.instrumentsICU.length}
+                  helperText={
+                    state.errors.validate && !state.instrumentsICU.length
+                      ? 'Campo Obrigatório'
+                      : '01 U.E. = 54 litros'
+                  }
+                  value={state.instrumentsICU}
+                  onChange={e =>
+                    dispatch({
+                      type: 'SET_FORM',
+                      payload: { instrumentsICU: e.target.value },
+                    })
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">U.E.</InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField
+                  label="Tecido"
+                  id="fabricICU"
+                  name="FabricICU"
+                  error={state.errors.validate && !state.fabricICU.length}
+                  helperText={
+                    state.errors.validate && !state.fabricICU.length
+                      ? 'Campo Obrigatório'
+                      : '01 U.E. = 54 litros'
+                  }
+                  value={state.fabricICU}
+                  onChange={e =>
+                    dispatch({
+                      type: 'SET_FORM',
+                      payload: { fabricICU: e.target.value },
+                    })
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">U.E.</InputAdornment>
+                    ),
+                  }}
+                />
+              </Box>
+            ) : (
               <TextField
                 label="Instrumentos"
                 id="instrumentsICU"
@@ -537,7 +613,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                 helperText={
                   state.errors.validate && !state.instrumentsICU.length
                     ? 'Campo Obrigatório'
-                    : '01 U.E. = 54 litros'
+                    : '01 U.E. (unidade de esterilização) = 01 DIN = 54 litros'
                 }
                 value={state.instrumentsICU}
                 onChange={e =>
@@ -552,60 +628,66 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                   ),
                 }}
               />
-              <TextField
-                label="Tecido"
-                id="fabricICU"
-                name="FabricICU"
-                error={state.errors.validate && !state.fabricICU.length}
-                helperText={
-                  state.errors.validate && !state.fabricICU.length
-                    ? 'Campo Obrigatório'
-                    : '01 U.E. = 54 litros'
-                }
-                value={state.fabricICU}
-                onChange={e =>
-                  dispatch({
-                    type: 'SET_FORM',
-                    payload: { fabricICU: e.target.value },
-                  })
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">U.E.</InputAdornment>
-                  ),
-                }}
-              />
-            </Box>
-          ) : (
-            <TextField
-              label="Instrumentos"
-              id="instrumentsICU"
-              name="InstrumentsICU"
-              error={state.errors.validate && !state.instrumentsICU.length}
-              helperText={
-                state.errors.validate && !state.instrumentsICU.length
-                  ? 'Campo Obrigatório'
-                  : '01 U.E. (unidade de esterilização) = 01 DIN = 54 litros'
-              }
-              value={state.instrumentsICU}
-              onChange={e =>
-                dispatch({
-                  type: 'SET_FORM',
-                  payload: { instrumentsICU: e.target.value },
-                })
-              }
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">U.E.</InputAdornment>
-                ),
-              }}
-            />
-          )}
-          <Typography variant="caption">
-            Por Leito de Internação por Dia
-          </Typography>
-          {state.fabricProcessing ? (
-            <Box className={Style.calculator__inputBox}>
+            )}
+            <Typography variant="caption">
+              Por Leito de Internação por Dia
+            </Typography>
+            {state.fabricProcessing ? (
+              <Box className={Style.calculator__inputBox}>
+                <TextField
+                  label="Instrumentos"
+                  id="instrumentsHospitalization"
+                  name="instrumentsHospitalization"
+                  error={
+                    state.errors.validate &&
+                    !state.instrumentsHospitalization.length
+                  }
+                  helperText={
+                    state.errors.validate &&
+                    !state.instrumentsHospitalization.length
+                      ? 'Campo Obrigatório'
+                      : '01 U.E. = 54 litros'
+                  }
+                  value={state.instrumentsHospitalization}
+                  onChange={e =>
+                    dispatch({
+                      type: 'SET_FORM',
+                      payload: { instrumentsHospitalization: e.target.value },
+                    })
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">U.E.</InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField
+                  label="Tecido"
+                  id="fabricHospitalization"
+                  name="fabricHospitalization"
+                  error={
+                    state.errors.validate && !state.fabricHospitalization.length
+                  }
+                  helperText={
+                    state.errors.validate && !state.fabricHospitalization.length
+                      ? 'Campo Obrigatório'
+                      : '01 U.E. = 54 litros'
+                  }
+                  value={state.fabricHospitalization}
+                  onChange={e =>
+                    dispatch({
+                      type: 'SET_FORM',
+                      payload: { fabricHospitalization: e.target.value },
+                    })
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">U.E.</InputAdornment>
+                    ),
+                  }}
+                />
+              </Box>
+            ) : (
               <TextField
                 label="Instrumentos"
                 id="instrumentsHospitalization"
@@ -618,7 +700,7 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                   state.errors.validate &&
                   !state.instrumentsHospitalization.length
                     ? 'Campo Obrigatório'
-                    : '01 U.E. = 54 litros'
+                    : '01 U.E. (unidade de esterilização) = 01 DIN = 54 litros'
                 }
                 value={state.instrumentsHospitalization}
                 onChange={e =>
@@ -633,103 +715,56 @@ const CalculatorForm3 = ({ dispatch, state }: PropsCalculatorForm) => {
                   ),
                 }}
               />
-              <TextField
-                label="Tecido"
-                id="fabricHospitalization"
-                name="fabricHospitalization"
-                error={
-                  state.errors.validate && !state.fabricHospitalization.length
-                }
-                helperText={
-                  state.errors.validate && !state.fabricHospitalization.length
-                    ? 'Campo Obrigatório'
-                    : '01 U.E. = 54 litros'
-                }
-                value={state.fabricHospitalization}
-                onChange={e =>
-                  dispatch({
-                    type: 'SET_FORM',
-                    payload: { fabricHospitalization: e.target.value },
-                  })
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">U.E.</InputAdornment>
-                  ),
-                }}
-              />
-            </Box>
-          ) : (
+            )}
             <TextField
-              label="Instrumentos"
-              id="instrumentsHospitalization"
-              name="instrumentsHospitalization"
-              error={
-                state.errors.validate &&
-                !state.instrumentsHospitalization.length
-              }
+              id="cmePeakInterval"
+              name="CMEPeakInterval"
+              label="Qual o intervalo de pico de funcionamento da CME?"
+              variant="outlined"
+              type="number"
+              fullWidth
+              error={state.errors.validate && !state.cmePeakInterval.length}
               helperText={
-                state.errors.validate &&
-                !state.instrumentsHospitalization.length
+                state.errors.validate && !state.cmePeakInterval.length
                   ? 'Campo Obrigatório'
-                  : '01 U.E. (unidade de esterilização) = 01 DIN = 54 litros'
+                  : 'Horas por dia'
               }
-              value={state.instrumentsHospitalization}
+              value={state.cmePeakInterval}
               onChange={e =>
                 dispatch({
                   type: 'SET_FORM',
-                  payload: { instrumentsHospitalization: e.target.value },
+                  payload: { cmePeakInterval: e.target.value },
                 })
               }
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">U.E.</InputAdornment>
-                ),
-              }}
             />
-          )}
-          <TextField
-            id="cmePeakInterval"
-            name="CMEPeakInterval"
-            label="Qual o intervalo de pico de funcionamento da CME?"
-            variant="outlined"
-            type="number"
-            fullWidth
-            error={state.errors.validate && !state.cmePeakInterval.length}
-            helperText={
-              state.errors.validate && !state.cmePeakInterval.length
-                ? 'Campo Obrigatório'
-                : 'Horas por dia'
-            }
-            value={state.cmePeakInterval}
-            onChange={e =>
-              dispatch({
-                type: 'SET_FORM',
-                payload: { cmePeakInterval: e.target.value },
-              })
-            }
-          />
-        </Box>
-        <Box display={'flex'} columnGap={'5%'}>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => dispatch({ type: 'SET_PAGE', payload: 'page2' })}
-            fullWidth
-          >
-            Voltar
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => HandleValidate()}
-            fullWidth
-          >
-            Calcular
-          </Button>
+          </Box>
+          <Box display={'flex'} columnGap={'5%'}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => dispatch({ type: 'SET_PAGE', payload: 'page2' })}
+              fullWidth
+            >
+              Voltar
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => HandleValidate()}
+              fullWidth
+            >
+              Calcular
+            </Button>
+          </Box>
         </Box>
       </Box>
-    </Box>
+      <Backdrop
+        sx={{ color: '#ffffff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isPending}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </>
   );
 };
 
@@ -751,6 +786,8 @@ const Calculator = () => {
     page: 'page1',
     errors: {
       validate: false,
+      snackbarError: false,
+      calculatorError: '',
     },
   };
 
@@ -782,6 +819,21 @@ const Calculator = () => {
           />
         </Box>
         {RenderCalculator(state.page)}
+        <Snackbar open={state.errors.snackbarError} autoHideDuration={5000}>
+          <Alert
+            onClose={() =>
+              dispatch({
+                type: 'SET_ERROR',
+                payload: { calculatorError: '', snackbarError: false },
+              })
+            }
+            severity="error"
+            variant="filled"
+            sx={{ width: '100%' }}
+          >
+            {state.errors.calculatorError}
+          </Alert>
+        </Snackbar>
       </ThemeProvider>
     </QueryClientProvider>
   );

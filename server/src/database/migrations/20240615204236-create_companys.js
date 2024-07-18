@@ -60,9 +60,12 @@ module.exports = {
       thermo_washers: {
         type: DataTypes.STRING
       },
-      contact: {
+      contact_confirm: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      },
+      rate: {
+        type: DataTypes.STRING
       },
       created_at: {
           type: DataTypes.DATE,

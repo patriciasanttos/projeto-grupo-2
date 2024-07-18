@@ -17,6 +17,8 @@ export interface StateLandinPage {
   card: string;
   errors: {
     validate: boolean;
+    snackbarError: boolean;
+    firstSubmitError: string;
   };
 }
 
@@ -37,6 +39,8 @@ export interface StateCalculator {
   page: string;
   errors: {
     validate: boolean;
+    snackbarError: boolean;
+    calculatorError: string;
   };
 }
 
@@ -48,5 +52,14 @@ export interface StateResult {
     num_autoclaves: number;
     num_thermo_washers: number;
     thermo_washers: ThermoWasherType[];
+  };
+}
+
+export interface StateModalResult {
+  open: boolean;
+  snackbar: {
+    snackbarType: 'error' | 'info' | 'success' | 'warning';
+    SnackbarText: string;
+    SnackbarOpen: boolean;
   };
 }

@@ -62,16 +62,16 @@ class MainController {
         //-----Calcular máquinas recomendadas
         await handleCalc(dimensions)
             .then(async calcResult => {
-                //-----Cadastrar empresa no banco de dados
                 const autoclaves = calcResult.autoclaves.map(autoclave => autoclave.model).join('/');
                 const thermoWashers = calcResult.thermoWashers.map(thermoWasher => thermoWasher.model).join('/');
-
+                
+                //-----Cadastrar empresa no banco de dados
                 await companyRepository.createCompany(
                     { 
                         data: { 
                             ...request.body.data,
                             autoclaves,
-                            thermoWashers
+                            thermo_washers: thermoWashers
                         }, 
                         dimensions
                     },
@@ -97,17 +97,17 @@ class MainController {
             })
     };
 
-    confirmCompanyContact = async (request: Request, response: Response) => {
-        if (request.body.cnpj === undefined || request.body.contact === undefined)
+    ratingService = async (request: Request, response: Response) => {
+        if (request.body.cnpj === undefined || request.body.contactConfirm === undefined || request.body.rate === undefined)
             return response.status(400).json({ error: 'Invalid body request' });
 
-        const { cnpj, contact } = request.body;
+        const { cnpj, contactConfirm, rate } = request.body;
 
         //-----Validar CPNJ
         if (!validateCNPJ(cnpj))
             return response.status(400).json({ error: 'CNPJ inválido' });
 
-        await companyRepository.updateCompany(cnpj, contact)
+        await companyRepository.updateCompany(cnpj, contactConfirm, rate)
             .then((res: { code: number, data?: {} }) => {
                 return response.status(res.code).json(res.data);
             })

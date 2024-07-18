@@ -1,22 +1,19 @@
 import express, { NextFunction, Request, Response } from "express";
 import router from "./routes";
 import cors from "cors";
-require('dotenv').config()
+require("dotenv").config();
 
 const app = express();
 
+app.use(express.json());
 app
-  .use(express.json())
-  .use((req: Request, res: Response, next: NextFunction) => {
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.header('Access-Control-Allow-Headers', 'Authorization');
-    res.header('Access-Control-Allow-Origin', process.env.CLIENT_HOST);
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH');
-
-    app.use(cors());
-
-    next();
-  })
+  .use(
+    cors({
+      origin: process.env.CLIENT_HOST,
+      allowedHeaders: ["Content-Type", "Authorization"],
+      methods: ["GET", "POST", "PATCH"],
+    })
+  )
   .use(router)
   .use((error: Error, req: Request, res: Response, next: NextFunction) => {
     return res.status(500).send({ message: error.message });

@@ -3,7 +3,14 @@ import React, { useReducer } from 'react';
 import Style from './page.module.scss';
 import Image from 'next/image';
 import HeaderImage from '../../../public/headerImg.jpg';
-import { Box, Container, ThemeProvider, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Container,
+  Snackbar,
+  ThemeProvider,
+  Typography,
+} from '@mui/material';
 import InitialCardForm from '@/components/InitialCardForm/InitialCardForm';
 import FormCard from '@/components/CardForm/FormCard';
 import { LightTheme } from '@/themes';
@@ -49,11 +56,14 @@ const LandingPage = () => {
     card: 'initial',
     errors: {
       validate: false,
+      snackbarError: false,
+      firstSubmitError: '',
     },
   };
 
   const [state, dispatch] = useReducer(Reducer, InitialArgs);
 
+  //Responsável por renderizar o componente correto
   const renderCardForm = (card: string) => {
     switch (card) {
       case 'initial':
@@ -68,7 +78,9 @@ const LandingPage = () => {
   const queryClient = new QueryClient();
 
   return (
-    <GoogleReCaptchaProvider reCaptchaKey="6LfbaA8qAAAAAKbtpHfbsQEoXB2eFyHvkBq4cvJg">
+    <GoogleReCaptchaProvider
+      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY || ''}
+    >
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={LightTheme}>
           <NavBar />
@@ -128,6 +140,21 @@ const LandingPage = () => {
             <ServiceCardList />
           </Container>
           <Footer />
+          <Snackbar open={state.errors.snackbarError} autoHideDuration={5000}>
+            <Alert
+              onClose={() =>
+                dispatch({
+                  type: 'SET_ERROR',
+                  payload: { firstSubmitError: '', snackbarError: false },
+                })
+              }
+              severity="error"
+              variant="filled"
+              sx={{ width: '100%' }}
+            >
+              {state.errors.firstSubmitError}
+            </Alert>
+          </Snackbar>
         </ThemeProvider>
       </QueryClientProvider>
     </GoogleReCaptchaProvider>
