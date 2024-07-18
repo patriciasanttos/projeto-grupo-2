@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Metadata } from 'next';
 import { inter } from '../../fonts/_fonts';
 import '../globals.scss';
